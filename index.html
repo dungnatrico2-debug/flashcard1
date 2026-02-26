@@ -241,7 +241,32 @@ let vocabulary = [
 {hanzi:"文化",pinyin:"wénhuà",meaning:"văn hóa"},
 {hanzi:"宿舍",pinyin:"sùshè",meaning:"ký túc xá"},
 {hanzi:"同屋",pinyin:"tóngwū",meaning:"bạn cùng phòng"},
-{hanzi:"吧",pinyin:"ba",meaning:"nhé, phải không"}
+{hanzi:"吧",pinyin:"ba",meaning:"nhé, phải không"},
+
+{hanzi:"买",pinyin:"mǎi",meaning:"mua"},
+{hanzi:"衣服",pinyin:"yīfu",meaning:"quần áo"},
+{hanzi:"件",pinyin:"jiàn",meaning:"chiếc (lượng từ)"},
+{hanzi:"钱",pinyin:"qián",meaning:"tiền"},
+{hanzi:"贵",pinyin:"guì",meaning:"đắt"},
+{hanzi:"块（元）",pinyin:"kuài (yuán)",meaning:"đồng, tệ"},
+{hanzi:"毛（角）",pinyin:"máo (jiǎo)",meaning:"hào"},
+{hanzi:"分",pinyin:"fēn",meaning:"xu"},
+{hanzi:"便宜",pinyin:"piányi",meaning:"rẻ"},
+{hanzi:"（一）点儿",pinyin:"(yì) diǎnr",meaning:"một chút"},
+{hanzi:"老板",pinyin:"lǎobǎn",meaning:"ông chủ"},
+{hanzi:"水果",pinyin:"shuǐguǒ",meaning:"hoa quả"},
+{hanzi:"怎么",pinyin:"zěnme",meaning:"thế nào"},
+{hanzi:"卖",pinyin:"mài",meaning:"bán"},
+{hanzi:"斤",pinyin:"jīn",meaning:"cân Trung Quốc (0.5kg)"},
+{hanzi:"公斤",pinyin:"gōngjīn",meaning:"kilogram"},
+{hanzi:"苹果",pinyin:"píngguǒ",meaning:"táo"},
+{hanzi:"草莓",pinyin:"cǎoméi",meaning:"dâu tây"},
+{hanzi:"西瓜",pinyin:"xīguā",meaning:"dưa hấu"},
+{hanzi:"行",pinyin:"xíng",meaning:"được"},
+{hanzi:"还",pinyin:"hái",meaning:"còn, vẫn"},
+{hanzi:"一共",pinyin:"yígòng",meaning:"tổng cộng"},
+{hanzi:"售货员",pinyin:"shòuhuòyuán",meaning:"nhân viên bán hàng"},
+{hanzi:"找（钱）",pinyin:"zhǎo (qián)",meaning:"thối lại tiền"}
 
 ];
 
@@ -266,6 +291,7 @@ if(answerShown) return;
 let w=shuffled[index];
 document.getElementById("infoBox").innerHTML="<b>"+w.pinyin+"</b><br>"+w.meaning;
 answerShown=true;
+speakWord(); // 🔥 tự động đọc
 }
 
 function nextWord(){
@@ -277,6 +303,7 @@ if(index>0){ index--; showWord(); }
 }
 
 function speakWord(){
+speechSynthesis.cancel();
 let w=shuffled[index];
 let u=new SpeechSynthesisUtterance(w.hanzi);
 u.lang="zh-CN";
