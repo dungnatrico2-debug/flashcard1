@@ -14,6 +14,7 @@ body{
     background:linear-gradient(135deg,#667eea,#764ba2);
     font-family:Segoe UI, sans-serif;
 }
+
 .app{
     width:420px;
     background:rgba(255,255,255,0.1);
@@ -23,6 +24,7 @@ body{
     box-shadow:0 20px 40px rgba(0,0,0,0.3);
     color:white;
 }
+
 .progress-container{
     width:100%;
     height:10px;
@@ -31,12 +33,14 @@ body{
     margin-bottom:20px;
     overflow:hidden;
 }
+
 .progress-bar{
     height:100%;
     width:0%;
     background:#00f5d4;
     transition:0.3s;
 }
+
 .card{
     height:220px;
     background:white;
@@ -51,6 +55,7 @@ body{
     margin-bottom:20px;
     position:relative;
 }
+
 .speaker{
     position:absolute;
     bottom:15px;
@@ -58,17 +63,20 @@ body{
     font-size:26px;
     cursor:pointer;
 }
+
 .info{
     text-align:center;
     min-height:70px;
     font-size:18px;
     margin-bottom:15px;
 }
+
 .controls{
     display:flex;
     justify-content:space-between;
     margin-bottom:15px;
 }
+
 button{
     border:none;
     border-radius:50px;
@@ -76,12 +84,22 @@ button{
     font-size:16px;
     cursor:pointer;
 }
-.nav{ background:white; color:#333; }
-.main{ width:100%; background:#00f5d4; font-weight:bold; }
+
+.nav{
+    background:white;
+    color:#333;
+}
+
+.main{
+    width:100%;
+    background:#00f5d4;
+    font-weight:bold;
+}
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
 <div class="progress-container">
@@ -110,31 +128,30 @@ Nhấn "Hiện đáp án"
 
 let vocabulary=[
 
-// ===== BÀI 13 =====
-{hanzi:"头",pinyin:"tóu",meaning:"đầu"},
-{hanzi:"疼",pinyin:"téng",meaning:"đau"},
-{hanzi:"舒服",pinyin:"shūfu",meaning:"thoải mái"},
-{hanzi:"流",pinyin:"liú",meaning:"chảy"},
-{hanzi:"鼻涕",pinyin:"bítì",meaning:"nước mũi"},
-{hanzi:"发烧",pinyin:"fāshāo",meaning:"sốt"},
-{hanzi:"让",pinyin:"ràng",meaning:"để, bảo, khiến"},
-{hanzi:"检查",pinyin:"jiǎnchá",meaning:"kiểm tra"},
-{hanzi:"病",pinyin:"bìng",meaning:"bệnh"},
-{hanzi:"看病",pinyin:"kàn bìng",meaning:"khám bệnh"},
-{hanzi:"严重",pinyin:"yánzhòng",meaning:"nghiêm trọng"},
-{hanzi:"感冒",pinyin:"gǎnmào",meaning:"cảm cúm"},
-{hanzi:"护士",pinyin:"hùshi",meaning:"y tá"},
-{hanzi:"打针",pinyin:"dǎ zhēn",meaning:"tiêm"},
-{hanzi:"开",pinyin:"kāi",meaning:"mở, kê (thuốc)"},
-{hanzi:"药",pinyin:"yào",meaning:"thuốc"},
-{hanzi:"次",pinyin:"cì",meaning:"lần"},
-{hanzi:"片",pinyin:"piàn",meaning:"viên (thuốc)"},
-{hanzi:"休息",pinyin:"xiūxi",meaning:"nghỉ ngơi"},
-
-// ===== TỪ VIẾT TAY =====
-{hanzi:"谁",pinyin:"shéi",meaning:"ai"},
-{hanzi:"手",pinyin:"shǒu",meaning:"tay"},
-{hanzi:"健康",pinyin:"jiànkāng",meaning:"sức khỏe"}
+// ===== BÀI 14 =====
+{hanzi:"开学",pinyin:"kāixué",meaning:"khai giảng"},
+{hanzi:"开",pinyin:"kāi",meaning:"mở, lái"},
+{hanzi:"送",pinyin:"sòng",meaning:"đưa, tiễn"},
+{hanzi:"接",pinyin:"jiē",meaning:"đón"},
+{hanzi:"自己",pinyin:"zìjǐ",meaning:"tự mình"},
+{hanzi:"骑",pinyin:"qí",meaning:"cưỡi, lái"},
+{hanzi:"自行车",pinyin:"zìxíngchē",meaning:"xe đạp"},
+{hanzi:"摩托车",pinyin:"mótuōchē",meaning:"xe máy"},
+{hanzi:"汽车",pinyin:"qìchē",meaning:"xe ô tô"},
+{hanzi:"公共汽车",pinyin:"gōnggòng qìchē",meaning:"xe buýt"},
+{hanzi:"辆",pinyin:"liàng",meaning:"chiếc (lượng từ xe)"},
+{hanzi:"跟",pinyin:"gēn",meaning:"cùng, với"},
+{hanzi:"一起",pinyin:"yìqǐ",meaning:"cùng nhau"},
+{hanzi:"教室",pinyin:"jiàoshì",meaning:"phòng học"},
+{hanzi:"电脑",pinyin:"diànnǎo",meaning:"máy tính"},
+{hanzi:"桌子",pinyin:"zhuōzi",meaning:"bàn"},
+{hanzi:"椅子",pinyin:"yǐzi",meaning:"ghế"},
+{hanzi:"有点儿",pinyin:"yǒudiǎnr",meaning:"hơi"},
+{hanzi:"练习",pinyin:"liànxí",meaning:"luyện tập"},
+{hanzi:"就",pinyin:"jiù",meaning:"thì, liền"},
+{hanzi:"时候",pinyin:"shíhou",meaning:"lúc, khi"},
+{hanzi:"班",pinyin:"bān",meaning:"lớp"},
+{hanzi:"女儿",pinyin:"nǚ'ér",meaning:"con gái"}
 
 ];
 
@@ -145,7 +162,7 @@ let answerShown=false;
 function showWord(){
 let w=shuffled[index];
 document.getElementById("hanziBox").innerText=w.hanzi;
-document.getElementById("infoBox").innerText="Nhấn \"Hiện đáp án\"";
+document.getElementById("infoBox").innerText='Nhấn "Hiện đáp án"';
 answerShown=false;
 
 let percent=Math.round(((index+1)/shuffled.length)*100);
@@ -160,8 +177,19 @@ answerShown=true;
 speakWord();
 }
 
-function nextWord(){ if(index<shuffled.length-1){ index++; showWord(); } }
-function prevWord(){ if(index>0){ index--; showWord(); } }
+function nextWord(){
+if(index<shuffled.length-1){
+index++;
+showWord();
+}
+}
+
+function prevWord(){
+if(index>0){
+index--;
+showWord();
+}
+}
 
 function speakWord(){
 speechSynthesis.cancel();
@@ -174,5 +202,6 @@ speechSynthesis.speak(u);
 showWord();
 
 </script>
+
 </body>
 </html>
