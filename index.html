@@ -11,380 +11,131 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    background:linear-gradient(135deg,#f6e2a8,#eac96c);
-    font-family:Arial;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    font-family:Segoe UI, sans-serif;
 }
-
-.window{
-    width:1000px;
-    background:#ddd;
-    border:4px solid #333;
-    box-shadow:10px 10px 0px #ff8c42;
-    padding:20px;
+.app{
+    width:420px;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(20px);
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.3);
+    color:white;
 }
-
 .progress-container{
     width:100%;
-    height:20px;
-    background:#bbb;
-    margin-bottom:15px;
+    height:10px;
+    background:rgba(255,255,255,0.2);
+    border-radius:10px;
+    margin-bottom:20px;
+    overflow:hidden;
 }
-
 .progress-bar{
     height:100%;
     width:0%;
-    background:#ffb400;
-    text-align:center;
-    font-size:12px;
+    background:#00f5d4;
+    transition:0.3s;
+}
+.card{
+    height:220px;
+    background:white;
+    color:#333;
+    border-radius:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:55px;
     font-weight:bold;
-}
-
-.content{
-    display:flex;
-    gap:20px;
-}
-
-.left{
-    flex:1;
-    background:#e8c38b;
-    border:4px solid #999;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    height:350px;
-}
-
-.hanzi{
-    font-size:110px;
-}
-
-.speaker{
-    margin-top:20px;
-    font-size:40px;
-    cursor:pointer;
-}
-
-.right{
-    flex:1;
-    background:#eee;
-    border:4px solid #999;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    margin-bottom:20px;
     position:relative;
-    font-size:28px;
-    text-align:center;
 }
-
-button.nav{
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    border:none;
-    background:#ffb400;
-    font-size:30px;
-    cursor:pointer;
+.speaker{
     position:absolute;
-    top:40%;
-}
-
-.prev{ left:20px; }
-.next{ right:20px; }
-
-button.main{
-    margin-top:30px;
-    padding:12px 40px;
-    border:none;
-    background:#ffb400;
-    font-size:20px;
+    bottom:15px;
+    right:20px;
+    font-size:26px;
     cursor:pointer;
 }
+.info{
+    text-align:center;
+    min-height:70px;
+    font-size:18px;
+    margin-bottom:15px;
+}
+.controls{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:15px;
+}
+button{
+    border:none;
+    border-radius:50px;
+    padding:10px 18px;
+    font-size:16px;
+    cursor:pointer;
+}
+.nav{ background:white; color:#333; }
+.main{ width:100%; background:#00f5d4; font-weight:bold; }
 </style>
 </head>
 
 <body>
-
-<div class="window">
+<div class="app">
 
 <div class="progress-container">
-<div class="progress-bar" id="progressBar">0%</div>
+<div class="progress-bar" id="progressBar"></div>
 </div>
 
-<div class="content">
-
-<div class="left">
-<div class="hanzi" id="hanziBox">开始</div>
+<div class="card">
+<div id="hanziBox">开始</div>
 <div class="speaker" onclick="speakWord()">🔊</div>
 </div>
 
-<div class="right">
+<div class="info" id="infoBox">
+Nhấn "Hiện đáp án"
+</div>
 
-<button class="nav prev" onclick="prevWord()"><</button>
-<button class="nav next" onclick="nextWord()">></button>
-
-<div id="infoBox">Nhấn "Hiện đáp án"</div>
+<div class="controls">
+<button class="nav" onclick="prevWord()">⬅</button>
+<button class="nav" onclick="nextWord()">➡</button>
+</div>
 
 <button class="main" onclick="showAnswer()">Hiện đáp án</button>
 
 </div>
-</div>
-</div>
 
 <script>
 
-let vocabulary = [
+let vocabulary=[
 
-{hanzi:"是",pinyin:"shì",meaning:"là"},
-{hanzi:"哪",pinyin:"nǎ",meaning:"nào"},
-{hanzi:"国",pinyin:"guó",meaning:"nước, quốc gia"},
-{hanzi:"人",pinyin:"rén",meaning:"người"},
-{hanzi:"越南",pinyin:"Yuènán",meaning:"Việt Nam"},
-{hanzi:"中国",pinyin:"Zhōngguó",meaning:"Trung Quốc"},
-{hanzi:"美国",pinyin:"Měiguó",meaning:"nước Mỹ"},
-{hanzi:"英国",pinyin:"Yīngguó",meaning:"nước Anh"},
-{hanzi:"韩国",pinyin:"Hánguó",meaning:"Hàn Quốc"},
-{hanzi:"日本",pinyin:"Rìběn",meaning:"Nhật Bản"},
-{hanzi:"也",pinyin:"yě",meaning:"cũng"},
-{hanzi:"对不起",pinyin:"duìbuqǐ",meaning:"xin lỗi"},
-{hanzi:"没关系",pinyin:"méi guānxi",meaning:"không có gì"},
-{hanzi:"朋友",pinyin:"péngyou",meaning:"bạn bè"},
-{hanzi:"男",pinyin:"nán",meaning:"con trai, đàn ông"},
-{hanzi:"女",pinyin:"nǚ",meaning:"con gái, phụ nữ"},
-{hanzi:"都",pinyin:"dōu",meaning:"đều"},
-{hanzi:"们",pinyin:"men",meaning:"hậu tố số nhiều"},
-{hanzi:"我们",pinyin:"wǒmen",meaning:"chúng tôi"},
-{hanzi:"他们",pinyin:"tāmen",meaning:"họ"},
-{hanzi:"她们",pinyin:"tāmen",meaning:"họ (nữ)"},
-{hanzi:"十",pinyin:"shí",meaning:"số 10"},
-
-{hanzi:"老师",pinyin:"lǎoshī",meaning:"thầy giáo"},
-{hanzi:"在",pinyin:"zài",meaning:"ở"},
-{hanzi:"这",pinyin:"zhè",meaning:"này"},
-{hanzi:"这儿",pinyin:"zhèr",meaning:"ở đây"},
-{hanzi:"那",pinyin:"nà",meaning:"kia"},
-{hanzi:"那儿",pinyin:"nàr",meaning:"ở kia"},
-{hanzi:"楼",pinyin:"lóu",meaning:"tầng, tòa nhà"},
-{hanzi:"一下儿",pinyin:"yíxiàr",meaning:"một chút"},
-{hanzi:"先",pinyin:"xiān",meaning:"trước"},
-{hanzi:"介绍",pinyin:"jièshào",meaning:"giới thiệu"},
-{hanzi:"留学生",pinyin:"liúxuéshēng",meaning:"du học sinh"},
-{hanzi:"学生",pinyin:"xuéshēng",meaning:"học sinh"},
-{hanzi:"住",pinyin:"zhù",meaning:"ở, sinh sống"},
-{hanzi:"号",pinyin:"hào",meaning:"số"},
-{hanzi:"手机",pinyin:"shǒujī",meaning:"điện thoại"},
-{hanzi:"号码",pinyin:"hàomǎ",meaning:"số"},
-{hanzi:"多少",pinyin:"duōshao",meaning:"bao nhiêu"},
-{hanzi:"少",pinyin:"shǎo",meaning:"ít"},
-{hanzi:"给",pinyin:"gěi",meaning:"cho"},
-{hanzi:"零",pinyin:"líng",meaning:"số 0"},
-{hanzi:"六",pinyin:"liù",meaning:"số 6"},
-{hanzi:"电话",pinyin:"diànhuà",meaning:"điện thoại"},
-{hanzi:"开学",pinyin:"kāixué",meaning:"khai giảng"},
-{hanzi:"开",pinyin:"kāi",meaning:"mở, lái"},
-{hanzi:"送",pinyin:"sòng",meaning:"đưa, tiễn"},
-{hanzi:"接",pinyin:"jiē",meaning:"đón"},
-{hanzi:"自己",pinyin:"zìjǐ",meaning:"tự mình"},
-{hanzi:"骑",pinyin:"qí",meaning:"cưỡi, lái"},
-{hanzi:"自行车",pinyin:"zìxíngchē",meaning:"xe đạp"},
-{hanzi:"摩托车",pinyin:"mótuōchē",meaning:"xe máy"},
-{hanzi:"汽车",pinyin:"qìchē",meaning:"xe ô tô"},
-{hanzi:"公共汽车",pinyin:"gōnggòng qìchē",meaning:"xe buýt"},
-{hanzi:"辆",pinyin:"liàng",meaning:"chiếc (lượng từ xe)"},
-{hanzi:"跟",pinyin:"gēn",meaning:"cùng, với"},
-{hanzi:"一起",pinyin:"yìqǐ",meaning:"cùng nhau"},
-{hanzi:"教室",pinyin:"jiàoshì",meaning:"phòng học"},
-{hanzi:"电脑",pinyin:"diànnǎo",meaning:"máy tính"},
-{hanzi:"桌子",pinyin:"zhuōzi",meaning:"bàn"},
-{hanzi:"椅子",pinyin:"yǐzi",meaning:"ghế"},
-{hanzi:"有点儿",pinyin:"yǒudiǎnr",meaning:"hơi"},
-{hanzi:"练习",pinyin:"liànxí",meaning:"luyện tập"},
-{hanzi:"就",pinyin:"jiù",meaning:"thì, liền"},
-{hanzi:"时候",pinyin:"shíhou",meaning:"lúc, khi"},
-{hanzi:"班",pinyin:"bān",meaning:"lớp"},
-{hanzi:"女儿",pinyin:"nǚ'ér",meaning:"con gái"},
-{hanzi:"请问",pinyin:"qǐng wèn",meaning:"xin hỏi"},
-{hanzi:"请",pinyin:"qǐng",meaning:"xin, mời"},
-{hanzi:"问",pinyin:"wèn",meaning:"hỏi"},
-{hanzi:"您",pinyin:"nín",meaning:"ngài"},
-{hanzi:"贵姓",pinyin:"guìxìng",meaning:"quý danh"},
-{hanzi:"姓",pinyin:"xìng",meaning:"họ"},
-{hanzi:"什么",pinyin:"shénme",meaning:"cái gì"},
-{hanzi:"叫",pinyin:"jiào",meaning:"gọi"},
-{hanzi:"名字",pinyin:"míngzi",meaning:"tên"},
-{hanzi:"的",pinyin:"de",meaning:"của"},
-{hanzi:"今年",pinyin:"jīnnián",meaning:"năm nay"},
-{hanzi:"明年",pinyin:"míngnián",meaning:"năm sau"},
-{hanzi:"去年",pinyin:"qùnián",meaning:"năm ngoái"},
-{hanzi:"多大",pinyin:"duōdà",meaning:"bao nhiêu tuổi"},
-{hanzi:"岁",pinyin:"suì",meaning:"tuổi"},
-{hanzi:"现在",pinyin:"xiànzài",meaning:"bây giờ"},
-{hanzi:"回",pinyin:"huí",meaning:"về"},
-{hanzi:"学校",pinyin:"xuéxiào",meaning:"trường học"},
-{hanzi:"银行",pinyin:"yínháng",meaning:"ngân hàng"},
-
-{hanzi:"家",pinyin:"jiā",meaning:"nhà"},
-{hanzi:"有",pinyin:"yǒu",meaning:"có"},
-{hanzi:"没",pinyin:"méi",meaning:"không có"},
-{hanzi:"口",pinyin:"kǒu",meaning:"người (đếm gia đình)"},
-{hanzi:"和",pinyin:"hé",meaning:"và"},
-{hanzi:"做",pinyin:"zuò",meaning:"làm"},
-{hanzi:"工作",pinyin:"gōngzuò",meaning:"công việc"},
-{hanzi:"医生",pinyin:"yīshēng",meaning:"bác sĩ"},
-{hanzi:"还是",pinyin:"háishì",meaning:"hay là"},
-{hanzi:"只",pinyin:"zhǐ",meaning:"chỉ"},
-{hanzi:"书包",pinyin:"shūbāo",meaning:"cặp sách"},
-{hanzi:"里",pinyin:"lǐ",meaning:"trong"},
-{hanzi:"本",pinyin:"běn",meaning:"cuốn"},
-{hanzi:"书",pinyin:"shū",meaning:"sách"},
-{hanzi:"两",pinyin:"liǎng",meaning:"hai"},
-{hanzi:"支",pinyin:"zhī",meaning:"cây"},
-{hanzi:"笔",pinyin:"bǐ",meaning:"bút"},
-{hanzi:"瓶",pinyin:"píng",meaning:"chai"},
-{hanzi:"水",pinyin:"shuǐ",meaning:"nước"},
-{hanzi:"个",pinyin:"gè",meaning:"cái"},
-
-{hanzi:"要",pinyin:"yào",meaning:"muốn, cần"},
-{hanzi:"想",pinyin:"xiǎng",meaning:"muốn, nghĩ"},
-{hanzi:"欢迎",pinyin:"huānyíng",meaning:"chào mừng"},
-{hanzi:"进",pinyin:"jìn",meaning:"vào"},
-{hanzi:"好",pinyin:"hǎo",meaning:"rất, tốt"},
-{hanzi:"久",pinyin:"jiǔ",meaning:"lâu"},
-{hanzi:"同学",pinyin:"tóngxué",meaning:"bạn học"},
-{hanzi:"认识",pinyin:"rènshi",meaning:"quen biết"},
-{hanzi:"高兴",pinyin:"gāoxìng",meaning:"vui vẻ"},
-{hanzi:"坐",pinyin:"zuò",meaning:"ngồi"},
-{hanzi:"喝",pinyin:"hē",meaning:"uống"},
-{hanzi:"茶",pinyin:"chá",meaning:"trà"},
-{hanzi:"咖啡",pinyin:"kāfēi",meaning:"cà phê"},
-{hanzi:"可乐",pinyin:"kělè",meaning:"cola"},
-{hanzi:"喜欢",pinyin:"xǐhuan",meaning:"thích"},
-{hanzi:"文化",pinyin:"wénhuà",meaning:"văn hóa"},
-{hanzi:"宿舍",pinyin:"sùshè",meaning:"ký túc xá"},
-{hanzi:"同屋",pinyin:"tóngwū",meaning:"bạn cùng phòng"},
-{hanzi:"吧",pinyin:"ba",meaning:"nhé, phải không"},
-
-{hanzi:"买",pinyin:"mǎi",meaning:"mua"},
-{hanzi:"衣服",pinyin:"yīfu",meaning:"quần áo"},
-{hanzi:"件",pinyin:"jiàn",meaning:"chiếc (lượng từ)"},
-{hanzi:"钱",pinyin:"qián",meaning:"tiền"},
-{hanzi:"贵",pinyin:"guì",meaning:"đắt"},
-{hanzi:"块（元）",pinyin:"kuài (yuán)",meaning:"đồng, tệ"},
-{hanzi:"毛（角）",pinyin:"máo (jiǎo)",meaning:"hào"},
-{hanzi:"分",pinyin:"fēn",meaning:"xu"},
-{hanzi:"便宜",pinyin:"piányi",meaning:"rẻ"},
-{hanzi:"（一）点儿",pinyin:"(yì) diǎnr",meaning:"một chút"},
-{hanzi:"老板",pinyin:"lǎobǎn",meaning:"ông chủ"},
-{hanzi:"水果",pinyin:"shuǐguǒ",meaning:"hoa quả"},
-{hanzi:"怎么",pinyin:"zěnme",meaning:"thế nào"},
-{hanzi:"卖",pinyin:"mài",meaning:"bán"},
-{hanzi:"斤",pinyin:"jīn",meaning:"cân Trung Quốc (0.5kg)"},
-{hanzi:"公斤",pinyin:"gōngjīn",meaning:"kilogram"},
-{hanzi:"苹果",pinyin:"píngguǒ",meaning:"táo"},
-{hanzi:"草莓",pinyin:"cǎoméi",meaning:"dâu tây"},
-{hanzi:"西瓜",pinyin:"xīguā",meaning:"dưa hấu"},
-{hanzi:"行",pinyin:"xíng",meaning:"được"},
-{hanzi:"还",pinyin:"hái",meaning:"còn, vẫn"},
-{hanzi:"一共",pinyin:"yígòng",meaning:"tổng cộng"},
-{hanzi:"售货员",pinyin:"shòuhuòyuán",meaning:"nhân viên bán hàng"},
-{hanzi:"找（钱）",pinyin:"zhǎo (qián)",meaning:"thối lại tiền"},
-// ===== BÀI 10 – TÔI MUỐN ĐỔI TIỀN =====
-{hanzi:"先生",pinyin:"xiānsheng",meaning:"ông, ngài"},
-{hanzi:"换",pinyin:"huàn",meaning:"đổi"},
-{hanzi:"越南盾",pinyin:"Yuènándùn",meaning:"Việt Nam đồng"},
-{hanzi:"人民币",pinyin:"Rénmínbì",meaning:"Nhân dân tệ"},
-{hanzi:"美元",pinyin:"Měiyuán",meaning:"USD"},
-{hanzi:"欧元",pinyin:"Ōuyuán",meaning:"Euro"},
-{hanzi:"百",pinyin:"bǎi",meaning:"trăm"},
-{hanzi:"千",pinyin:"qiān",meaning:"nghìn"},
-{hanzi:"万",pinyin:"wàn",meaning:"mười nghìn, vạn"},
-{hanzi:"写",pinyin:"xiě",meaning:"viết"},
-{hanzi:"帮",pinyin:"bāng",meaning:"giúp"},
-{hanzi:"等",pinyin:"děng",meaning:"đợi"},
-{hanzi:"一会儿",pinyin:"yí huìr",meaning:"một lúc"},
-{hanzi:"数",pinyin:"shǔ",meaning:"đếm"},
-{hanzi:"营业员",pinyin:"yíngyèyuán",meaning:"nhân viên giao dịch, nhân viên bán hàng"},
-{hanzi:"对",pinyin:"duì",meaning:"đúng"},
-{hanzi:"服务员",pinyin:"fúwùyuán",meaning:"nhân viên phục vụ"},
-{hanzi:"吃",pinyin:"chī",meaning:"ăn"},
-{hanzi:"饭",pinyin:"fàn",meaning:"cơm, bữa cơm"},
-{hanzi:"菜",pinyin:"cài",meaning:"món ăn"},
-{hanzi:"饭馆",pinyin:"fànguǎn",meaning:"nhà hàng, quán ăn"},
-{hanzi:"菜单",pinyin:"càidān",meaning:"thực đơn"},
-{hanzi:"看",pinyin:"kàn",meaning:"nhìn, xem"},
-{hanzi:"份",pinyin:"fèn",meaning:"phần, suất"},
-{hanzi:"饺子",pinyin:"jiǎozi",meaning:"há cảo"},
-{hanzi:"包子",pinyin:"bāozi",meaning:"bánh bao"},
-{hanzi:"碗",pinyin:"wǎn",meaning:"bát"},
-{hanzi:"头",pinyin:"tóu",meaning:"đầu"},
-{hanzi:"疼",pinyin:"téng",meaning:"đau"},
-{hanzi:"舒服",pinyin:"shūfu",meaning:"thoải mái"},
-{hanzi:"流",pinyin:"liú",meaning:"chảy"},
-{hanzi:"鼻涕",pinyin:"bítì",meaning:"nước mũi"},
-{hanzi:"发烧",pinyin:"fāshāo",meaning:"sốt"},
-{hanzi:"让",pinyin:"ràng",meaning:"để, bảo, khiến"},
-{hanzi:"检查",pinyin:"jiǎnchá",meaning:"kiểm tra"},
-{hanzi:"病",pinyin:"bìng",meaning:"bệnh"},
-{hanzi:"看病",pinyin:"kàn bìng",meaning:"khám bệnh"},
-{hanzi:"严重",pinyin:"yánzhòng",meaning:"nghiêm trọng"},
-{hanzi:"感冒",pinyin:"gǎnmào",meaning:"cảm cúm"},
-{hanzi:"护士",pinyin:"hùshi",meaning:"y tá"},
-{hanzi:"打针",pinyin:"dǎ zhēn",meaning:"tiêm"},
-{hanzi:"开",pinyin:"kāi",meaning:"mở, kê (thuốc)"},
-{hanzi:"药",pinyin:"yào",meaning:"thuốc"},
-{hanzi:"次",pinyin:"cì",meaning:"lần"},
-{hanzi:"片",pinyin:"piàn",meaning:"viên (thuốc)"},
-{hanzi:"休息",pinyin:"xiūxi",meaning:"nghỉ ngơi"},
-
-// ===== TỪ VIẾT TAY =====
-{hanzi:"谁",pinyin:"shéi",meaning:"ai"},
-{hanzi:"手",pinyin:"shǒu",meaning:"tay"},
-{hanzi:"健康",pinyin:"jiànkāng",meaning:"sức khỏe"},
-{hanzi:"汤",pinyin:"tāng",meaning:"canh"},
-{hanzi:"鸡蛋",pinyin:"jīdàn",meaning:"trứng gà"},
-{hanzi:"炒",pinyin:"chǎo",meaning:"xào"},
-{hanzi:"牛肉",pinyin:"niúròu",meaning:"thịt bò"},
-{hanzi:"米饭",pinyin:"mǐfàn",meaning:"cơm"},
-{hanzi:"饮料",pinyin:"yǐnliào",meaning:"đồ uống"},
-{hanzi:"用",pinyin:"yòng",meaning:"dùng"},
-{hanzi:"叉子",pinyin:"chāzi",meaning:"nĩa"},
-{hanzi:"筷子",pinyin:"kuàizi",meaning:"đũa"},
-{hanzi:"怎么样",pinyin:"zěnmeyàng",meaning:"như thế nào"},
-{hanzi:"好吃",pinyin:"hǎochī",meaning:"ngon"},
-{hanzi:"觉得",pinyin:"juéde",meaning:"cảm thấy"},
-{hanzi:"刚",pinyin:"gāng",meaning:"vừa"},
-{hanzi:"容易",pinyin:"róngyì",meaning:"dễ"},
-{hanzi:"但是",pinyin:"dànshì",meaning:"nhưng"},
-{hanzi:"读",pinyin:"dú",meaning:"đọc"},
-{hanzi:"听",pinyin:"tīng",meaning:"nghe"},
-{hanzi:"比较",pinyin:"bǐjiào",meaning:"khá là"},
-{hanzi:"语法",pinyin:"yǔfǎ",meaning:"ngữ pháp"},
-{hanzi:"位",pinyin:"wèi",meaning:"vị"},
-{hanzi:"早上",pinyin:"zǎoshang",meaning:"buổi sáng sớm"},
-{hanzi:"上午",pinyin:"shàngwǔ",meaning:"buổi sáng"},
-{hanzi:"中午",pinyin:"zhōngwǔ",meaning:"buổi trưa"},
-{hanzi:"下午",pinyin:"xiàwǔ",meaning:"buổi chiều"},
-{hanzi:"晚上",pinyin:"wǎnshang",meaning:"buổi tối"},
-{hanzi:"商店",pinyin:"shāngdiàn",meaning:"cửa hàng"},
-{hanzi:"旧",pinyin:"jiù",meaning:"cũ"},
-{hanzi:"新",pinyin:"xīn",meaning:"mới"},
-
-// ===== MÀU SẮC =====
-{hanzi:"颜色",pinyin:"yánsè",meaning:"màu sắc"},
-{hanzi:"白",pinyin:"bái",meaning:"trắng"},
-{hanzi:"黑",pinyin:"hēi",meaning:"đen"},
-{hanzi:"红",pinyin:"hóng",meaning:"đỏ"},
-{hanzi:"黄",pinyin:"huáng",meaning:"vàng"},
-
-// ===== KHÁC =====
-{hanzi:"说",pinyin:"shuō",meaning:"nói"},
-{hanzi:"好看",pinyin:"hǎokàn",meaning:"đẹp"},
-{hanzi:"些",pinyin:"xiē",meaning:"vài, một số"},
-{hanzi:"这些",pinyin:"zhèxiē",meaning:"những ... này"},
-{hanzi:"那些",pinyin:"nàxiē",meaning:"những ... kia"},
-{hanzi:"别的",pinyin:"biéde",meaning:"cái khác"}
-
+// ===== BÀI 15 =====
+{hanzi:"月",pinyin:"yuè",meaning:"tháng"},
+{hanzi:"结婚",pinyin:"jiéhūn",meaning:"kết hôn"},
+{hanzi:"能",pinyin:"néng",meaning:"có thể"},
+{hanzi:"来",pinyin:"lái",meaning:"đến"},
+{hanzi:"参加",pinyin:"cānjiā",meaning:"tham gia"},
+{hanzi:"婚礼",pinyin:"hūnlǐ",meaning:"hôn lễ"},
+{hanzi:"祝福",pinyin:"zhùfú",meaning:"chúc phúc"},
+{hanzi:"一定",pinyin:"yídìng",meaning:"nhất định"},
+{hanzi:"拍",pinyin:"pāi",meaning:"chụp"},
+{hanzi:"婚纱照",pinyin:"hūnshā zhào",meaning:"ảnh cưới"},
+{hanzi:"打算",pinyin:"dǎsuàn",meaning:"dự định"},
+{hanzi:"为什么",pinyin:"wèishénme",meaning:"tại sao"},
+{hanzi:"第",pinyin:"dì",meaning:"thứ"},
+{hanzi:"见面",pinyin:"jiànmiàn",meaning:"gặp mặt"},
+{hanzi:"地方",pinyin:"dìfang",meaning:"nơi"},
+{hanzi:"举行",pinyin:"jǔxíng",meaning:"tổ chức"},
+{hanzi:"因为",pinyin:"yīnwèi",meaning:"bởi vì"},
+{hanzi:"教堂",pinyin:"jiàotáng",meaning:"nhà thờ"},
+{hanzi:"家具",pinyin:"jiājù",meaning:"đồ gia dụng"},
+{hanzi:"常常",pinyin:"chángcháng",meaning:"thường thường"},
+{hanzi:"礼物",pinyin:"lǐwù",meaning:"quà"},
+{hanzi:"红包",pinyin:"hóngbāo",meaning:"lì xì"},
+{hanzi:"哈哈",pinyin:"hāhā",meaning:"haha"},
+{hanzi:"知道",pinyin:"zhīdào",meaning:"biết"},
+{hanzi:"应该",pinyin:"yīnggāi",meaning:"nên"}
 
 ];
 
@@ -395,13 +146,11 @@ let answerShown=false;
 function showWord(){
 let w=shuffled[index];
 document.getElementById("hanziBox").innerText=w.hanzi;
-document.getElementById("infoBox").innerText="Nhấn 'Hiện đáp án'";
+document.getElementById("infoBox").innerText="Nhấn \"Hiện đáp án\"";
 answerShown=false;
 
 let percent=Math.round(((index+1)/shuffled.length)*100);
-let bar=document.getElementById("progressBar");
-bar.style.width=percent+"%";
-bar.innerText=percent+"%";
+document.getElementById("progressBar").style.width=percent+"%";
 }
 
 function showAnswer(){
@@ -409,16 +158,11 @@ if(answerShown) return;
 let w=shuffled[index];
 document.getElementById("infoBox").innerHTML="<b>"+w.pinyin+"</b><br>"+w.meaning;
 answerShown=true;
-speakWord(); // 🔥 tự động đọc
+speakWord();
 }
 
-function nextWord(){
-if(index<shuffled.length-1){ index++; showWord(); }
-}
-
-function prevWord(){
-if(index>0){ index--; showWord(); }
-}
+function nextWord(){ if(index<shuffled.length-1){ index++; showWord(); } }
+function prevWord(){ if(index>0){ index--; showWord(); } }
 
 function speakWord(){
 speechSynthesis.cancel();
@@ -431,6 +175,5 @@ speechSynthesis.speak(u);
 showWord();
 
 </script>
-
 </body>
 </html>
