@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Flashcard Chinese - Phím tắt</title>
+<title>Flashcard Chinese</title>
 
 <style>
 body{
@@ -11,645 +11,171 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    background:linear-gradient(135deg,#f6e2a8,#eac96c);
-    font-family: Arial, sans-serif;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    font-family:Segoe UI, sans-serif;
 }
-
-.window{
-    width:1000px;
-    background:#ddd;
-    border:4px solid #333;
-    box-shadow:10px 10px 0px #ff8c42;
-    padding:20px;
-    position: relative;
+.app{
+    width:420px;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(20px);
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.3);
+    color:white;
 }
-
 .progress-container{
     width:100%;
-    height:25px;
-    background:#bbb;
-    margin-bottom:15px;
-    border: 2px solid #555;
+    height:10px;
+    background:rgba(255,255,255,0.2);
+    border-radius:10px;
+    margin-bottom:20px;
+    overflow:hidden;
 }
-
 .progress-bar{
     height:100%;
     width:0%;
-    background:#ffb400;
-    text-align:center;
-    line-height: 25px;
-    font-size:14px;
+    background:#00f5d4;
+    transition:0.3s;
+}
+.card{
+    height:220px;
+    background:white;
+    color:#333;
+    border-radius:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:55px;
     font-weight:bold;
-    transition: width 0.3s ease;
-}
-
-.content{
-    display:flex;
-    gap:20px;
-}
-
-.left{
-    flex:1;
-    background:#e8c38b;
-    border:4px solid #999;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    height:350px;
-}
-
-.hanzi{
-    font-size:110px;
-    font-weight: bold;
-}
-
-.speaker{
-    margin-top:20px;
-    font-size:40px;
-    cursor:pointer;
-    transition: transform 0.1s;
-}
-
-.speaker:active {
-    transform: scale(0.9);
-}
-
-.right{
-    flex:1;
-    background:#eee;
-    border:4px solid #999;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    margin-bottom:20px;
     position:relative;
-    font-size:28px;
-    text-align:center;
 }
-
-button.nav{
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    border: 3px solid #333;
-    background:#ffb400;
-    font-size:30px;
-    font-weight: bold;
-    cursor:pointer;
+.speaker{
     position:absolute;
-    top:40%;
-    transition: background 0.2s;
-}
-
-button.nav:hover { background: #e5a100; }
-
-.prev{ left:20px; }
-.next{ right:20px; }
-
-button.main{
-    margin-top:30px;
-    padding:12px 40px;
-    border: 3px solid #333;
-    background:#ffb400;
-    font-size:20px;
-    font-weight: bold;
+    bottom:15px;
+    right:20px;
+    font-size:26px;
     cursor:pointer;
 }
-
-button.main:active { background: #e5a100; }
-
-.shortcuts-info {
-    margin-top: 15px;
-    text-align: center;
-    font-size: 14px;
-    color: #555;
-    font-style: italic;
+.info{
+    text-align:center;
+    min-height:70px;
+    font-size:18px;
+    margin-bottom:15px;
 }
+.controls{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:15px;
+}
+button{
+    border:none;
+    border-radius:50px;
+    padding:10px 18px;
+    font-size:16px;
+    cursor:pointer;
+}
+.nav{ background:white; color:#333; }
+.main{ width:100%; background:#00f5d4; font-weight:bold; }
 </style>
 </head>
 
 <body>
+<div class="app">
 
-<div class="window">
+<div class="progress-container">
+<div class="progress-bar" id="progressBar"></div>
+</div>
 
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar">0%</div>
-    </div>
+<div class="card">
+<div id="hanziBox">开始</div>
+<div class="speaker" onclick="speakWord()">🔊</div>
+</div>
 
-    <div class="content">
-        <div class="left">
-            <div class="hanzi" id="hanziBox">开始</div>
-            <div class="speaker" onclick="speakWord()" title="Nghe phát âm">🔊</div>
-        </div>
+<div class="info" id="infoBox">
+Nhấn "Hiện đáp án"
+</div>
 
-        <div class="right">
-            <button class="nav prev" onclick="prevWord()" title="Từ trước (Mũi tên trái)"><</button>
-            <button class="nav next" onclick="nextWord()" title="Từ tiếp theo (Mũi tên phải)">></button>
+<div class="controls">
+<button class="nav" onclick="prevWord()">⬅</button>
+<button class="nav" onclick="nextWord()">➡</button>
+</div>
 
-            <div id="infoBox">Nhấn "Hiện đáp án"</div>
+<button class="main" onclick="showAnswer()">Hiện đáp án</button>
 
-            <button class="main" id="btnShow" onclick="showAnswer()">Hiện đáp án (Space)</button>
-        </div>
-    </div>
-
-    <div class="shortcuts-info">
-        Mẹo: Dùng phím <b>←</b> <b>→</b> để chuyển từ, phím <b>Space</b> để hiện đáp án.
-    </div>
 </div>
 
 <script>
-let vocabulary = [
-    {hanzi:"是",pinyin:"shì",meaning:"là"},
-    {hanzi:"哪",pinyin:"nǎ",meaning:"nào"},
-    {hanzi:"国",pinyin:"guó",meaning:"nước, quốc gia"},
-    {hanzi:"人",pinyin:"rén",meaning:"người"},
-    {hanzi:"越南",pinyin:"Yuènán",meaning:"Việt Nam"},
-    {hanzi:"中国",pinyin:"Zhōngguó",meaning:"Trung Quốc"},
-    {hanzi:"美国",pinyin:"Měiguó",meaning:"nước Mỹ"},
-    {hanzi:"英国",pinyin:"Yīngguó",meaning:"nước Anh"},
-    {hanzi:"韩国",pinyin:"Hánguó",meaning:"Hàn Quốc"},
-    {hanzi:"考试",pinyin:"kǎoshì",meaning:"thi"},
-{hanzi:"邮局",pinyin:"yóujú",meaning:"bưu điện"},
-{hanzi:"走",pinyin:"zǒu",meaning:"đi"},
-{hanzi:"从",pinyin:"cóng",meaning:"từ"},
-{hanzi:"一直",pinyin:"yìzhí",meaning:"thẳng"},
-{hanzi:"离",pinyin:"lí",meaning:"cách"},
-{hanzi:"远",pinyin:"yuǎn",meaning:"xa"},
-{hanzi:"近",pinyin:"jìn",meaning:"gần"},
-{hanzi:"大概",pinyin:"dàgài",meaning:"khoảng"},
-{hanzi:"公里",pinyin:"gōnglǐ",meaning:"kilomet"},
-{hanzi:"不好意思",pinyin:"bù hǎo yìsi",meaning:"xin lỗi"},
-{hanzi:"再",pinyin:"zài",meaning:"lại"},
-{hanzi:"附近",pinyin:"fùjìn",meaning:"lân cận"},
-{hanzi:"购物",pinyin:"gòuwù",meaning:"mua sắm"},
-{hanzi:"中心",pinyin:"zhōngxīn",meaning:"trung tâm"},
-{hanzi:"前边",pinyin:"qiánbian",meaning:"phía trước"},
-{hanzi:"后边",pinyin:"hòubian",meaning:"phía sau"},
 
-{hanzi:"座",pinyin:"zuò",meaning:"tòa"},
-{hanzi:"高楼",pinyin:"gāolóu",meaning:"tòa nhà cao tầng"},
-{hanzi:"十字路口",pinyin:"shízì lùkǒu",meaning:"ngã tư"},
-{hanzi:"往",pinyin:"wǎng",meaning:"hướng về"},
-{hanzi:"左边",pinyin:"zuǒbiān",meaning:"bên trái"},
-{hanzi:"右边",pinyin:"yòubiān",meaning:"bên phải"},
-{hanzi:"拐",pinyin:"guǎi",meaning:"rẽ"},
-{hanzi:"停",pinyin:"tíng",meaning:"dừng"},
-{hanzi:"广场",pinyin:"guǎngchǎng",meaning:"quảng trường"},
-{hanzi:"中间",pinyin:"zhōngjiān",meaning:"ở giữa"},
-{hanzi:"东边",pinyin:"dōngbiān",meaning:"phía đông"},
-{hanzi:"西边",pinyin:"xībiān",meaning:"phía tây"},
-{hanzi:"北边",pinyin:"běibiān",meaning:"phía bắc"},
-{hanzi:"南边",pinyin:"nánbiān",meaning:"phía nam"},
-{hanzi:"体育馆",pinyin:"tǐyùguǎn",meaning:"cung thể thao"},
-{hanzi:"茶馆",pinyin:"cháguǎn",meaning:"quán trà"},
-{hanzi:"美术馆",pinyin:"měishùguǎn",meaning:"viện bảo tàng mỹ thuật"},
-{hanzi:"原来",pinyin:"yuánlái",meaning:"vốn dĩ, ban đầu"},
-{hanzi:"陪",pinyin:"péi",meaning:"đi cùng, theo"},
-{hanzi:"京剧",pinyin:"jīngjù",meaning:"kinh kịch"},
-{hanzi:"动物园",pinyin:"dòngwùyuán",meaning:"sở thú"},
-{hanzi:"熊猫",pinyin:"xióngmāo",meaning:"gấu trúc"},
-{hanzi:"机场",pinyin:"jīchǎng",meaning:"sân bay"},
-{hanzi:"咱们",pinyin:"zánmen",meaning:"chúng ta"},
-{hanzi:"约",pinyin:"yuē",meaning:"hẹn"},
-{hanzi:"怎么",pinyin:"zěnme",meaning:"sao, thế nào"},
-{hanzi:"迷路",pinyin:"mílù",meaning:"lạc đường"},
-{hanzi:"路人",pinyin:"lùrén",meaning:"người đi đường"},
-{hanzi:"公交车",pinyin:"gōngjiāochē",meaning:"xe buýt"},
-{hanzi:"发",pinyin:"fā",meaning:"phát, gửi"},
-{hanzi:"定位",pinyin:"dìngwèi",meaning:"định vị"},
-{hanzi:"里边",pinyin:"lǐbian",meaning:"bên trong"},
-{hanzi:"外边",pinyin:"wàibian",meaning:"bên ngoài"},
-{hanzi:"上边",pinyin:"shàngbian",meaning:"bên trên"},
-{hanzi:"下边",pinyin:"xiàbian",meaning:"bên dưới"},
+let vocabulary=[
+{hanzi:"厨房",pinyin:"chúfáng",meaning:"phòng bếp"},
+{hanzi:"客厅",pinyin:"kètīng",meaning:"phòng khách"},
+{hanzi:"卧室",pinyin:"wòshì",meaning:"phòng ngủ"},
+{hanzi:"卫生间",pinyin:"wèishēngjiān",meaning:"nhà vệ sinh"},
+{hanzi:"总",pinyin:"zǒng",meaning:"tổng, luôn luôn"},
+{hanzi:"面积",pinyin:"miànjī",meaning:"diện tích"},
+{hanzi:"平方米",pinyin:"píngfāngmǐ",meaning:"mét vuông"},
+{hanzi:"沙发",pinyin:"shāfā",meaning:"ghế sofa"},
+{hanzi:"站",pinyin:"zhàn",meaning:"bến, trạm"},
+{hanzi:"班",pinyin:"bān",meaning:"chuyến"},
+{hanzi:"对",pinyin:"duì",meaning:"đối với"},
+{hanzi:"满意",pinyin:"mǎnyì",meaning:"hài lòng"},
 
-{hanzi:"扬州中心",pinyin:"Yángzhōu zhōngxīn",meaning:"trung tâm Dương Châu"},
-{hanzi:"巴亭广场",pinyin:"Bātíng guǎngchǎng",meaning:"quảng trường Ba Đình"},
-{hanzi:"西湖",pinyin:"Xīhú",meaning:"Hồ Tây"},
-
-    {hanzi:"考",pinyin:"kǎo",meaning:"thi"},
-    {hanzi:"不错",pinyin:"bùcuò",meaning:"rất tốt"},
-    {hanzi:"可是",pinyin:"kěshì",meaning:"nhưng"},
-    {hanzi:"流利",pinyin:"liúlì",meaning:"lưu loát"},
-    {hanzi:"发音",pinyin:"fāyīn",meaning:"phát âm"},
-    {hanzi:"音",pinyin:"yīn",meaning:"âm"},
-    {hanzi:"准",pinyin:"zhǔn",meaning:"chuẩn"},
-    {hanzi:"办",pinyin:"bàn",meaning:"làm, xử lý"},
-    {hanzi:"还可以",pinyin:"hái kěyǐ",meaning:"cũng được"},
-    {hanzi:"不过",pinyin:"búguò",meaning:"nhưng, có điều"},
-    {hanzi:"报名",pinyin:"bàomíng",meaning:"đăng kí"},
-    {hanzi:"书法",pinyin:"shūfǎ",meaning:"thư pháp"},
-    {hanzi:"汉字",pinyin:"hànzì",meaning:"chữ Hán"},
-    {hanzi:"又…又…",pinyin:"yòu…yòu…",meaning:"vừa…vừa…"},
-    {hanzi:"快",pinyin:"kuài",meaning:"nhanh"},
-    {hanzi:"周",pinyin:"zhōu",meaning:"tuần"},
-    {hanzi:"长得",pinyin:"zhǎngde",meaning:"trông, nom (như)"},
-    {hanzi:"特别",pinyin:"tèbié",meaning:"đặc biệt"},
-    {hanzi:"漂亮",pinyin:"piàoliang",meaning:"đẹp"},
-    {hanzi:"照片",pinyin:"zhàopiàn",meaning:"ảnh"},
-    {hanzi:"啊",pinyin:"a",meaning:"a, á"},
-    {hanzi:"非常",pinyin:"fēicháng",meaning:"vô cùng"},
-    {hanzi:"周末",pinyin:"zhōumò",meaning:"cuối tuần"},
-    {hanzi:"游泳",pinyin:"yóuyǒng",meaning:"bơi"},
-    {hanzi:"比",pinyin:"bǐ",meaning:"so (với)"},
-    {hanzi:"怕",pinyin:"pà",meaning:"sợ"},
-    {hanzi:"日本",pinyin:"Rìběn",meaning:"Nhật Bản"},
-    {hanzi:"也",pinyin:"yě",meaning:"cũng"},
-    {hanzi:"职员", pinyin: "zhíyuán", meaning: "nhân viên"},
-    {hanzi:"点", pinyin: "diǎn", meaning: "giờ"},
-    {hanzi:"起床", pinyin: "qǐchuáng", meaning: "thức dậy"},
-    {hanzi:"床", pinyin: "chuáng", meaning: "giường"},
-    {hanzi:"每", pinyin: "měi", meaning: "mỗi"},
-    {hanzi:"然后", pinyin: "ránhòu", meaning: "sau đó"},
-    {hanzi:"上课",pinyin:"shàngkè",meaning:"lên lớp"},
-    {hanzi:"下课",pinyin:"xiàkè",meaning:"tan học"},
-    {hanzi:"或者",pinyin:"huòzhě",meaning:"hoặc là"},
-    {hanzi:"玩",pinyin:"wán",meaning:"chơi"},
-    {hanzi:"睡觉",pinyin:"shuìjiào",meaning:"ngủ"},
-    {hanzi:"复习",pinyin:"fùxí",meaning:"ôn tập"},
-    {hanzi:"喂", pinyin:"wèi", meaning:"alo"},
-    {hanzi:"在", pinyin:"zài", meaning:"đang"},
-    {hanzi:"作业", pinyin:"zuòyè", meaning:"bài tập"},
-    {hanzi:"正在", pinyin:"zhèngzài", meaning:"đang"},
-    {hanzi:"准备", pinyin:"zhǔnbèi", meaning:"chuẩn bị"},
-    {hanzi:"节目", pinyin:"jiémù", meaning:"tiết mục"},
-    {hanzi:"表演", pinyin:"biǎoyǎn", meaning:"biểu diễn"},
-    {hanzi:"比赛", pinyin:"bǐsài", meaning:"thi, cuộc thi"},
-    {hanzi:"正", pinyin:"zhèng", meaning:"đang"},
-    {hanzi:"唱歌", pinyin:"chànggē", meaning:"hát"},
-    {hanzi:"首", pinyin:"shǒu", meaning:"bài"},
-    {hanzi:"中文", pinyin:"Zhōngwén", meaning:"tiếng Trung"},
-    {hanzi:"时间", pinyin:"shíjiān", meaning:"thời gian"},
-    {hanzi:"练", pinyin:"liàn", meaning:"luyện"},
-    {hanzi:"租", pinyin:"zū", meaning:"thuê"},
-    {hanzi:"可以", pinyin:"kěyǐ", meaning:"có thể"},
-    {hanzi:"打工", pinyin:"dǎgōng", meaning:"làm thêm"},
-    {hanzi:"一般", pinyin:"yìbān", meaning:"thường"},
-    {hanzi:"食堂", pinyin:"shítáng", meaning:"nhà ăn"},
-    {hanzi:"图书馆", pinyin:"túshūguǎn", meaning:"thư viện"},
-    {hanzi:"帮忙", pinyin:"bāngmáng", meaning:"giúp"},
-    {hanzi:"当", pinyin:"dāng", meaning:"làm"},
-    {hanzi:"翻译", pinyin:"fānyì", meaning:"phiên dịch"},
-    {hanzi:"奶茶店", pinyin:"nǎichádiàn", meaning:"quán trà sữa"},
-    {hanzi:"奶茶", pinyin:"nǎichá", meaning:"trà sữa"},
-    {hanzi:"真", pinyin:"zhēn", meaning:"thật"},
-    {hanzi:"需要", pinyin:"xūyào", meaning:"cần"},
-    {hanzi:"种", pinyin:"zhǒng", meaning:"loại"},
-    {hanzi:"语言", pinyin:"yǔyán", meaning:"ngôn ngữ"},
-    {hanzi:"会", pinyin:"huì", meaning:"biết"},
-    {hanzi:"抽烟", pinyin:"chōuyān", meaning:"hút thuốc"},
-    {hanzi:"收银员", pinyin:"shōuyínyuán", meaning:"nhân viên thu ngân"},
-    {hanzi:"酒", pinyin:"jiǔ", meaning:"rượu"},
-    {hanzi:"问题", pinyin:"wèntí", meaning:"vấn đề"},
-    {hanzi:"正好", pinyin:"zhènghǎo", meaning:"vừa đúng"},
-    {hanzi:"服装", pinyin:"fúzhuāng", meaning:"trang phục"},
-    {hanzi:"高", pinyin:"gāo", meaning:"cao"},
-    {hanzi:"重", pinyin:"zhòng", meaning:"nặng"},
-    {hanzi:"米", pinyin:"mǐ", meaning:"mét"},
-    {hanzi:"选", pinyin:"xuǎn", meaning:"chọn"},
-    {hanzi:"公园", pinyin: "gōngyuán", meaning: "công viên"},
-    {hanzi:"跑步", pinyin: "pǎobù", meaning: "chạy bộ"},
-    {hanzi:"分", pinyin: "fēn", meaning: "phút"},
-    {hanzi:"早饭", pinyin: "zǎofàn", meaning: "bữa sáng"},
-    {hanzi:"午饭", pinyin: "wǔfàn", meaning: "bữa trưa"},
-    {hanzi:"晚饭", pinyin: "wǎnfàn", meaning: "bữa tối"},
-    {hanzi:"到", pinyin: "dào", meaning: "đến"},
-    {hanzi:"准时", pinyin: "zhǔnshí", meaning: "đúng giờ"},
-    {hanzi:"上班", pinyin: "shàngbān", meaning: "vào làm"},
-    {hanzi:"下班", pinyin: "xiàbān", meaning: "tan làm"},
-    {hanzi:"公司", pinyin: "gōngsī", meaning: "công ty"},
-    {hanzi:"有时候", pinyin: "yǒu shíhou", meaning: "có lúc, có khi"},
-    {hanzi:"同事", pinyin: "tóngshì", meaning: "đồng nghiệp"},
-    {hanzi:"出去", pinyin: "chūqu", meaning: "ra ngoài"},
-    {hanzi:"办公室", pinyin: "bàngōngshì", meaning: "văn phòng"},
-    {hanzi:"外卖", pinyin: "wàimài", meaning: "đồ ăn mang về"},
-    {hanzi:"一边...一边...", pinyin: "yìbiān... yìbiān...", meaning: "vừa... vừa..."},
-    {hanzi:"以后", pinyin: "yǐhòu", meaning: "sau này, sau khi"},
-    {hanzi:"半", pinyin: "bàn", meaning: "nửa, rưỡi"},
-    {hanzi:"超市", pinyin: "chāoshì", meaning: "siêu thị"},
-    {hanzi:"电视", pinyin: "diànshì", meaning: "ti vi"},
-    {hanzi:"聊天儿", pinyin: "liáotiānr", meaning: "nói chuyện, tán gẫu"},
-    {hanzi:"差", pinyin: "chà", meaning: "kém, thiếu"},
-    {hanzi:"刻", pinyin: "kè", meaning: "khắc (15 phút)"},
-    {hanzi:"抖音",pinyin:"douyin",meaning:"TikTok"},
-    {hanzi:"对不起",pinyin:"duìbuqǐ",meaning:"xin lỗi"},
-    {hanzi:"没关系",pinyin:"méi guānxi",meaning:"không có gì"},
-    {hanzi:"朋友",pinyin:"péngyou",meaning:"bạn bè"},
-    {hanzi:"男",pinyin:"nán",meaning:"con trai, đàn ông"},
-    {hanzi:"女",pinyin:"nǚ",meaning:"con gái, phụ nữ"},
-    {hanzi:"都",pinyin:"dōu",meaning:"đều"},
-    {hanzi:"们",pinyin:"men",meaning:"hậu tố số nhiều"},
-    {hanzi:"我们",pinyin:"wǒmen",meaning:"chúng tôi"},
-    {hanzi:"他们",pinyin:"tāmen",meaning:"họ"},
-    {hanzi:"她们",pinyin:"tāmen",meaning:"họ (nữ)"},
-    {hanzi:"十",pinyin:"shí",meaning:"số 10"},
-    {hanzi:"老师",pinyin:"lǎoshī",meaning:"thầy giáo"},
-    {hanzi:"在",pinyin:"zài",meaning:"ở"},
-    {hanzi:"这",pinyin:"zhè",meaning:"này"},
-    {hanzi:"这儿",pinyin:"zhèr",meaning:"ở đây"},
-    {hanzi:"那",pinyin:"nà",meaning:"kia"},
-    {hanzi:"那儿",pinyin:"nàr",meaning:"ở kia"},
-    {hanzi:"楼",pinyin:"lóu",meaning:"tầng, tòa nhà"},
-    {hanzi:"一下儿",pinyin:"yíxiàr",meaning:"một chút"},
-    {hanzi:"先",pinyin:"xiān",meaning:"trước"},
-    {hanzi:"介绍",pinyin:"jièshào",meaning:"giới thiệu"},
-    {hanzi:"留学生",pinyin:"liúxuéshēng",meaning:"du học sinh"},
-    {hanzi:"学生",pinyin:"xuéshēng",meaning:"học sinh"},
-    {hanzi:"住",pinyin:"zhù",meaning:"ở, sinh sống"},
-    {hanzi:"号",pinyin:"hào",meaning:"số"},
-    {hanzi:"手机",pinyin:"shǒujī",meaning:"điện thoại"},
-    {hanzi:"号码",pinyin:"hàomǎ",meaning:"số"},
-    {hanzi:"多少",pinyin:"duōshao",meaning:"bao nhiêu"},
-    {hanzi:"少",pinyin:"shǎo",meaning:"ít"},
-    {hanzi:"给",pinyin:"gěi",meaning:"cho"},
-    {hanzi:"零",pinyin:"líng",meaning:"số 0"},
-    {hanzi:"六",pinyin:"liù",meaning:"số 6"},
-    {hanzi:"电话",pinyin:"diànhuà",meaning:"điện thoại"},
-    {hanzi:"开学",pinyin:"kāixué",meaning:"khai giảng"},
-    {hanzi:"开",pinyin:"kāi",meaning:"mở, lái"},
-    {hanzi:"送",pinyin:"sòng",meaning:"đưa, tiễn"},
-    {hanzi:"接",pinyin:"jiē",meaning:"đón"},
-    {hanzi:"自己",pinyin:"zìjǐ",meaning:"tự mình"},
-    {hanzi:"骑",pinyin:"qí",meaning:"cưỡi, lái"},
-    {hanzi:"自行车",pinyin:"zìxíngchē",meaning:"xe đạp"},
-    {hanzi:"摩托车",pinyin:"mótuōchē",meaning:"xe máy"},
-    {hanzi:"汽车",pinyin:"qìchē",meaning:"xe ô tô"},
-    {hanzi:"公共汽车",pinyin:"gōnggòng qìchē",meaning:"xe buýt"},
-    {hanzi:"辆",pinyin:"liàng",meaning:"chiếc (lượng từ xe)"},
-    {hanzi:"跟",pinyin:"gēn",meaning:"cùng, với"},
-    {hanzi:"一起",pinyin:"yìqǐ",meaning:"cùng nhau"},
-    {hanzi:"教室",pinyin:"jiàoshì",meaning:"phòng học"},
-    {hanzi:"电脑",pinyin:"diànnǎo",meaning:"máy tính"},
-    {hanzi:"桌子",pinyin:"zhuōzi",meaning:"bàn"},
-    {hanzi:"椅子",pinyin:"yǐzi",meaning:"ghế"},
-    {hanzi:"有点儿",pinyin:"yǒudiǎnr",meaning:"hơi"},
-    {hanzi:"练习",pinyin:"liànxí",meaning:"luyện tập"},
-    {hanzi:"月",pinyin:"yuè",meaning:"tháng"},
-    {hanzi:"结婚",pinyin:"jiéhūn",meaning:"kết hôn"},
-    {hanzi:"能",pinyin:"néng",meaning:"có thể"},
-    {hanzi:"来",pinyin:"lái",meaning:"đến"},
-    {hanzi:"参加",pinyin:"cānjiā",meaning:"tham gia"},
-    {hanzi:"婚礼",pinyin:"hūnlǐ",meaning:"hôn lễ"},
-    {hanzi:"祝福",pinyin:"zhùfú",meaning:"chúc phúc"},
-    {hanzi:"一定",pinyin:"yídìng",meaning:"nhất định"},
-    {hanzi:"拍",pinyin:"pāi",meaning:"chụp"},
-    {hanzi:"婚纱照",pinyin:"hūnshā zhào",meaning:"ảnh cưới"},
-    {hanzi:"打算",pinyin:"dǎsuàn",meaning:"dự định"},
-    {hanzi:"为什么",pinyin:"wèishénme",meaning:"tại sao"},
-    {hanzi:"第",pinyin:"dì",meaning:"thứ"},
-    {hanzi:"见面",pinyin:"jiànmiàn",meaning:"gặp mặt"},
-    {hanzi:"地方",pinyin:"dìfang",meaning:"nơi"},
-    {hanzi:"举行",pinyin:"jǔxíng",meaning:"tổ chức"},
-    {hanzi:"因为",pinyin:"yīnwèi",meaning:"bởi vì"},
-    {hanzi:"教堂",pinyin:"jiàotáng",meaning:"nhà thờ"},
-    {hanzi:"家具",pinyin:"jiājù",meaning:"đồ gia dụng"},
-    {hanzi:"常常",pinyin:"chángcháng",meaning:"thường thường"},
-    {hanzi:"礼物",pinyin:"lǐwù",meaning:"quà"},
-    {hanzi:"红包",pinyin:"hóngbāo",meaning:"lì xì"},
-    {hanzi:"幸福",pinyin:"xìngfú",meaning:"hạnh phúc"},
-    {hanzi:"所以",pinyin:"suǒyǐ",meaning:"cho nên"},
-    {hanzi:"哈哈",pinyin:"hāhā",meaning:"haha"},
-    {hanzi:"知道",pinyin:"zhīdào",meaning:"biết"},
-    {hanzi:"应该",pinyin:"yīnggāi",meaning:"nên"},
-    {hanzi:"就",pinyin:"jiù",meaning:"thì, liền"},
-    {hanzi:"时候",pinyin:"shíhou",meaning:"lúc, khi"},
-    {hanzi:"班",pinyin:"bān",meaning:"lớp"},
-    {hanzi:"女儿",pinyin:"nǚ'ér",meaning:"con gái"},
-    {hanzi:"请问",pinyin:"qǐng wèn",meaning:"xin hỏi"},
-    {hanzi:"请",pinyin:"qǐng",meaning:"xin, mời"},
-    {hanzi:"问",pinyin:"wèn",meaning:"hỏi"},
-    {hanzi:"您",pinyin:"nín",meaning:"ngài"},
-    {hanzi:"贵姓",pinyin:"guìxìng",meaning:"quý danh"},
-    {hanzi:"姓",pinyin:"xìng",meaning:"họ"},
-    {hanzi:"什么",pinyin:"shénme",meaning:"cái gì"},
-    {hanzi:"叫",pinyin:"jiào",meaning:"gọi"},
-    {hanzi:"名字",pinyin:"míngzi",meaning:"tên"},
-    {hanzi:"的",pinyin:"de",meaning:"của"},
-    {hanzi:"今年",pinyin:"jīnnián",meaning:"năm nay"},
-    {hanzi:"明年",pinyin:"míngnián",meaning:"năm sau"},
-    {hanzi:"去年",pinyin:"qùnián",meaning:"năm ngoái"},
-    {hanzi:"多大",pinyin:"duōdà",meaning:"bao nhiêu tuổi"},
-    {hanzi:"岁",pinyin:"suì",meaning:"tuổi"},
-    {hanzi:"现在",pinyin:"xiànzài",meaning:"bây giờ"},
-    {hanzi:"回",pinyin:"huí",meaning:"về"},
-    {hanzi:"学校",pinyin:"xuéxiào",meaning:"trường học"},
-    {hanzi:"银行",pinyin:"yínháng",meaning:"ngân hàng"},
-    {hanzi:"家",pinyin:"jiā",meaning:"nhà"},
-    {hanzi:"有",pinyin:"yǒu",meaning:"có"},
-    {hanzi:"没",pinyin:"méi",meaning:"không có"},
-    {hanzi:"口",pinyin:"kǒu",meaning:"người (đếm gia đình)"},
-    {hanzi:"和",pinyin:"hé",meaning:"và"},
-    {hanzi:"做",pinyin:"zuò",meaning:"làm"},
-    {hanzi:"工作",pinyin:"gōngzuò",meaning:"công việc"},
-    {hanzi:"医生",pinyin:"yīshēng",meaning:"bác sĩ"},
-    {hanzi:"还是",pinyin:"háishì",meaning:"hay là"},
-    {hanzi:"只",pinyin:"zhǐ",meaning:"chỉ"},
-    {hanzi:"书包",pinyin:"shūbāo",meaning:"cặp sách"},
-    {hanzi:"里",pinyin:"lǐ",meaning:"trong"},
-    {hanzi:"本",pinyin:"běn",meaning:"cuốn"},
-    {hanzi:"书",pinyin:"shū",meaning:"sách"},
-    {hanzi:"两",pinyin:"liǎng",meaning:"hai"},
-    {hanzi:"支",pinyin:"zhī",meaning:"cây"},
-    {hanzi:"笔",pinyin:"bǐ",meaning:"bút"},
-    {hanzi:"瓶",pinyin:"píng",meaning:"chai"},
-    {hanzi:"水",pinyin:"shuǐ",meaning:"nước"},
-    {hanzi:"个",pinyin:"gè",meaning:"cái"},
-    {hanzi:"要",pinyin:"yào",meaning:"muốn, cần"},
-    {hanzi:"想",pinyin:"xiǎng",meaning:"muốn, nghĩ"},
-    {hanzi:"欢迎",pinyin:"huānyíng",meaning:"chào mừng"},
-    {hanzi:"进",pinyin:"jìn",meaning:"vào"},
-    {hanzi:"好",pinyin:"hǎo",meaning:"rất, tốt"},
-    {hanzi:"久",pinyin:"jiǔ",meaning:"lâu"},
-    {hanzi:"同学",pinyin:"tóngxué",meaning:"bạn học"},
-    {hanzi:"认识",pinyin:"rènshi",meaning:"quen biết"},
-    {hanzi:"高兴",pinyin:"gāoxìng",meaning:"vui vẻ"},
-    {hanzi:"坐",pinyin:"zuò",meaning:"ngồi"},
-    {hanzi:"喝",pinyin:"hē",meaning:"uống"},
-    {hanzi:"茶",pinyin:"chá",meaning:"trà"},
-    {hanzi:"咖啡",pinyin:"kāfēi",meaning:"cà phê"},
-    {hanzi:"可乐",pinyin:"kělè",meaning:"cola"},
-    {hanzi:"喜欢",pinyin:"xǐhuan",meaning:"thích"},
-    {hanzi:"文化",pinyin:"wénhuà",meaning:"văn hóa"},
-    {hanzi:"宿舍",pinyin:"sùshè",meaning:"ký túc xá"},
-    {hanzi:"同屋",pinyin:"tóngwū",meaning:"bạn cùng phòng"},
-    {hanzi:"吧",pinyin:"ba",meaning:"nhé, phải không"},
-    {hanzi:"买",pinyin:"mǎi",meaning:"mua"},
-    {hanzi:"衣服",pinyin:"yīfu",meaning:"quần áo"},
-    {hanzi:"件",pinyin:"jiàn",meaning:"chiếc (lượng từ)"},
-    {hanzi:"钱",pinyin:"qián",meaning:"tiền"},
-    {hanzi:"贵",pinyin:"guì",meaning:"đắt"},
-    {hanzi:"块（元）",pinyin:"kuài (yuán)",meaning:"đồng, tệ"},
-    {hanzi:"毛（角）",pinyin:"máo (jiǎo)",meaning:"hào"},
-    {hanzi:"便宜",pinyin:"piányi",meaning:"rẻ"},
-    {hanzi:"（一）点儿",pinyin:"(yì) diǎnr",meaning:"một chút"},
-    {hanzi:"老板",pinyin:"lǎobǎn",meaning:"ông chủ"},
-    {hanzi:"水果",pinyin:"shuǐguǒ",meaning:"hoa quả"},
-    {hanzi:"怎么",pinyin:"zěnme",meaning:"thế nào"},
-    {hanzi:"卖",pinyin:"mài",meaning:"bán"},
-    {hanzi:"斤",pinyin:"jīn",meaning:"cân Trung Quốc (0.5kg)"},
-    {hanzi:"公斤",pinyin:"gōngjīn",meaning:"kilogram"},
-    {hanzi:"苹果",pinyin:"píngguǒ",meaning:"táo"},
-    {hanzi:"草莓",pinyin:"cǎoméi",meaning:"dâu tây"},
-    {hanzi:"西瓜",pinyin:"xīguā",meaning:"dưa hấu"},
-    {hanzi:"行",pinyin:"xíng",meaning:"được"},
-    {hanzi:"还",pinyin:"hái",meaning:"còn, vẫn"},
-    {hanzi:"一共",pinyin:"yígòng",meaning:"tổng cộng"},
-    {hanzi:"售货员",pinyin:"shòuhuòyuán",meaning:"nhân viên bán hàng"},
-    {hanzi:"找（钱）",pinyin:"zhǎo (qián)",meaning:"thối lại tiền"},
-    {hanzi:"先生",pinyin:"xiānsheng",meaning:"ông, ngài"},
-    {hanzi:"换",pinyin:"huàn",meaning:"đổi"},
-    {hanzi:"越南盾",pinyin:"Yuènándùn",meaning:"Việt Nam đồng"},
-    {hanzi:"人民币",pinyin:"Rénmínbì",meaning:"Nhân dân tệ"},
-    {hanzi:"美元",pinyin:"Měiyuán",meaning:"USD"},
-    {hanzi:"欧元",pinyin:"Ōuyuán",meaning:"Euro"},
-    {hanzi:"百",pinyin:"bǎi",meaning:"trăm"},
-    {hanzi:"千",pinyin:"qiān",meaning:"nghìn"},
-    {hanzi:"万",pinyin:"wàn",meaning:"mười nghìn, vạn"},
-    {hanzi:"写",pinyin:"xiě",meaning:"viết"},
-    {hanzi:"帮",pinyin:"bāng",meaning:"giúp"},
-    {hanzi:"等",pinyin:"děng",meaning:"đợi"},
-    {hanzi:"一会儿",pinyin:"yí huìr",meaning:"một lúc"},
-    {hanzi:"数",pinyin:"shǔ",meaning:"đếm"},
-    {hanzi:"营业员",pinyin:"yíngyèyuán",meaning:"nhân viên giao dịch"},
-    {hanzi:"对",pinyin:"duì",meaning:"đúng"},
-    {hanzi:"服务员",pinyin:"fúwùyuán",meaning:"nhân viên phục vụ"},
-    {hanzi:"吃",pinyin:"chī",meaning:"ăn"},
-    {hanzi:"饭",pinyin:"fàn",meaning:"cơm, bữa cơm"},
-    {hanzi:"菜",pinyin:"cài",meaning:"món ăn"},
-    {hanzi:"饭馆",pinyin:"fànguǎn",meaning:"nhà hàng, quán ăn"},
-    {hanzi:"菜单",pinyin:"càidān",meaning:"thực đơn"},
-    {hanzi:"看",pinyin:"kàn",meaning:"nhìn, xem"},
-    {hanzi:"份",pinyin:"fèn",meaning:"phần, suất"},
-    {hanzi:"饺子",pinyin:"jiǎozi",meaning:"há cảo"},
-    {hanzi:"包子",pinyin:"bāozi",meaning:"bánh bao"},
-    {hanzi:"碗",pinyin:"wǎn",meaning:"bát"},
-    {hanzi:"头",pinyin:"tóu",meaning:"đầu"},
-    {hanzi:"疼",pinyin:"téng",meaning:"đau"},
-    {hanzi:"舒服",pinyin:"shūfu",meaning:"thoải mái"},
-    {hanzi:"流",pinyin:"liú",meaning:"chảy"},
-    {hanzi:"鼻涕",pinyin:"bítì",meaning:"nước mũi"},
-    {hanzi:"发烧",pinyin:"fāshāo",meaning:"sốt"},
-    {hanzi:"让",pinyin:"ràng",meaning:"để, bảo, khiến"},
-    {hanzi:"检查",pinyin:"jiǎnchá",meaning:"kiểm tra"},
-    {hanzi:"病",pinyin:"bìng",meaning:"bệnh"},
-    {hanzi:"看病",pinyin:"kàn bìng",meaning:"khám bệnh"},
-    {hanzi:"严重",pinyin:"yánzhòng",meaning:"nghiêm trọng"},
-    {hanzi:"感冒",pinyin:"gǎnmào",meaning:"cảm cúm"},
-    {hanzi:"护士",pinyin:"hùshi",meaning:"y tá"},
-    {hanzi:"打针",pinyin:"dǎ zhēn",meaning:"tiêm"},
-    {hanzi:"药",pinyin:"yào",meaning:"thuốc"},
-    {hanzi:"次",pinyin:"cì",meaning:"lần"},
-    {hanzi:"片",pinyin:"piàn",meaning:"viên (thuốc)"},
-    {hanzi:"休息",pinyin:"xiūxi",meaning:"nghỉ ngơi"},
-    {hanzi:"谁",pinyin:"shéi",meaning:"ai"},
-    {hanzi:"手",pinyin:"shǒu",meaning:"tay"},
-    {hanzi:"健康",pinyin:"jiànkāng",meaning:"sức khỏe"},
-    {hanzi:"汤",pinyin:"tāng",meaning:"canh"},
-    {hanzi:"鸡蛋",pinyin:"jīdàn",meaning:"trứng gà"},
-    {hanzi:"炒",pinyin:"chǎo",meaning:"xào"},
-    {hanzi:"牛肉",pinyin:"niúròu",meaning:"thịt bò"},
-    {hanzi:"米饭",pinyin:"mǐfàn",meaning:"cơm"},
-    {hanzi:"饮料",pinyin:"yǐnliào",meaning:"đồ uống"},
-    {hanzi:"用",pinyin:"yòng",meaning:"dùng"},
-    {hanzi:"叉子",pinyin:"chāzi",meaning:"nĩa"},
-    {hanzi:"筷子",pinyin:"kuàizi",meaning:"đũa"},
-    {hanzi:"怎么样",pinyin:"zěnmeyàng",meaning:"như thế nào"},
-    {hanzi:"好吃",pinyin:"hǎochī",meaning:"ngon"},
-    {hanzi:"觉得",pinyin:"juéde",meaning:"cảm thấy"},
-    {hanzi:"刚",pinyin:"gāng",meaning:"vừa"},
-    {hanzi:"容易",pinyin:"róngyì",meaning:"dễ"},
-    {hanzi:"但是",pinyin:"dànshì",meaning:"nhưng"},
-    {hanzi:"读",pinyin:"dú",meaning:"đọc"},
-    {hanzi:"听",pinyin:"tīng",meaning:"nghe"},
-    {hanzi:"比较",pinyin:"bǐjiào",meaning:"khá là"},
-    {hanzi:"语法",pinyin:"yǔfǎ",meaning:"ngữ pháp"},
-    {hanzi:"位",pinyin:"wèi",meaning:"vị"},
-    {hanzi:"早上",pinyin:"zǎoshang",meaning:"buổi sáng sớm"},
-    {hanzi:"上午",pinyin:"shàngwǔ",meaning:"buổi sáng"},
-    {hanzi:"中午",pinyin:"zhōngwǔ",meaning:"buổi trưa"},
-    {hanzi:"下午",pinyin:"xiàwǔ",meaning:"buổi chiều"},
-    {hanzi:"晚上",pinyin:"wǎnshang",meaning:"buổi tối"},
-    {hanzi:"商店",pinyin:"shāngdiàn",meaning:"cửa hàng"},
-    {hanzi:"旧",pinyin:"jiù",meaning:"cũ"},
-    {hanzi:"新",pinyin:"xīn",meaning:"mới"},
-    {hanzi:"颜色",pinyin:"yánsè",meaning:"màu sắc"},
-    {hanzi:"白",pinyin:"bái",meaning:"trắng"},
-    {hanzi:"黑",pinyin:"hēi",meaning:"đen"},
-    {hanzi:"红",pinyin:"hóng",meaning:"đỏ"},
-    {hanzi:"黄",pinyin:"huáng",meaning:"vàng"},
-    {hanzi:"说",pinyin:"shuō",meaning:"nói"},
-    {hanzi:"好看",pinyin:"hǎokàn",meaning:"đẹp"},
-    {hanzi:"些",pinyin:"xiē",meaning:"vài, một số"},
-    {hanzi:"เหล่านี้",pinyin:"zhèxiē",meaning:"những ... này"},
-    {hanzi:"那些",pinyin:"nàxiē",meaning:"những ... kia"},
-    {hanzi:"别的",pinyin:"biéde",meaning:"cái khác"}
+{hanzi:"请假",pinyin:"qǐng jià",meaning:"xin nghỉ"},
+{hanzi:"医院",pinyin:"yīyuàn",meaning:"bệnh viện"},
+{hanzi:"得",pinyin:"dé",meaning:"phải, nên"},
+{hanzi:"该",pinyin:"gāi",meaning:"nên"},
+{hanzi:"妻子",pinyin:"qīzi",meaning:"vợ"},
+{hanzi:"丈夫",pinyin:"zhàngfu",meaning:"chồng"},
+{hanzi:"套",pinyin:"tào",meaning:"căn (lượng từ)"},
+{hanzi:"房子",pinyin:"fángzi",meaning:"nhà"},
+{hanzi:"以前",pinyin:"yǐqián",meaning:"trước đây"},
+{hanzi:"已经",pinyin:"yǐjīng",meaning:"đã"},
+{hanzi:"够",pinyin:"gòu",meaning:"đủ"},
+{hanzi:"生活",pinyin:"shēnghuó",meaning:"cuộc sống"},
+{hanzi:"决定",pinyin:"juédìng",meaning:"quyết định"},
+{hanzi:"搬",pinyin:"bān",meaning:"chuyển, dời"},
+{hanzi:"周围",pinyin:"zhōuwéi",meaning:"xung quanh"},
+{hanzi:"环境",pinyin:"huánjìng",meaning:"môi trường"},
+{hanzi:"安静",pinyin:"ānjìng",meaning:"yên tĩnh"},
+{hanzi:"电梯",pinyin:"diàntī",meaning:"thang máy"},
 ];
-
 let shuffled=[...vocabulary].sort(()=>Math.random()-0.5);
 let index=0;
 let answerShown=false;
 
 function showWord(){
-    let w=shuffled[index];
-    document.getElementById("hanziBox").innerText=w.hanzi;
-    document.getElementById("infoBox").innerText="Nhấn 'Hiện đáp án'";
-    answerShown=false;
+let w=shuffled[index];
+document.getElementById("hanziBox").innerText=w.hanzi;
+document.getElementById("infoBox").innerText="Nhấn \"Hiện đáp án\"";
+answerShown=false;
 
-    let percent=Math.round(((index+1)/shuffled.length)*100);
-    let bar=document.getElementById("progressBar");
-    bar.style.width=percent+"%";
-    bar.innerText=percent+"% (" + (index+1) + "/" + shuffled.length + ")";
+let percent=Math.round(((index+1)/shuffled.length)*100);
+document.getElementById("progressBar").style.width=percent+"%";
 }
 
 function showAnswer(){
-    if(answerShown) return;
-    let w=shuffled[index];
-    document.getElementById("infoBox").innerHTML="<b style='color:#d35400'>"+w.pinyin+"</b><br>"+w.meaning;
-    answerShown=true;
-    speakWord(); 
+if(answerShown) return;
+let w=shuffled[index];
+document.getElementById("infoBox").innerHTML="<b>"+w.pinyin+"</b><br>"+w.meaning;
+answerShown=true;
+speakWord();
 }
 
-function nextWord(){
-    if(index<shuffled.length-1){ 
-        index++; 
-        showWord(); 
-    } else {
-        alert("Bạn đã hoàn thành hết từ vựng!");
-    }
-}
-
-function prevWord(){
-    if(index>0){ 
-        index--; 
-        showWord(); 
-    }
-}
+function nextWord(){ if(index<shuffled.length-1){ index++; showWord(); } }
+function prevWord(){ if(index>0){ index--; showWord(); } }
 
 function speakWord(){
-    speechSynthesis.cancel();
-    let w=shuffled[index];
-    let u=new SpeechSynthesisUtterance(w.hanzi);
-    u.lang="zh-CN";
-    u.rate = 0.8; // Đọc chậm một chút cho dễ nghe
-    speechSynthesis.speak(u);
+speechSynthesis.cancel();
+let w=shuffled[index];
+let u=new SpeechSynthesisUtterance(w.hanzi);
+u.lang="zh-CN";
+speechSynthesis.speak(u);
 }
 
-// LẮNG NGHE BÀN PHÍM
-document.addEventListener('keydown', function(event) {
-    if(event.code === "ArrowRight") {
-        nextWord();
-    }
-    else if(event.code === "ArrowLeft") {
-        prevWord();
-    }
-    else if(event.code === "Space") {
-        event.preventDefault(); // Tránh cuộn trang
-        showAnswer();
-    }
-});
-
 showWord();
-</script>
 
+</script>
 </body>
 </html>
