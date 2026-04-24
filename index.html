@@ -109,6 +109,55 @@ Nhấn "Hiện đáp án"
 <script>
 
 let vocabulary=[
+{hanzi:"茶馆",pinyin:"cháguǎn",meaning:"quán trà"},
+{hanzi:"美术馆",pinyin:"měishùguǎn",meaning:"viện bảo tàng mỹ thuật"},
+{hanzi:"原来",pinyin:"yuánlái",meaning:"vốn dĩ, ban đầu"},
+{hanzi:"陪",pinyin:"péi",meaning:"đi cùng, theo"},
+{hanzi:"京剧",pinyin:"jīngjù",meaning:"kinh kịch"},
+{hanzi:"动物园",pinyin:"dòngwùyuán",meaning:"sở thú"},
+{hanzi:"熊猫",pinyin:"xióngmāo",meaning:"gấu trúc"},
+{hanzi:"机场",pinyin:"jīchǎng",meaning:"sân bay"},
+{hanzi:"咱们",pinyin:"zánmen",meaning:"chúng ta"},
+{hanzi:"约",pinyin:"yuē",meaning:"hẹn"},
+{hanzi:"怎么",pinyin:"zěnme",meaning:"sao, thế nào"},
+{hanzi:"迷路",pinyin:"mílù",meaning:"lạc đường"},
+{hanzi:"路人",pinyin:"lùrén",meaning:"người đi đường"},
+{hanzi:"公交车",pinyin:"gōngjiāochē",meaning:"xe buýt"},
+{hanzi:"发",pinyin:"fā",meaning:"phát, gửi"},
+{hanzi:"定位",pinyin:"dìngwèi",meaning:"định vị"},
+
+{hanzi:"厨房",pinyin:"chúfáng",meaning:"phòng bếp"},
+{hanzi:"客厅",pinyin:"kètīng",meaning:"phòng khách"},
+{hanzi:"卧室",pinyin:"wòshì",meaning:"phòng ngủ"},
+{hanzi:"卫生间",pinyin:"wèishēngjiān",meaning:"nhà vệ sinh"},
+{hanzi:"总",pinyin:"zǒng",meaning:"tổng, luôn luôn"},
+{hanzi:"面积",pinyin:"miànjī",meaning:"diện tích"},
+{hanzi:"平方米",pinyin:"píngfāngmǐ",meaning:"mét vuông"},
+{hanzi:"沙发",pinyin:"shāfā",meaning:"ghế sofa"},
+{hanzi:"站",pinyin:"zhàn",meaning:"bến, trạm"},
+{hanzi:"班",pinyin:"bān",meaning:"chuyến"},
+{hanzi:"对",pinyin:"duì",meaning:"đối với"},
+{hanzi:"满意",pinyin:"mǎnyì",meaning:"hài lòng"},
+
+{hanzi:"请假",pinyin:"qǐng jià",meaning:"xin nghỉ"},
+{hanzi:"医院",pinyin:"yīyuàn",meaning:"bệnh viện"},
+{hanzi:"得",pinyin:"dé",meaning:"phải, nên"},
+{hanzi:"该",pinyin:"gāi",meaning:"nên"},
+{hanzi:"妻子",pinyin:"qīzi",meaning:"vợ"},
+{hanzi:"丈夫",pinyin:"zhàngfu",meaning:"chồng"},
+{hanzi:"套",pinyin:"tào",meaning:"căn (lượng từ)"},
+{hanzi:"房子",pinyin:"fángzi",meaning:"nhà"},
+{hanzi:"以前",pinyin:"yǐqián",meaning:"trước đây"},
+{hanzi:"已经",pinyin:"yǐjīng",meaning:"đã"},
+{hanzi:"够",pinyin:"gòu",meaning:"đủ"},
+{hanzi:"生活",pinyin:"shēnghuó",meaning:"cuộc sống"},
+{hanzi:"决定",pinyin:"juédìng",meaning:"quyết định"},
+{hanzi:"搬",pinyin:"bān",meaning:"chuyển, dời"},
+{hanzi:"周围",pinyin:"zhōuwéi",meaning:"xung quanh"},
+{hanzi:"环境",pinyin:"huánjìng",meaning:"môi trường"},
+{hanzi:"安静",pinyin:"ānjìng",meaning:"yên tĩnh"},
+{hanzi:"电梯",pinyin:"diàntī",meaning:"thang máy"},
+
 {hanzi:"堵车",pinyin:"dǔchē",meaning:"tắc đường, kẹt xe"},
 {hanzi:"厉害",pinyin:"lìhai",meaning:"giỏi, lợi hại"},
 {hanzi:"迟到",pinyin:"chídào",meaning:"đến muộn"},
@@ -126,7 +175,6 @@ let vocabulary=[
 {hanzi:"这么",pinyin:"zhème",meaning:"như vậy"},
 {hanzi:"那么",pinyin:"nàme",meaning:"như thế"},
 {hanzi:"小说",pinyin:"xiǎoshuō",meaning:"tiểu thuyết"},
-
 {hanzi:"完",pinyin:"wán",meaning:"xong"},
 {hanzi:"言情",pinyin:"yánqíng",meaning:"ngôn tình"},
 {hanzi:"感兴趣",pinyin:"gǎn xìngqù",meaning:"cảm thấy hứng thú"},
@@ -135,7 +183,7 @@ let vocabulary=[
 {hanzi:"爱",pinyin:"ài",meaning:"yêu"},
 {hanzi:"经常",pinyin:"jīngcháng",meaning:"thường xuyên"},
 {hanzi:"熬夜",pinyin:"áoyè",meaning:"thức đêm"},
-{hanzi:"花",pinyin:"huā",meaning:"tiêu, hao"}
+{hanzi:"花",pinyin:"huā",meaning:"tiêu, hao"},
 ];
 let shuffled=[...vocabulary].sort(()=>Math.random()-0.5);
 let index=0;
