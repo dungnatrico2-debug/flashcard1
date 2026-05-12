@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Flashcard Chinese - Phím tắt</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#f6e2a8,#eac96c);
+    font-family: Arial, sans-serif;
+}
+
+.window{
+    width:1000px;
+    background:#ddd;
+    border:4px solid #333;
+    box-shadow:10px 10px 0px #ff8c42;
+    padding:20px;
+    position: relative;
+}
+
+.progress-container{
+    width:100%;
+    height:25px;
+    background:#bbb;
+    margin-bottom:15px;
+    border: 2px solid #555;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#ffb400;
+    text-align:center;
+    line-height: 25px;
+    font-size:14px;
+    font-weight:bold;
+    transition: width 0.3s ease;
+}
+
+.content{
+    display:flex;
+    gap:20px;
+}
+
+.left{
+    flex:1;
+    background:#e8c38b;
+    border:4px solid #999;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    height:350px;
+}
+
+.hanzi{
+    font-size:110px;
+    font-weight: bold;
+}
+
+.speaker{
+    margin-top:20px;
+    font-size:40px;
+    cursor:pointer;
+    transition: transform 0.1s;
+}
+
+.speaker:active {
+    transform: scale(0.9);
+}
+
+.right{
+    flex:1;
+    background:#eee;
+    border:4px solid #999;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    font-size:28px;
+    text-align:center;
+}
+
+button.nav{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    border: 3px solid #333;
+    background:#ffb400;
+    font-size:30px;
+    font-weight: bold;
+    cursor:pointer;
+    position:absolute;
+    top:40%;
+    transition: background 0.2s;
+}
+
+button.nav:hover { background: #e5a100; }
+
+.prev{ left:20px; }
+.next{ right:20px; }
+
+button.main{
+    margin-top:30px;
+    padding:12px 40px;
+    border: 3px solid #333;
+    background:#ffb400;
+    font-size:20px;
+    font-weight: bold;
+    cursor:pointer;
+}
+
+button.main:active { background: #e5a100; }
+
+.shortcuts-info {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+    font-style: italic;
+}
+</style>
+</head>
+
+<body>
+
+<div class="window">
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar">0%</div>
+    </div>
+
+    <div class="content">
+        <div class="left">
+            <div class="hanzi" id="hanziBox">开始</div>
+            <div class="speaker" onclick="speakWord()" title="Nghe phát âm">🔊</div>
+        </div>
+
+        <div class="right">
+            <button class="nav prev" onclick="prevWord()" title="Từ trước (Mũi tên trái)"><</button>
+            <button class="nav next" onclick="nextWord()" title="Từ tiếp theo (Mũi tên phải)">></button>
+
+            <div id="infoBox">Nhấn "Hiện đáp án"</div>
+
+            <button class="main" id="btnShow" onclick="showAnswer()">Hiện đáp án (Space)</button>
+        </div>
+    </div>
+
+    <div class="shortcuts-info">
+        Mẹo: Dùng phím <b>←</b> <b>→</b> để chuyển từ, phím <b>Space</b> để hiện đáp án.
+    </div>
+</div>
+
+<script>
+let vocabulary = [
+  {"hanzi": "愿意", "pinyin": "yuànyì", "meaning": "bằng lòng, sẵn sàng, muốn"},
+  {"hanzi": "机会", "pinyin": "jīhuì", "meaning": "cơ hội"},
+  {"hanzi": "白天", "pinyin": "báitiān", "meaning": "ban ngày"},
+  {"hanzi": "更", "pinyin": "gèng", "meaning": "hơn, càng"},
+  {"hanzi": "美丽", "pinyin": "měilì", "meaning": "xinh đẹp"},
+  {"hanzi": "风景", "pinyin": "fēngjǐng", "meaning": "phong cảnh"},
+  {"hanzi": "哇", "pinyin": "wā", "meaning": "oa, chà (thán từ)"},
+  {"hanzi": "运动", "pinyin": "yùndòng", "meaning": "vận động, thể thao"},
+  {"hanzi": "业余时间", "pinyin": "yèyú shíjiān", "meaning": "thời gian rảnh rỗi"},
+  {"hanzi": "篮球", "pinyin": "lánqiú", "meaning": "bóng rổ"},
+  {"hanzi": "篮球场", "pinyin": "lánqiú chǎng", "meaning": "sân bóng rổ"},
+  {"hanzi": "迷", "pinyin": "mí", "meaning": "mê, người hâm mộ (fan)"},
+  {"hanzi": "整天", "pinyin": "zhěngtiān", "meaning": "cả ngày"},
+  {"hanzi": "试", "pinyin": "shì", "meaning": "thử"},
+  {"hanzi": "事业", "pinyin": "shìyè", "meaning": "sự nghiệp"},
+  {"hanzi": "选择", "pinyin": "xuǎnzé", "meaning": "lựa chọn"},
+  {"hanzi": "适合", "pinyin": "shìhé", "meaning": "phù hợp"},
+  {"hanzi": "如果", "pinyin": "rúguǒ", "meaning": "nếu, nếu như"},
+  {"hanzi": "建", "pinyin": "jiàn", "meaning": "xây, xây dựng"},
+  {"hanzi": "建筑", "pinyin": "jiànzhù", "meaning": "kiến trúc, công trình"},
+  {"hanzi": "高考", "pinyin": "gāokǎo", "meaning": "kỳ thi đại học"},
+  {"hanzi": "公分", "pinyin": "gōngfēn", "meaning": "centimét (cm)"},
+  {"hanzi": "这样", "pinyin": "zhèyàng", "meaning": "như thế này, như vậy"},
+  {"hanzi": "那样", "pinyin": "nàyàng", "meaning": "như thế kia, như thế đó"},
+  {"hanzi": "西贡", "pinyin": "Xīgòng", "meaning": "Sài Gòn"},
+  {"hanzi": "人口", "pinyin": "rénkǒu", "meaning": "dân số"},
+  {"hanzi": "经济", "pinyin": "jīngjì", "meaning": "kinh tế"},
+  {"hanzi": "发展", "pinyin": "fāzhǎn", "meaning": "phát triển"},
+  {"hanzi": "发达", "pinyin": "fādá", "meaning": "phát triển (tính từ)"},
+  {"hanzi": "首都", "pinyin": "shǒudū", "meaning": "thủ đô"},
+  {"hanzi": "年轻", "pinyin": "niánqīng", "meaning": "trẻ, trẻ tuổi"},
+  {"hanzi": "轻", "pinyin": "qīng", "meaning": "nhẹ"},
+  {"hanzi": "上网", "pinyin": "shàngwǎng", "meaning": "lên mạng"},
+  {"hanzi": "世界", "pinyin": "shìjiè", "meaning": "thế giới"}
+];
+
+let shuffled=[...vocabulary].sort(()=>Math.random()-0.5);
+let index=0;
+let answerShown=false;
+
+function showWord(){
+    let w=shuffled[index];
+    document.getElementById("hanziBox").innerText=w.hanzi;
+    document.getElementById("infoBox").innerText="Nhấn 'Hiện đáp án'";
+    answerShown=false;
+
+    let percent=Math.round(((index+1)/shuffled.length)*100);
+    let bar=document.getElementById("progressBar");
+    bar.style.width=percent+"%";
+    bar.innerText=percent+"% (" + (index+1) + "/" + shuffled.length + ")";
+}
+
+function showAnswer(){
+    if(answerShown) return;
+    let w=shuffled[index];
+    document.getElementById("infoBox").innerHTML="<b style='color:#d35400'>"+w.pinyin+"</b><br>"+w.meaning;
+    answerShown=true;
+    speakWord(); 
+}
+
+function nextWord(){
+    if(index<shuffled.length-1){ 
+        index++; 
+        showWord(); 
+    } else {
+        alert("Bạn đã hoàn thành hết từ vựng!");
+    }
+}
+
+function prevWord(){
+    if(index>0){ 
+        index--; 
+        showWord(); 
+    }
+}
+
+function speakWord(){
+    speechSynthesis.cancel();
+    let w=shuffled[index];
+    let u=new SpeechSynthesisUtterance(w.hanzi);
+    u.lang="zh-CN";
+    u.rate = 0.8; // Đọc chậm một chút cho dễ nghe
+    speechSynthesis.speak(u);
+}
+
+// LẮNG NGHE BÀN PHÍM
+document.addEventListener('keydown', function(event) {
+    if(event.code === "ArrowRight") {
+        nextWord();
+    }
+    else if(event.code === "ArrowLeft") {
+        prevWord();
+    }
+    else if(event.code === "Space") {
+        event.preventDefault(); // Tránh cuộn trang
+        showAnswer();
+    }
+});
+
+showWord();
+</script>
+
+</body>
+</html>
