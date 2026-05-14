@@ -2,246 +2,1219 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Flashcard Chinese - Phím tắt</title>
+<title>Flashcard Chinese - Phím tắt & Bộ lọc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@700;900&family=Nunito:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
 
 <style>
-body{
-    margin:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#f6e2a8,#eac96c);
-    font-family: Arial, sans-serif;
-}
+    * {
+        box-sizing: border-box;
+    }
 
-.window{
-    width:1000px;
-    background:#ddd;
-    border:4px solid #333;
-    box-shadow:10px 10px 0px #ff8c42;
-    padding:20px;
-    position: relative;
-}
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #fdfbf7 0%, #f3ede2 100%);
+        font-family: 'Nunito', sans-serif;
+        color: #4a4036;
+        overflow: hidden; /* Tránh scrollbar chớp tắt */
+    }
 
-.progress-container{
-    width:100%;
-    height:25px;
-    background:#bbb;
-    margin-bottom:15px;
-    border: 2px solid #555;
-}
+    .main-container {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+    }
 
-.progress-bar{
-    height:100%;
-    width:0%;
-    background:#ffb400;
-    text-align:center;
-    line-height: 25px;
-    font-size:14px;
-    font-weight:bold;
-    transition: width 0.3s ease;
-}
+    .app-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
 
-.content{
-    display:flex;
-    gap:20px;
-}
+    .window {
+        width: 900px;
+        background: #ffffff;
+        border-radius: 24px;
+        border: 2px solid #e8e1d7;
+        box-shadow: 0 20px 40px rgba(140, 125, 110, 0.12), 0 4px 12px rgba(0, 0, 0, 0.04);
+        padding: 30px;
+        position: relative;
+        transition: all 0.3s ease;
+    }
 
-.left{
-    flex:1;
-    background:#e8c38b;
-    border:4px solid #999;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    height:350px;
-}
+    /* --- PROGRESS BAR --- */
+    .progress-container {
+        width: 100%;
+        height: 16px;
+        background: #f0eae1;
+        border-radius: 20px;
+        margin-bottom: 25px;
+        overflow: hidden;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    }
 
-.hanzi{
-    font-size:110px;
-    font-weight: bold;
-}
+    .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #f2994a, #f2c94c);
+        border-radius: 20px;
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-.speaker{
-    margin-top:20px;
-    font-size:40px;
-    cursor:pointer;
-    transition: transform 0.1s;
-}
+    .progress-text {
+        text-align: right;
+        font-size: 13px;
+        font-weight: 700;
+        color: #a6998a;
+        margin-top: -18px;
+        margin-bottom: 15px;
+        padding-right: 5px;
+    }
 
-.speaker:active {
-    transform: scale(0.9);
-}
+    /* --- MAIN CONTENT --- */
+    .content {
+        display: flex;
+        gap: 25px;
+        height: 380px;
+    }
 
-.right{
-    flex:1;
-    background:#eee;
-    border:4px solid #999;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    position:relative;
-    font-size:28px;
-    text-align:center;
-}
+    .left {
+        flex: 1.1;
+        background: linear-gradient(145deg, #fbf7f0, #f4ebe0);
+        border-radius: 20px;
+        border: 2px solid #eae2d5;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        box-shadow: inset 0 4px 10px rgba(255,255,255,0.7);
+    }
 
-button.nav{
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    border: 3px solid #333;
-    background:#ffb400;
-    font-size:30px;
-    font-weight: bold;
-    cursor:pointer;
-    position:absolute;
-    top:40%;
-    transition: background 0.2s;
-}
+    .hanzi {
+        font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Heiti SC', sans-serif;
+        font-size: 120px;
+        font-weight: 700;
+        color: #211b17;
+        text-shadow: 3px 3px 0px #ffffff, 4px 4px 6px rgba(0,0,0,0.08);
+        line-height: 1.2;
+        letter-spacing: 2px;
+    }
 
-button.nav:hover { background: #e5a100; }
+    .speaker {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        background: #ffffff;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        cursor: pointer;
+        border: 2px solid #e0d5c1;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        transition: all 0.15s ease;
+        user-select: none;
+    }
 
-.prev{ left:20px; }
-.next{ right:20px; }
+    .speaker:hover {
+        transform: translateY(-2px);
+        background: #fffcf8;
+        border-color: #d4a373;
+    }
 
-button.main{
-    margin-top:30px;
-    padding:12px 40px;
-    border: 3px solid #333;
-    background:#ffb400;
-    font-size:20px;
-    font-weight: bold;
-    cursor:pointer;
-}
+    .speaker:active {
+        transform: scale(0.92);
+    }
 
-button.main:active { background: #e5a100; }
+    .right {
+        flex: 1;
+        background: #fcfbfa;
+        border-radius: 20px;
+        border: 2px dashed #ded6c9;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px 20px;
+        position: relative;
+        text-align: center;
+    }
 
-.shortcuts-info {
-    margin-top: 15px;
-    text-align: center;
-    font-size: 14px;
-    color: #555;
-    font-style: italic;
-}
+    /* --- NAV BUTTON --- */
+    .nav-container {
+        position: absolute;
+        width: calc(100% + 50px);
+        top: 50%;
+        left: -25px;
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: space-between;
+        pointer-events: none;
+    }
+
+    button.nav {
+        pointer-events: auto;
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        border: none;
+        background: #ffffff;
+        color: #7a6e60;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04);
+        transition: all 0.2s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    button.nav:hover { 
+        background: #f2994a; 
+        color: #ffffff;
+        transform: scale(1.08);
+        box-shadow: 0 6px 16px rgba(242, 153, 74, 0.3);
+    }
+    
+    button.nav:active {
+        transform: scale(0.95);
+    }
+
+    /* --- INFO BOX --- */
+    .info-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 0 10px;
+        overflow-y: auto;
+    }
+
+    #infoBox {
+        font-size: 24px;
+        color: #8c7d6e;
+        transition: all 0.3s ease;
+        line-height: 1.4;
+    }
+
+    #infoBox.revealed {
+        font-size: 21px;
+        color: #3b322a;
+    }
+
+    #infoBox b {
+        font-size: 34px;
+        color: #d4a373; 
+        display: block;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+    }
+    
+    .type-badge {
+        display: inline-block;
+        background-color: #eee6d8;
+        color: #8c7355;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 6px;
+        margin-bottom: 6px;
+    }
+
+    /* --- MAIN BUTTON --- */
+    button.main {
+        padding: 14px 32px;
+        border-radius: 14px;
+        border: none;
+        background: linear-gradient(135deg, #e07a5f, #d4a373);
+        color: white;
+        font-family: 'Nunito', sans-serif;
+        font-size: 18px;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(224, 122, 95, 0.25);
+        transition: all 0.2s ease;
+        letter-spacing: 0.5px;
+        width: 85%;
+    }
+
+    button.main:hover { 
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(224, 122, 95, 0.35);
+        background: linear-gradient(135deg, #e38268, #d8aa7e);
+    }
+
+    button.main:active { 
+        transform: translateY(1px);
+        box-shadow: 0 4px 10px rgba(224, 122, 95, 0.2);
+    }
+
+    .shortcuts-info {
+        text-align: center;
+        font-size: 13px;
+        color: #9e8f80;
+        background: rgba(255,255,255,0.6);
+        padding: 8px 20px;
+        border-radius: 20px;
+        border: 1px solid #ede8e0;
+    }
+    
+    kbd {
+        background-color: #eee7dc;
+        border-radius: 4px;
+        border: 1px solid #dcd3c5;
+        box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        color: #5a4f42;
+        font-size: 11px;
+        font-weight: 900;
+        padding: 2px 6px;
+        margin: 0 2px;
+    }
+
+    /* --- SIDEBAR LESSONS FILTER --- */
+    .lessons-sidebar {
+        width: 170px;
+        height: 494px; /* Khớp với chiều cao thẻ window */
+        background: #ffffff;
+        border-radius: 24px;
+        border: 2px solid #e8e1d7;
+        box-shadow: 0 20px 40px rgba(140, 125, 110, 0.12);
+        padding: 20px 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .sidebar-title {
+        font-size: 14px;
+        font-weight: 800;
+        color: #a6998a;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 5px;
+    }
+
+    .lessons-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        overflow-y: auto;
+        padding-right: 5px;
+        flex: 1;
+    }
+
+    /* Tùy chỉnh thanh cuộn cho danh sách bài học */
+    .lessons-list::-webkit-scrollbar {
+        width: 6px;
+    }
+    .lessons-list::-webkit-scrollbar-track {
+        background: #f5f1ea;
+        border-radius: 10px;
+    }
+    .lessons-list::-webkit-scrollbar-thumb {
+        background: #dcd4c7;
+        border-radius: 10px;
+    }
+
+    .lesson-btn {
+        width: 100%;
+        padding: 10px;
+        border-radius: 12px;
+        border: 2px solid #eae2d5;
+        background: #fcfbfa;
+        color: #7a6e60;
+        font-family: 'Nunito', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: center;
+    }
+
+    .lesson-btn:hover {
+        background: #fff8f0;
+        border-color: #f2c94c;
+        color: #d4a373;
+    }
+
+    /* NÚT SÁNG ĐÈN KHI ĐƯỢC CHỌN */
+    .lesson-btn.active {
+        background: linear-gradient(135deg, #f2994a, #f2c94c);
+        border-color: #f2994a;
+        color: #ffffff;
+        font-weight: 800;
+        box-shadow: 0 4px 12px rgba(242, 153, 74, 0.3);
+    }
 </style>
 </head>
 
 <body>
 
-<div class="window">
+<div class="main-container">
+    <div class="app-wrapper">
+        <div class="window">
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">0% (0/0)</div>
 
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar">0%</div>
-    </div>
+            <div class="nav-container">
+                <button class="nav prev" onclick="prevWord()" title="Từ trước (Mũi tên trái)">❮</button>
+                <button class="nav next" onclick="nextWord()" title="Từ tiếp theo (Mũi tên phải)">❯</button>
+            </div>
 
-    <div class="content">
-        <div class="left">
-            <div class="hanzi" id="hanziBox">开始</div>
-            <div class="speaker" onclick="speakWord()" title="Nghe phát âm">🔊</div>
+            <div class="content">
+                <div class="left">
+                    <div class="hanzi" id="hanziBox">开始</div>
+                    <div class="speaker" onclick="speakWord()" title="Nghe phát âm">🔊</div>
+                </div>
+
+                <div class="right">
+                    <div class="info-container">
+                        <div id="infoBox">Nhấn "Hiện đáp án"</div>
+                    </div>
+                    <button class="main" id="btnShow" onclick="showAnswer()">Hiện đáp án (Space)</button>
+                </div>
+            </div>
         </div>
 
-        <div class="right">
-            <button class="nav prev" onclick="prevWord()" title="Từ trước (Mũi tên trái)"><</button>
-            <button class="nav next" onclick="nextWord()" title="Từ tiếp theo (Mũi tên phải)">></button>
-
-            <div id="infoBox">Nhấn "Hiện đáp án"</div>
-
-            <button class="main" id="btnShow" onclick="showAnswer()">Hiện đáp án (Space)</button>
+        <div class="shortcuts-info">
+            Mẹo: Dùng phím <kbd>←</kbd> <kbd>→</kbd> để chuyển từ, phím <kbd>Space</kbd> để xem đáp án.
         </div>
     </div>
 
-    <div class="shortcuts-info">
-        Mẹo: Dùng phím <b>←</b> <b>→</b> để chuyển từ, phím <b>Space</b> để hiện đáp án.
+    <div class="lessons-sidebar">
+        <div class="sidebar-title">Chọn bài học</div>
+        <div class="lessons-list" id="lessonsListContainer">
+            <button class="lesson-btn active" id="btnAllLessons" onclick="selectAllLessons()">Tất cả</button>
+            </div>
     </div>
 </div>
 
 <script>
 let vocabulary = [
-  {"hanzi": "愿意", "pinyin": "yuànyì", "meaning": "bằng lòng, sẵn sàng, muốn"},
-  {"hanzi": "机会", "pinyin": "jīhuì", "meaning": "cơ hội"},
-  {"hanzi": "白天", "pinyin": "báitiān", "meaning": "ban ngày"},
-  {"hanzi": "更", "pinyin": "gèng", "meaning": "hơn, càng"},
-  {"hanzi": "美丽", "pinyin": "měilì", "meaning": "xinh đẹp"},
-  {"hanzi": "风景", "pinyin": "fēngjǐng", "meaning": "phong cảnh"},
-  {"hanzi": "哇", "pinyin": "wā", "meaning": "oa, chà (thán từ)"},
-  {"hanzi": "运动", "pinyin": "yùndòng", "meaning": "vận động, thể thao"},
-  {"hanzi": "业余时间", "pinyin": "yèyú shíjiān", "meaning": "thời gian rảnh rỗi"},
-  {"hanzi": "篮球", "pinyin": "lánqiú", "meaning": "bóng rổ"},
-  {"hanzi": "篮球场", "pinyin": "lánqiú chǎng", "meaning": "sân bóng rổ"},
-  {"hanzi": "迷", "pinyin": "mí", "meaning": "mê, người hâm mộ (fan)"},
-  {"hanzi": "整天", "pinyin": "zhěngtiān", "meaning": "cả ngày"},
-  {"hanzi": "试", "pinyin": "shì", "meaning": "thử"},
-  {"hanzi": "事业", "pinyin": "shìyè", "meaning": "sự nghiệp"},
-  {"hanzi": "选择", "pinyin": "xuǎnzé", "meaning": "lựa chọn"},
-  {"hanzi": "适合", "pinyin": "shìhé", "meaning": "phù hợp"},
-  {"hanzi": "如果", "pinyin": "rúguǒ", "meaning": "nếu, nếu như"},
-  {"hanzi": "建", "pinyin": "jiàn", "meaning": "xây, xây dựng"},
-  {"hanzi": "建筑", "pinyin": "jiànzhù", "meaning": "kiến trúc, công trình"},
-  {"hanzi": "高考", "pinyin": "gāokǎo", "meaning": "kỳ thi đại học"},
-  {"hanzi": "公分", "pinyin": "gōngfēn", "meaning": "centimét (cm)"},
-  {"hanzi": "这样", "pinyin": "zhèyàng", "meaning": "như thế này, như vậy"},
-  {"hanzi": "那样", "pinyin": "nàyàng", "meaning": "như thế kia, như thế đó"},
-  {"hanzi": "西贡", "pinyin": "Xīgòng", "meaning": "Sài Gòn"},
-  {"hanzi": "人口", "pinyin": "rénkǒu", "meaning": "dân số"},
-  {"hanzi": "经济", "pinyin": "jīngjì", "meaning": "kinh tế"},
-  {"hanzi": "发展", "pinyin": "fāzhǎn", "meaning": "phát triển"},
-  {"hanzi": "发达", "pinyin": "fādá", "meaning": "phát triển (tính từ)"},
-  {"hanzi": "首都", "pinyin": "shǒudū", "meaning": "thủ đô"},
-  {"hanzi": "年轻", "pinyin": "niánqīng", "meaning": "trẻ, trẻ tuổi"},
-  {"hanzi": "轻", "pinyin": "qīng", "meaning": "nhẹ"},
-  {"hanzi": "上网", "pinyin": "shàngwǎng", "meaning": "lên mạng"},
-  {"hanzi": "世界", "pinyin": "shìjiè", "meaning": "thế giới"}
+    // --- BÀI 3 ---
+    {hanzi:"学习", pinyin:"xuéxí", type:"Động/Danh từ", meaning:"học tập (Bài 3)", lesson:"Bài 3"},
+    {hanzi:"学", pinyin:"xué", type:"Động từ", meaning:"học (Bài 3)", lesson:"Bài 3"},
+    {hanzi:"汉语", pinyin:"Hànyǔ", type:"Danh từ", meaning:"Hán ngữ, tiếng Hán (Bài 3)", lesson:"Bài 3"},
+    {hanzi:"英语", pinyin:"Yīngyǔ", type:"Danh từ", meaning:"Anh ngữ, tiếng Anh (Bài 3)", lesson:"Bài 3"},
+    {hanzi:"太", pinyin:"tài", type:"Phó từ", meaning:"quá, lắm (Bài 3)", lesson:"Bài 3"},
+    {hanzi:"难", pinyin:"nán", type:"Tính từ", meaning:"khó (Bài 3)", lesson:"Bài 3"},
+    {hanzi:"谢谢", pinyin:"xièxie", type:"Động từ", meaning:"cảm ơn (Bài 3)", lesson:"Bài 3"},
+    {hanzi:"不客气", pinyin:"bú kèqi", type:"Cụm từ", meaning:"đừng khách sáo (Bài 3)", lesson:"Bài 3"},
+    {hanzi:"爸爸", pinyin:"bàba", type:"Danh từ", meaning:"bố, ba (Bài 3)", lesson:"Bài 3"},
+    {hanzi:"妈妈", pinyin:"māma", type:"Danh từ", meaning:"mẹ (Bài 3)", lesson:"Bài 3"},
+    {hanzi:"哥哥", pinyin:"gēge", type:"Danh từ", meaning:"anh trai (Bài 3)", lesson:"Bài 3"},
+    {hanzi:"弟弟", pinyin:"dìdi", type:"Danh từ", meaning:"em trai (Bài 3)", lesson:"Bài 3"},
+    {hanzi:"妹妹", pinyin:"mèimei", type:"Danh từ", meaning:"em gái (Bài 3)", lesson:"Bài 3"},
+    {hanzi:"姐姐", pinyin:"jiějie", type:"Danh từ", meaning:"chị gái (Bài 3)", lesson:"Bài 3"},
+    {hanzi:"小", pinyin:"xiǎo", type:"Tính từ", meaning:"nhỏ, bé (Bài 3)", lesson:"Bài 3"},
+
+    // --- BÀI 4 ---
+    {hanzi:"是", pinyin:"shì", type:"Động từ", meaning:"là (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"哪", pinyin:"nǎ", type:"Đại từ", meaning:"nào (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"国", pinyin:"guó", type:"Danh từ", meaning:"nước, quốc gia (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"人", pinyin:"rén", type:"Danh từ", meaning:"người (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"越南", pinyin:"Yuènán", type:"Danh từ", meaning:"Việt Nam (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"中国", pinyin:"Zhōngguó", type:"Danh từ", meaning:"Trung Quốc (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"美国", pinyin:"Měiguó", type:"Danh từ", meaning:"nước Mỹ (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"英国", pinyin:"Yīngguó", type:"Danh từ", meaning:"nước Anh (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"韩国", pinyin:"Hánguó", type:"Danh từ", meaning:"Hàn Quốc (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"日本", pinyin:"Rìběn", type:"Danh từ", meaning:"Nhật Bản (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"也", pinyin:"yě", type:"Phó từ", meaning:"cũng (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"对不起", pinyin:"duìbuqǐ", type:"Cụm từ", meaning:"xin lỗi (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"没关系", pinyin:"méi guānxi", type:"Cụm từ", meaning:"không có gì (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"朋友", pinyin:"péngyou", type:"Danh từ", meaning:"bạn bè (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"男", pinyin:"nán", type:"Danh từ", meaning:"nam, con trai (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"女", pinyin:"nǚ", type:"Danh từ", meaning:"nữ, con gái (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"都", pinyin:"dōu", type:"Phó từ", meaning:"đều (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"们", pinyin:"men", type:"Hậu tố", meaning:"chỉ số nhiều (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"我们", pinyin:"wǒmen", type:"Đại từ", meaning:"chúng tôi, chúng ta (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"他们", pinyin:"tāmen", type:"Đại từ", meaning:"họ, bọn họ (nam) (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"她们", pinyin:"tāmen", type:"Đại từ", meaning:"họ, bọn họ (nữ) (Bài 4)", lesson:"Bài 4"},
+    {hanzi:"十", pinyin:"shí", type:"Số từ", meaning:"số 10 (Bài 4)", lesson:"Bài 4"},
+
+    // --- BÀI 5 ---
+    {hanzi:"请问", pinyin:"qǐng wèn", type:"Động từ", meaning:"xin hỏi (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"请", pinyin:"qǐng", type:"Động từ", meaning:"xin, mời (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"问", pinyin:"wèn", type:"Động từ", meaning:"hỏi (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"您", pinyin:"nín", type:"Đại từ", meaning:"ngài (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"贵姓", pinyin:"guìxìng", type:"Danh từ", meaning:"quý danh, họ (trang trọng) (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"姓", pinyin:"xìng", type:"Động/Danh từ", meaning:"họ (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"什么", pinyin:"shénme", type:"Đại từ", meaning:"cái gì (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"叫", pinyin:"jiào", type:"Động từ", meaning:"gọi, tên là (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"名字", pinyin:"míngzi", type:"Danh từ", meaning:"tên (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"的", pinyin:"de", type:"Trợ từ", meaning:"của (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"今年", pinyin:"jīnnián", type:"Danh từ", meaning:"năm nay (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"明年", pinyin:"míngnián", type:"Danh từ", meaning:"năm sau (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"去年", pinyin:"qùnián", type:"Danh từ", meaning:"năm ngoái (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"多大", pinyin:"duōdà", type:"Cụm từ", meaning:"bao nhiêu tuổi (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"岁", pinyin:"suì", type:"Lượng từ", meaning:"tuổi (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"现在", pinyin:"xiànzài", type:"Danh từ", meaning:"bây giờ (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"回", pinyin:"huí", type:"Động từ", meaning:"về, quay lại (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"学校", pinyin:"xuéxiào", type:"Danh từ", meaning:"trường học (Bài 5)", lesson:"Bài 5"},
+    {hanzi:"银行", pinyin:"yínháng", type:"Danh từ", meaning:"ngân hàng (Bài 5)", lesson:"Bài 5"},
+
+    // --- BÀI 6 ---
+    {hanzi:"老师", pinyin:"lǎoshī", type:"Danh từ", meaning:"thầy, cô giáo (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"在", pinyin:"zài", type:"Động từ", meaning:"ở (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"这", pinyin:"zhè", type:"Đại từ", meaning:"này, đây (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"这儿", pinyin:"zhèr", type:"Đại từ", meaning:"ở đây, chỗ này (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"那", pinyin:"nà", type:"Đại từ", meaning:"kia, đó (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"那儿", pinyin:"nàr", type:"Đại từ", meaning:"ở kia, chỗ đó (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"楼", pinyin:"lóu", type:"Danh từ", meaning:"tầng, tòa nhà (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"一下儿", pinyin:"yíxiàr", type:"Số lượng từ", meaning:"một chút, một lát (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"先", pinyin:"xiān", type:"Phó từ", meaning:"trước (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"介绍", pinyin:"jièshào", type:"Động từ", meaning:"giới thiệu (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"留学生", pinyin:"liúxuéshēng", type:"Danh từ", meaning:"du học sinh (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"学生", pinyin:"xuéshēng", type:"Danh từ", meaning:"học sinh, sinh viên (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"住", pinyin:"zhù", type:"Động từ", meaning:"ở, sinh sống (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"号", pinyin:"hào", type:"Danh từ", meaning:"số (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"多", pinyin:"duō", type:"Tính từ", meaning:"nhiều (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"少", pinyin:"shǎo", type:"Tính từ", meaning:"ít (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"多少", pinyin:"duōshao", type:"Đại từ", meaning:"bao nhiêu (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"给", pinyin:"gěi", type:"Động/Giới từ", meaning:"cho, đưa cho (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"了", pinyin:"le", type:"Trợ từ", meaning:"rồi (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"零", pinyin:"líng", type:"Số từ", meaning:"số 0 (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"六", pinyin:"liù", type:"Số từ", meaning:"số 6 (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"路", pinyin:"lù", type:"Danh từ", meaning:"đường (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"电话", pinyin:"diànhuà", type:"Danh từ", meaning:"điện thoại (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"手机", pinyin:"shǒujī", type:"Danh từ", meaning:"điện thoại di động (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"号码", pinyin:"hàomǎ", type:"Danh từ", meaning:"mã số (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"白", pinyin:"Bái", type:"Danh từ", meaning:"họ Bạch (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"王", pinyin:"Wáng", type:"Danh từ", meaning:"họ Vương (Bài 6)", lesson:"Bài 6"},
+    {hanzi:"红梅路", pinyin:"Hóngméi lù", type:"Danh từ", meaning:"đường Hồng Mai (Bài 6)", lesson:"Bài 6"},
+
+    // --- BÀI 7 ---
+    {hanzi:"家", pinyin:"jiā", type:"Danh từ", meaning:"nhà, gia đình (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"有", pinyin:"yǒu", type:"Động từ", meaning:"có (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"没", pinyin:"méi", type:"Động từ", meaning:"không có (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"口", pinyin:"kǒu", type:"Lượng từ", meaning:"nhân khẩu (đếm người) (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"和", pinyin:"hé", type:"Liên từ", meaning:"và (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"做", pinyin:"zuò", type:"Động từ", meaning:"làm (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"工作", pinyin:"gōngzuò", type:"Danh/Động từ", meaning:"công việc, làm việc (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"医生", pinyin:"yīshēng", type:"Danh từ", meaning:"bác sĩ (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"还是", pinyin:"háishì", type:"Liên từ", meaning:"hay là (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"只", pinyin:"zhǐ", type:"Phó từ", meaning:"chỉ (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"书包", pinyin:"shūbāo", type:"Danh từ", meaning:"cặp sách (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"里", pinyin:"lǐ", type:"Danh từ", meaning:"bên trong (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"本", pinyin:"běn", type:"Lượng từ", meaning:"cuốn, quyển (sách) (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"书", pinyin:"shū", type:"Danh từ", meaning:"sách (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"两", pinyin:"liǎng", type:"Số từ", meaning:"hai (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"支", pinyin:"zhī", type:"Lượng từ", meaning:"cây, chiếc (bút) (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"笔", pinyin:"bǐ", type:"Danh từ", meaning:"bút (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"瓶", pinyin:"píng", type:"Lượng từ", meaning:"bình, chai (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"水", pinyin:"shuǐ", type:"Danh từ", meaning:"nước (Bài 7)", lesson:"Bài 7"},
+    {hanzi:"个", pinyin:"gè", type:"Lượng từ", meaning:"cái, chiếc, con (Bài 7)", lesson:"Bài 7"},
+
+    // --- BÀI 8 ---
+    {hanzi:"要", pinyin:"yào", type:"Động từ năng nguyện", meaning:"muốn, cần (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"想", pinyin:"xiǎng", type:"Động từ năng nguyện", meaning:"muốn, nhớ, nghĩ (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"欢迎", pinyin:"huānyíng", type:"Động từ", meaning:"hoan nghênh, chào mừng (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"进", pinyin:"jìn", type:"Động từ", meaning:"tiến vào (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"好", pinyin:"hǎo", type:"Phó từ", meaning:"thật, rất (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"久", pinyin:"jiǔ", type:"Tính từ", meaning:"lâu (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"同学", pinyin:"tóngxué", type:"Danh từ", meaning:"bạn học (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"认识", pinyin:"rènshi", type:"Động từ", meaning:"quen biết (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"高兴", pinyin:"gāoxìng", type:"Tính từ", meaning:"vui vẻ, cao hứng (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"坐", pinyin:"zuò", type:"Động từ", meaning:"ngồi (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"喝", pinyin:"hē", type:"Động từ", meaning:"uống (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"茶", pinyin:"chá", type:"Danh từ", meaning:"trà (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"咖啡", pinyin:"kāfēi", type:"Danh từ", meaning:"cà phê (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"可乐", pinyin:"kělè", type:"Danh từ", meaning:"cola (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"喜欢", pinyin:"xǐhuan", type:"Động từ", meaning:"thích (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"文化", pinyin:"wénhuà", type:"Danh từ", meaning:"văn hóa (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"宿舍", pinyin:"sùshè", type:"Danh từ", meaning:"ký túc xá (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"同屋", pinyin:"tóngwū", type:"Danh từ", meaning:"bạn cùng phòng (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"吧", pinyin:"ba", type:"Trợ từ", meaning:"nhé, đi (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"外贸大学", pinyin:"Wàimào dàxué", type:"Danh từ", meaning:"Đại học Ngoại thương (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"麦克", pinyin:"Màikè", type:"Danh từ", meaning:"Mike (Bài 8)", lesson:"Bài 8"},
+    {hanzi:"安娜", pinyin:"Ānnà", type:"Danh từ", meaning:"Anna (Bài 8)", lesson:"Bài 8"},
+
+    // --- BÀI 9 ---
+    {hanzi:"买", pinyin:"mǎi", type:"Động từ", meaning:"mua (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"衣服", pinyin:"yīfu", type:"Danh từ", meaning:"quần áo (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"件", pinyin:"jiàn", type:"Lượng từ", meaning:"chiếc, kiện (áo) (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"钱", pinyin:"qián", type:"Danh từ", meaning:"tiền (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"贵", pinyin:"guì", type:"Tính từ", meaning:"đắt (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"块（元）", pinyin:"kuài (yuán)", type:"Lượng từ", meaning:"đồng, tệ (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"毛（角）", pinyin:"máo (jiǎo)", type:"Lượng từ", meaning:"hào (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"分", pinyin:"fēn", type:"Lượng từ", meaning:"xu (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"便宜", pinyin:"piányi", type:"Tính từ", meaning:"rẻ (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"（一）点儿", pinyin:"(yì) diǎnr", type:"Số lượng từ", meaning:"một chút, một ít (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"老板", pinyin:"lǎobǎn", type:"Danh từ", meaning:"ông chủ (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"水果", pinyin:"shuǐguǒ", type:"Danh từ", meaning:"hoa quả (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"怎么", pinyin:"zěnme", type:"Đại từ", meaning:"thế nào (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"卖", pinyin:"mài", type:"Động từ", meaning:"bán (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"斤", pinyin:"jīn", type:"Lượng từ", meaning:"cân Trung Quốc (0.5kg) (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"公斤", pinyin:"gōngjīn", type:"Lượng từ", meaning:"kilogram (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"苹果", pinyin:"píngguǒ", type:"Danh từ", meaning:"quả táo (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"草莓", pinyin:"cǎoméi", type:"Danh từ", meaning:"dâu tây (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"西瓜", pinyin:"xīguā", type:"Danh từ", meaning:"dưa hấu (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"行", pinyin:"xíng", type:"Động từ", meaning:"được (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"还", pinyin:"hái", type:"Phó từ", meaning:"vẫn, còn (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"一共", pinyin:"yígòng", type:"Phó từ", meaning:"tổng cộng (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"售货员", pinyin:"shòuhuòyuán", type:"Danh từ", meaning:"nhân viên bán hàng (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"找（钱）", pinyin:"zhǎo (qián)", type:"Động từ", meaning:"thối lại tiền (Bài 9)", lesson:"Bài 9"},
+    {hanzi:"陈丽", pinyin:"Chén Lì", type:"Danh từ", meaning:"Trần Lệ (Bài 9)", lesson:"Bài 9"},
+
+    // --- BÀI 10 ---
+    {hanzi:"先生", pinyin:"xiānsheng", type:"Danh từ", meaning:"tiên sinh, ngài (Bài 10)", lesson:"Bài 10"},
+    {hanzi:"换", pinyin:"huàn", type:"Động từ", meaning:"đổi (Bài 10)", lesson:"Bài 10"},
+    {hanzi:"越南盾", pinyin:"Yuènándùn", type:"Danh từ", meaning:"Việt Nam đồng (Bài 10)", lesson:"Bài 10"},
+    {hanzi:"人民币", pinyin:"Rénmínbì", type:"Danh từ", meaning:"Nhân dân tệ (Bài 10)", lesson:"Bài 10"},
+    {hanzi:"美元", pinyin:"Měiyuán", type:"Danh từ", meaning:"USD (Bài 10)", lesson:"Bài 10"},
+    {hanzi:"欧元", pinyin:"Ōuyuán", type:"Danh từ", meaning:"Euro (Bài 10)", lesson:"Bài 10"},
+    {hanzi:"百", pinyin:"bǎi", type:"Số từ", meaning:"trăm (Bài 10)", lesson:"Bài 10"},
+    {hanzi:"千", pinyin:"qiān", type:"Số từ", meaning:"nghìn (Bài 10)", lesson:"Bài 10"},
+    {hanzi:"万", pinyin:"wàn", type:"Số từ", meaning:"mười nghìn, vạn (Bài 10)", lesson:"Bài 10"},
+    {hanzi:"写", pinyin:"xiě", type:"Động từ", meaning:"viết (Bài 10)", lesson:"Bài 10"},
+    {hanzi:"帮", pinyin:"bāng", type:"Động từ", meaning:"giúp (Bài 10)", lesson:"Bài 10"},
+    {hanzi:"等", pinyin:"děng", type:"Động từ", meaning:"đợi (Bài 10)", lesson:"Bài 10"},
+    {hanzi:"一会儿", pinyin:"yí huìr", type:"Danh từ", meaning:"một lúc (Bài 10)", lesson:"Bài 10"},
+    {hanzi:"数", pinyin:"shǔ", type:"Động từ", meaning:"đếm (Bài 10)", lesson:"Bài 10"},
+    {hanzi:"营业员", pinyin:"yíngyèyuán", type:"Danh từ", meaning:"nhân viên giao dịch (Bài 10)", lesson:"Bài 10"},
+    {hanzi:"对", pinyin:"duì", type:"Tính từ", meaning:"đúng (Bài 10)", lesson:"Bài 10"},
+
+    // --- BÀI 11 ---
+    {hanzi:"服务员", pinyin:"fúwùyuán", type:"Danh từ", meaning:"nhân viên phục vụ (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"吃", pinyin:"chī", type:"Động từ", meaning:"ăn (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"饭", pinyin:"fàn", type:"Danh từ", meaning:"cơm, bữa cơm (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"菜", pinyin:"cài", type:"Danh từ", meaning:"món ăn (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"饭馆", pinyin:"fànguǎn", type:"Danh từ", meaning:"nhà hàng, quán ăn (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"菜单", pinyin:"càidān", type:"Danh từ", meaning:"thực đơn (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"看", pinyin:"kàn", type:"Động từ", meaning:"xem, nhìn (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"份", pinyin:"fèn", type:"Lượng từ", meaning:"phần, suất (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"饺子", pinyin:"jiǎozi", type:"Danh từ", meaning:"há cảo (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"包子", pinyin:"bāozi", type:"Danh từ", meaning:"bánh bao (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"碗", pinyin:"wǎn", type:"Danh/Lượng từ", meaning:"bát, chén (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"汤", pinyin:"tāng", type:"Danh từ", meaning:"canh (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"鸡蛋", pinyin:"jīdàn", type:"Danh từ", meaning:"trứng gà (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"炒", pinyin:"chǎo", type:"Động từ", meaning:"xào (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"牛肉", pinyin:"niúròu", type:"Danh từ", meaning:"thịt bò (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"米饭", pinyin:"mǐfàn", type:"Danh từ", meaning:"cơm trắng (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"饮料", pinyin:"yǐnliào", type:"Danh từ", meaning:"đồ uống (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"用", pinyin:"yòng", type:"Động từ", meaning:"dùng (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"叉子", pinyin:"chāzi", type:"Danh từ", meaning:"nĩa (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"筷子", pinyin:"kuàizi", type:"Danh từ", meaning:"đũa (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"怎么样", pinyin:"zěnmeyàng", type:"Đại từ", meaning:"như thế nào (Bài 11)", lesson:"Bài 11"},
+    {hanzi:"好吃", pinyin:"hǎochī", type:"Tính từ", meaning:"ngon (Bài 11)", lesson:"Bài 11"},
+
+    // --- BÀI 12 ---
+    {hanzi:"觉得", pinyin:"juéde", type:"Động từ", meaning:"cảm thấy (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"刚", pinyin:"gāng", type:"Phó từ", meaning:"vừa mới (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"容易", pinyin:"róngyì", type:"Tính từ", meaning:"dễ dàng (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"但是", pinyin:"dànshì", type:"Liên từ", meaning:"nhưng (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"读", pinyin:"dú", type:"Động từ", meaning:"đọc (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"听", pinyin:"tīng", type:"Động từ", meaning:"nghe (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"比较", pinyin:"bǐjiào", type:"Phó từ", meaning:"khá là (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"语法", pinyin:"yǔfǎ", type:"Danh từ", meaning:"ngữ pháp (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"位", pinyin:"wèi", type:"Lượng từ", meaning:"vị (chỉ người) (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"早上", pinyin:"zǎoshang", type:"Danh từ", meaning:"buổi sáng sớm (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"上午", pinyin:"shàngwǔ", type:"Danh từ", meaning:"buổi sáng (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"中午", pinyin:"zhōngwǔ", type:"Danh từ", meaning:"buổi trưa (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"下午", pinyin:"xiàwǔ", type:"Danh từ", meaning:"buổi chiều (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"晚上", pinyin:"wǎnshang", type:"Danh từ", meaning:"buổi tối (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"商店", pinyin:"shāngdiàn", type:"Danh từ", meaning:"cửa hàng (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"旧", pinyin:"jiù", type:"Tính từ", meaning:"cũ (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"新", pinyin:"xīn", type:"Tính từ", meaning:"mới (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"颜色", pinyin:"yánsè", type:"Danh từ", meaning:"màu sắc (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"白", pinyin:"bái", type:"Tính từ", meaning:"trắng (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"黑", pinyin:"hēi", type:"Tính từ", meaning:"đen (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"红", pinyin:"hóng", type:"Tính từ", meaning:"đỏ (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"黄", pinyin:"huáng", type:"Tính từ", meaning:"vàng (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"说", pinyin:"shuō", type:"Động từ", meaning:"nói (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"好看", pinyin:"hǎokàn", type:"Tính từ", meaning:"đẹp, ưa nhìn (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"些", pinyin:"xiē", type:"Lượng từ", meaning:"vài, một số (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"这些", pinyin:"zhèxiē", type:"Đại từ", meaning:"những ... này (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"那些", pinyin:"nàxiē", type:"Đại từ", meaning:"những ... kia (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"别的", pinyin:"biéde", type:"Đại từ", meaning:"cái khác (Bài 12)", lesson:"Bài 12"},
+    {hanzi:"青岛", pinyin:"Qīngdǎo", type:"Danh từ", meaning:"Thanh Đảo (Bài 12)", lesson:"Bài 12"},
+
+    // --- BÀI 13 ---
+    {hanzi:"头", pinyin:"tóu", type:"Danh từ", meaning:"đầu (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"疼", pinyin:"téng", type:"Tính từ", meaning:"đau (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"舒服", pinyin:"shūfu", type:"Tính từ", meaning:"thoải mái (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"流", pinyin:"liú", type:"Động từ", meaning:"chảy (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"鼻涕", pinyin:"bítì", type:"Danh từ", meaning:"nước mũi (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"发烧", pinyin:"fāshāo", type:"Động từ", meaning:"sốt (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"让", pinyin:"ràng", type:"Động từ", meaning:"để, bảo, khiến (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"检查", pinyin:"jiǎnchá", type:"Động từ", meaning:"kiểm tra (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"病", pinyin:"bìng", type:"Danh từ", meaning:"bệnh (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"看病", pinyin:"kàn bìng", type:"Động từ", meaning:"khám bệnh (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"严重", pinyin:"yánzhòng", type:"Tính từ", meaning:"nghiêm trọng (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"感冒", pinyin:"gǎnmào", type:"Danh/Động từ", meaning:"cảm cúm (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"护士", pinyin:"hùshi", type:"Danh từ", meaning:"y tá (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"打针", pinyin:"dǎ zhēn", type:"Động từ", meaning:"tiêm (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"开", pinyin:"kāi", type:"Động từ", meaning:"kê (đơn thuốc) (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"药", pinyin:"yào", type:"Danh từ", meaning:"thuốc (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"次", pinyin:"cì", type:"Lượng từ", meaning:"lần (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"片", pinyin:"piàn", type:"Lượng từ", meaning:"viên (thuốc nén) (Bài 13)", lesson:"Bài 13"},
+    {hanzi:"休息", pinyin:"xiūxi", type:"Động từ", meaning:"nghỉ ngơi (Bài 13)", lesson:"Bài 13"},
+
+    // --- BÀI 14 ---
+    {hanzi:"开学", pinyin:"kāixué", type:"Động từ", meaning:"khai giảng (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"送", pinyin:"sòng", type:"Động từ", meaning:"đưa, tiễn (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"接", pinyin:"jiē", type:"Động từ", meaning:"đón (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"自己", pinyin:"zìjǐ", type:"Đại từ", meaning:"tự mình (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"骑", pinyin:"qí", type:"Động từ", meaning:"cưỡi, đi (xe hai bánh) (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"自行车", pinyin:"zìxíngchē", type:"Danh từ", meaning:"xe đạp (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"摩托车", pinyin:"mótuōchē", type:"Danh từ", meaning:"xe máy (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"汽车", pinyin:"qìchē", type:"Danh từ", meaning:"xe ô tô (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"公共汽车", pinyin:"gōnggòng qìchē", type:"Danh từ", meaning:"xe buýt (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"辆", pinyin:"liàng", type:"Lượng từ", meaning:"chiếc (xe cộ) (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"跟", pinyin:"gēn", type:"Giới từ", meaning:"cùng, với (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"一起", pinyin:"yìqǐ", type:"Phó từ", meaning:"cùng nhau (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"教室", pinyin:"jiàoshì", type:"Danh từ", meaning:"phòng học (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"电脑", pinyin:"diànnǎo", type:"Danh từ", meaning:"máy tính (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"桌子", pinyin:"zhuōzi", type:"Danh từ", meaning:"bàn (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"椅子", pinyin:"yǐzi", type:"Danh từ", meaning:"ghế (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"有点儿", pinyin:"yǒudiǎnr", type:"Phó từ", meaning:"hơi (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"练习", pinyin:"liànxí", type:"Động/Danh từ", meaning:"luyện tập / bài tập (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"时候", pinyin:"shíhou", type:"Danh từ", meaning:"lúc, khi (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"班", pinyin:"bān", type:"Danh từ", meaning:"lớp (Bài 14)", lesson:"Bài 14"},
+    {hanzi:"女儿", pinyin:"nǚ'ér", type:"Danh từ", meaning:"con gái (Bài 14)", lesson:"Bài 14"},
+
+    // --- BÀI 15 ---
+    {hanzi:"月", pinyin:"yuè", type:"Danh từ", meaning:"tháng (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"结婚", pinyin:"jiéhūn", type:"Động từ", meaning:"kết hôn (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"能", pinyin:"néng", type:"Động từ năng nguyện", meaning:"có thể (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"来", pinyin:"lái", type:"Động từ", meaning:"đến (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"参加", pinyin:"cānjiā", type:"Động từ", meaning:"tham gia (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"婚礼", pinyin:"hūnlǐ", type:"Danh từ", meaning:"hôn lễ (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"祝福", pinyin:"zhùfú", type:"Động từ", meaning:"chúc phúc (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"一定", pinyin:"yídìng", type:"Phó từ", meaning:"nhất định (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"拍", pinyin:"pāi", type:"Động từ", meaning:"chụp (ảnh) (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"婚纱照", pinyin:"hūnshā zhào", type:"Danh từ", meaning:"ảnh cưới (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"打算", pinyin:"dǎsuàn", type:"Động/Danh từ", meaning:"dự định (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"为什么", pinyin:"wèishénme", type:"Đại từ", meaning:"tại sao (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"第", pinyin:"dì", type:"Tiền tố", meaning:"thứ (số thứ tự) (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"见面", pinyin:"jiànmiàn", type:"Động từ", meaning:"gặp mặt (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"地方", pinyin:"dìfang", type:"Danh từ", meaning:"nơi, chỗ (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"举行", pinyin:"jǔxíng", type:"Động từ", meaning:"tổ chức (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"因为", pinyin:"yīnwèi", type:"Liên từ", meaning:"bởi vì (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"教堂", pinyin:"jiàotáng", type:"Danh từ", meaning:"nhà thờ (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"家具", pinyin:"jiājù", type:"Danh từ", meaning:"đồ nội thất (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"常常", pinyin:"chángcháng", type:"Phó từ", meaning:"thường thường (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"礼物", pinyin:"lǐwù", type:"Danh từ", meaning:"quà tặng (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"红包", pinyin:"hóngbāo", type:"Danh từ", meaning:"lì xì (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"哈哈", pinyin:"hāhā", type:"Từ tượng thanh", meaning:"haha (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"知道", pinyin:"zhīdào", type:"Động từ", meaning:"biết (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"应该", pinyin:"yīnggāi", type:"Động từ năng nguyện", meaning:"nên (Bài 15)", lesson:"Bài 15"},
+    {hanzi:"丽江", pinyin:"Lìjiāng", type:"Danh từ", meaning:"Lệ Giang (Bài 15)", lesson:"Bài 15"},
+
+    // --- BÀI 16 ---
+    {hanzi:"职员", pinyin:"zhíyuán", type:"Danh từ", meaning:"nhân viên (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"点", pinyin:"diǎn", type:"Lượng từ", meaning:"giờ (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"床", pinyin:"chuáng", type:"Danh từ", meaning:"giường (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"起床", pinyin:"qǐchuáng", type:"Động từ", meaning:"thức dậy (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"每", pinyin:"měi", type:"Đại từ", meaning:"mỗi (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"然后", pinyin:"ránhòu", type:"Liên từ", meaning:"sau đó (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"公园", pinyin:"gōngyuán", type:"Danh từ", meaning:"công viên (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"跑步", pinyin:"pǎobù", type:"Động từ", meaning:"chạy bộ (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"分", pinyin:"fēn", type:"Danh/Lượng từ", meaning:"phút (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"早饭", pinyin:"zǎofàn", type:"Danh từ", meaning:"bữa sáng (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"午饭", pinyin:"wǔfàn", type:"Danh từ", meaning:"bữa trưa (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"晚饭", pinyin:"wǎnfàn", type:"Danh từ", meaning:"bữa tối (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"到", pinyin:"dào", type:"Động từ", meaning:"đến (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"准时", pinyin:"zhǔnshí", type:"Tính từ", meaning:"đúng giờ (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"上班", pinyin:"shàngbān", type:"Động từ", meaning:"vào làm (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"下班", pinyin:"xiàbān", type:"Động từ", meaning:"tan làm (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"公司", pinyin:"gōngsī", type:"Danh từ", meaning:"công ty (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"有时候", pinyin:"yǒu shíhou", type:"Cụm từ", meaning:"có lúc (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"同事", pinyin:"tóngshì", type:"Danh từ", meaning:"đồng nghiệp (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"出去", pinyin:"chūqu", type:"Động từ", meaning:"ra ngoài (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"办公室", pinyin:"bàngōngshì", type:"Danh từ", meaning:"văn phòng (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"外卖", pinyin:"wàimài", type:"Danh từ", meaning:"đồ ăn mang về (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"一边...一边...", pinyin:"yìbiān... yìbiān...", type:"Phó từ", meaning:"vừa... vừa... (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"以后", pinyin:"yǐhòu", type:"Danh từ", meaning:"sau này, sau khi (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"半", pinyin:"bàn", type:"Số từ", meaning:"nửa, rưỡi (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"超市", pinyin:"chāoshì", type:"Danh từ", meaning:"siêu thị (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"电视", pinyin:"diànshì", type:"Danh từ", meaning:"ti vi (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"聊天儿", pinyin:"liáotiānr", type:"Động từ", meaning:"tán gẫu (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"差", pinyin:"chà", type:"Động từ", meaning:"kém, thiếu (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"刻", pinyin:"kè", type:"Lượng từ", meaning:"khắc (15 phút) (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"上课", pinyin:"shàngkè", type:"Động từ", meaning:"vào học (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"下课", pinyin:"xiàkè", type:"Động từ", meaning:"tan học (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"或者", pinyin:"huòzhě", type:"Liên từ", meaning:"hoặc là (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"玩", pinyin:"wán", type:"Động từ", meaning:"chơi (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"睡觉", pinyin:"shuìjiào", type:"Động từ", meaning:"ngủ (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"复习", pinyin:"fùxí", type:"Động từ", meaning:"ôn tập (Bài 16)", lesson:"Bài 16"},
+    {hanzi:"抖音", pinyin:"Dǒuyīn", type:"Danh từ", meaning:"TikTok (Bài 16)", lesson:"Bài 16"},
+
+    // --- BÀI 17 ---
+    {hanzi:"喂", pinyin:"wèi", type:"Thán từ", meaning:"alo (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"作业", pinyin:"zuòyè", type:"Danh từ", meaning:"bài tập (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"正在", pinyin:"zhèngzài", type:"Phó từ", meaning:"đang (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"准备", pinyin:"zhǔnbèi", type:"Động từ", meaning:"chuẩn bị (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"节目", pinyin:"jiémù", type:"Danh từ", meaning:"tiết mục (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"表演", pinyin:"biǎoyǎn", type:"Động/Danh từ", meaning:"biểu diễn (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"比赛", pinyin:"bǐsài", type:"Động/Danh từ", meaning:"thi đấu (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"正", pinyin:"zhèng", type:"Phó từ", meaning:"đang (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"唱歌", pinyin:"chànggē", type:"Động từ", meaning:"hát (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"首", pinyin:"shǒu", type:"Lượng từ", meaning:"bài (hát) (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"中文", pinyin:"Zhōngwén", type:"Danh từ", meaning:"tiếng Trung (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"时间", pinyin:"shíjiān", type:"Danh từ", meaning:"thời gian (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"练", pinyin:"liàn", type:"Động từ", meaning:"luyện tập (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"租", pinyin:"zū", type:"Động từ", meaning:"thuê (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"服装", pinyin:"fúzhuāng", type:"Danh từ", meaning:"trang phục (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"高", pinyin:"gāo", type:"Tính từ", meaning:"cao (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"重", pinyin:"zhòng", type:"Tính từ", meaning:"nặng (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"米", pinyin:"mǐ", type:"Lượng từ", meaning:"mét (Bài 17)", lesson:"Bài 17"},
+    {hanzi:"选", pinyin:"xuǎn", type:"Động từ", meaning:"chọn (Bài 17)", lesson:"Bài 17"},
+
+    // --- BÀI 18 ---
+    {hanzi:"可以", pinyin:"kěyǐ", type:"Động từ năng nguyện", meaning:"có thể (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"打工", pinyin:"dǎgōng", type:"Động từ", meaning:"làm thêm (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"一般", pinyin:"yìbān", type:"Tính từ", meaning:"bình thường (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"食堂", pinyin:"shítáng", type:"Danh từ", meaning:"nhà ăn (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"图书馆", pinyin:"túshūguǎn", type:"Danh từ", meaning:"thư viện (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"帮忙", pinyin:"bāngmáng", type:"Động từ", meaning:"giúp đỡ (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"当", pinyin:"dāng", type:"Động từ", meaning:"làm nghề (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"翻译", pinyin:"fānyì", type:"Động/Danh từ", meaning:"phiên dịch (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"奶茶店", pinyin:"nǎichádiàn", type:"Danh từ", meaning:"quán trà sữa (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"奶茶", pinyin:"nǎichá", type:"Danh từ", meaning:"trà sữa (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"真", pinyin:"zhēn", type:"Phó từ", meaning:"thật sự (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"需要", pinyin:"xūyào", type:"Động từ năng nguyện", meaning:"cần (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"种", pinyin:"zhǒng", type:"Lượng từ", meaning:"loại (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"语言", pinyin:"yǔyán", type:"Danh từ", meaning:"ngôn ngữ (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"会", pinyin:"huì", type:"Động từ năng nguyện", meaning:"biết (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"抽烟", pinyin:"chōuyān", type:"Động từ", meaning:"hút thuốc (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"收银员", pinyin:"shōuyínyuán", type:"Danh từ", meaning:"thu ngân (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"酒", pinyin:"jiǔ", type:"Danh từ", meaning:"rượu (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"问题", pinyin:"wèntí", type:"Danh từ", meaning:"vấn đề (Bài 18)", lesson:"Bài 18"},
+    {hanzi:"正好", pinyin:"zhènghǎo", type:"Tính/Phó từ", meaning:"vừa đúng lúc (Bài 18)", lesson:"Bài 18"},
+
+    // --- BÀI 19 ---
+    {hanzi:"考试", pinyin:"kǎoshì", type:"Danh/Động từ", meaning:"kỳ thi (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"考", pinyin:"kǎo", type:"Động từ", meaning:"thi (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"不错", pinyin:"búcuò", type:"Tính từ", meaning:"rất tốt (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"可是", pinyin:"kěshì", type:"Liên từ", meaning:"nhưng (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"流利", pinyin:"liúlì", type:"Tính từ", meaning:"lưu loát (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"发音", pinyin:"fāyīn", type:"Động/Danh từ", meaning:"phát âm (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"音", pinyin:"yīn", type:"Danh từ", meaning:"âm (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"准", pinyin:"zhǔn", type:"Tính từ", meaning:"chuẩn (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"办", pinyin:"bàn", type:"Động từ", meaning:"giải quyết (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"还可以", pinyin:"hái kěyǐ", type:"Cụm từ", meaning:"tạm ổn (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"不过", pinyin:"búguò", type:"Liên từ", meaning:"có điều (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"报名", pinyin:"bàomíng", type:"Động từ", meaning:"đăng ký (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"书法", pinyin:"shūfǎ", type:"Danh từ", meaning:"thư pháp (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"汉字", pinyin:"hànzì", type:"Danh từ", meaning:"chữ Hán (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"又…又…", pinyin:"yòu… yòu…", type:"Phó từ", meaning:"vừa… vừa… (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"快", pinyin:"kuài", type:"Tính từ", meaning:"nhanh (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"周", pinyin:"zhōu", type:"Danh/Lượng từ", meaning:"tuần (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"长得", pinyin:"zhǎngde", type:"Động từ", meaning:"trông, nom (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"特别", pinyin:"tèbié", type:"Phó/Tính từ", meaning:"đặc biệt (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"漂亮", pinyin:"piàoliang", type:"Tính từ", meaning:"xinh đẹp (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"照片", pinyin:"zhàopiàn", type:"Danh từ", meaning:"bức ảnh (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"啊", pinyin:"a", type:"Trợ từ", meaning:"a, á (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"非常", pinyin:"fēicháng", type:"Phó từ", meaning:"vô cùng (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"周末", pinyin:"zhōumò", type:"Danh từ", meaning:"cuối tuần (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"游泳", pinyin:"yóuyǒng", type:"Động từ", meaning:"bơi lội (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"比", pinyin:"bǐ", type:"Giới từ", meaning:"so với (Bài 19)", lesson:"Bài 19"},
+    {hanzi:"怕", pinyin:"pà", type:"Động từ", meaning:"sợ (Bài 19)", lesson:"Bài 19"},
+
+    // --- BÀI 20 ---
+    {hanzi:"座", pinyin:"zuò", type:"Lượng từ", meaning:"tòa (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"高楼", pinyin:"gāolóu", type:"Danh từ", meaning:"tòa nhà cao tầng (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"十字路口", pinyin:"shízì lùkǒu", type:"Danh từ", meaning:"ngã tư (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"往", pinyin:"wǎng", type:"Giới từ", meaning:"hướng về (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"左边", pinyin:"zuǒbiān", type:"Phương vị từ", meaning:"bên trái (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"右边", pinyin:"yòubiān", type:"Phương vị từ", meaning:"bên phải (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"拐", pinyin:"guǎi", type:"Động từ", meaning:"rẽ (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"停", pinyin:"tíng", type:"Động từ", meaning:"dừng lại (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"广场", pinyin:"guǎngchǎng", type:"Danh từ", meaning:"quảng trường (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"中间", pinyin:"zhōngjiān", type:"Phương vị từ", meaning:"ở giữa (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"东边", pinyin:"dōngbiān", type:"Phương vị từ", meaning:"phía đông (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"西边", pinyin:"xībiān", type:"Phương vị từ", meaning:"phía tây (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"北边", pinyin:"běibiān", type:"Phương vị từ", meaning:"phía bắc (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"南边", pinyin:"nánbiān", type:"Phương vị từ", meaning:"phía nam (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"体育馆", pinyin:"tǐyùguǎn", type:"Danh từ", meaning:"cung thể thao (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"购物", pinyin:"gòuwù", type:"Động từ", meaning:"mua sắm (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"中心", pinyin:"zhōngxīn", type:"Danh từ", meaning:"trung tâm (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"附近", pinyin:"fùjìn", type:"Danh từ", meaning:"lân cận (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"前边", pinyin:"qiánbian", type:"Phương vị từ", meaning:"phía trước (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"后边", pinyin:"hòubian", type:"Phương vị từ", meaning:"phía sau (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"走", pinyin:"zǒu", type:"Động từ", meaning:"đi (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"从", pinyin:"cóng", type:"Giới từ", meaning:"từ (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"一直", pinyin:"yìzhí", type:"Phó từ", meaning:"đi thẳng (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"离", pinyin:"lí", type:"Giới từ", meaning:"cách (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"远", pinyin:"yuǎn", type:"Tính từ", meaning:"xa (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"近", pinyin:"jìn", type:"Tính từ", meaning:"gần (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"大概", pinyin:"dàgài", type:"Phó từ", meaning:"khoảng chừng (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"公里", pinyin:"gōnglǐ", type:"Lượng từ", meaning:"kilomet (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"不好意思", pinyin:"bù hǎo yìsi", type:"Tính từ", meaning:"ngại quá (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"再", pinyin:"zài", type:"Phó từ", meaning:"lại (tương lai) (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"扬州中心", pinyin:"Yángzhōu zhōngxīn", type:"Danh từ", meaning:"Trung tâm Dương Châu (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"巴亭广场", pinyin:"Bātíng guǎngchǎng", type:"Danh từ", meaning:"Quảng trường Ba Đình (Bài 20)", lesson:"Bài 20"},
+    {hanzi:"西湖", pinyin:"Xīhú", type:"Danh từ", meaning:"Hồ Tây (Bài 20)", lesson:"Bài 20"},
+
+    // --- BÀI 21 ---
+    {hanzi:"茶馆", pinyin:"cháguǎn", type:"Danh từ", meaning:"quán trà (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"美术馆", pinyin:"měishùguǎn", type:"Danh từ", meaning:"bảo tàng mỹ thuật (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"原来", pinyin:"yuánlái", type:"Phó/Danh từ", meaning:"ban đầu / thì ra là (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"陪", pinyin:"péi", type:"Động từ", meaning:"đi cùng (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"京剧", pinyin:"jīngjù", type:"Danh từ", meaning:"kinh kịch (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"动物园", pinyin:"dòngwùyuán", type:"Danh từ", meaning:"sở thú (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"熊猫", pinyin:"xióngmāo", type:"Danh từ", meaning:"gấu trúc (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"机场", pinyin:"jīchǎng", type:"Danh từ", meaning:"sân bay (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"咱们", pinyin:"zánmen", type:"Đại từ", meaning:"chúng ta (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"约", pinyin:"yuē", type:"Động từ", meaning:"hẹn (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"怎么", pinyin:"zěnme", type:"Đại từ", meaning:"sao lại (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"迷路", pinyin:"mílù", type:"Động từ", meaning:"lạc đường (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"路人", pinyin:"lùrén", type:"Danh từ", meaning:"người đi đường (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"公交车", pinyin:"gōngjiāochē", type:"Danh từ", meaning:"xe buýt (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"发", pinyin:"fā", type:"Động từ", meaning:"phát, gửi (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"定位", pinyin:"dìngwèi", type:"Danh/Động từ", meaning:"định vị (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"里边", pinyin:"lǐbian", type:"Phương vị từ", meaning:"bên trong (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"外边", pinyin:"wàibian", type:"Phương vị từ", meaning:"bên ngoài (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"上边", pinyin:"shàngbian", type:"Phương vị từ", meaning:"bên trên (Bài 21)", lesson:"Bài 21"},
+    {hanzi:"下边", pinyin:"xiàbian", type:"Phương vị từ", meaning:"bên dưới (Bài 21)", lesson:"Bài 21"},
+
+    // --- BÀI 22 ---
+    {hanzi:"请假", pinyin:"qǐng jiǎ", type:"Động từ", meaning:"xin nghỉ phép (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"医院", pinyin:"yīyuàn", type:"Danh từ", meaning:"bệnh viện (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"得", pinyin:"dé", type:"Động từ", meaning:"mắc bệnh (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"该", pinyin:"gāi", type:"Động từ năng nguyện", meaning:"nên / tới lượt (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"妻子", pinyin:"qīzi", type:"Danh từ", meaning:"vợ (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"丈夫", pinyin:"zhàngfu", type:"Danh từ", meaning:"chồng (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"套", pinyin:"tào", type:"Lượng từ", meaning:"căn, bộ (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"房子", pinyin:"fángzi", type:"Danh từ", meaning:"ngôi nhà (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"以前", pinyin:"yǐqián", type:"Danh từ", meaning:"trước đây (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"已经", pinyin:"yǐjīng", type:"Phó từ", meaning:"đã (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"够", pinyin:"gòu", type:"Tính/Phó từ", meaning:"đủ (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"生活", pinyin:"shēnghuó", type:"Danh/Động từ", meaning:"cuộc sống (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"决定", pinyin:"juédìng", type:"Động từ", meaning:"quyết định (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"搬", pinyin:"bān", type:"Động từ", meaning:"chuyển nhà (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"周围", pinyin:"zhōuwéi", type:"Danh từ", meaning:"xung quanh (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"环境", pinyin:"huánjìng", type:"Danh từ", meaning:"môi trường (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"安静", pinyin:"ānjìng", type:"Tính từ", meaning:"yên tĩnh (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"电梯", pinyin:"diàntī", type:"Danh từ", meaning:"thang máy (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"厨房", pinyin:"chúfáng", type:"Danh từ", meaning:"phòng bếp (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"客厅", pinyin:"kètīng", type:"Danh từ", meaning:"phòng khách (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"卧室", pinyin:"wòshì", type:"Danh từ", meaning:"phòng ngủ (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"卫生间", pinyin:"wèishēngjiān", type:"Danh từ", meaning:"nhà vệ sinh (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"总", pinyin:"zǒng", type:"Tính/Phó từ", meaning:"tổng cộng (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"面积", pinyin:"miànjī", type:"Danh từ", meaning:"diện tích (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"平方米", pinyin:"píngfāngmǐ", type:"Lượng từ", meaning:"mét vuông (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"沙发", pinyin:"shāfā", type:"Danh từ", meaning:"ghế sofa (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"站", pinyin:"zhàn", type:"Danh/Động từ", meaning:"trạm / đứng (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"班", pinyin:"bān", type:"Lượng từ", meaning:"chuyến xe (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"对", pinyin:"duì", type:"Giới từ", meaning:"đối với (Bài 22)", lesson:"Bài 22"},
+    {hanzi:"满意", pinyin:"mǎnyì", type:"Tính/Động từ", meaning:"hài lòng (Bài 22)", lesson:"Bài 22"},
+
+    // --- BÀI 23 ---
+    {hanzi:"堵车", pinyin:"dǔchē", type:"Động từ", meaning:"kẹt xe (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"厉害", pinyin:"lìhai", type:"Tính từ", meaning:"kinh khủng / tài giỏi (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"迟到", pinyin:"chídào", type:"Động từ", meaning:"đến muộn (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"快要", pinyin:"kuàiyào", type:"Phó từ", meaning:"sắp sửa (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"开始", pinyin:"kāishǐ", type:"Động từ", meaning:"bắt đầu (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"队", pinyin:"duì", type:"Danh/Lượng từ", meaning:"đội ngũ (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"赢", pinyin:"yíng", type:"Động từ", meaning:"thắng (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"输", pinyin:"shū", type:"Động từ", meaning:"thua (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"进步", pinyin:"jìnbù", type:"Động/Danh từ", meaning:"tiến bộ (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"猜", pinyin:"cāi", type:"Động từ", meaning:"đoán (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"才", pinyin:"cái", type:"Phó từ", meaning:"mới (chậm trễ) (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"干", pinyin:"gàn", type:"Động từ", meaning:"làm (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"这么", pinyin:"zhème", type:"Đại từ", meaning:"như thế này (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"那么", pinyin:"nàme", type:"Đại từ", meaning:"như thế kia (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"小说", pinyin:"xiǎoshuō", type:"Danh từ", meaning:"tiểu thuyết (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"完", pinyin:"wán", type:"Động từ", meaning:"xong hết (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"言情", pinyin:"yánqíng", type:"Danh từ", meaning:"ngôn tình (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"感兴趣", pinyin:"gǎn xìngqù", type:"Cụm từ", meaning:"hứng thú (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"爱好", pinyin:"àihào", type:"Danh từ", meaning:"sở thích (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"游戏", pinyin:"yóuxì", type:"Danh từ", meaning:"trò chơi (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"爱", pinyin:"ài", type:"Động từ", meaning:"yêu thích (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"经常", pinyin:"jīngcháng", type:"Phó từ", meaning:"thường xuyên (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"熬夜", pinyin:"áoyè", type:"Động từ", meaning:"thức đêm (Bài 23)", lesson:"Bài 23"},
+    {hanzi:"花", pinyin:"huā", type:"Động từ", meaning:"tiêu tốn (Bài 23)", lesson:"Bài 23"},
+
+    // --- BÀI 24 ---
+    {hanzi:"季节", pinyin:"jìjié", type:"Danh từ", meaning:"mùa (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"春天", pinyin:"chūntiān", type:"Danh từ", meaning:"mùa xuân (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"夏天", pinyin:"xiàtiān", type:"Danh từ", meaning:"mùa hè (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"秋天", pinyin:"qiūtiān", type:"Danh từ", meaning:"mùa thu (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"冬天", pinyin:"dōngtiān", type:"Danh từ", meaning:"mùa đông (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"冷", pinyin:"lěng", type:"Tính từ", meaning:"lạnh (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"热", pinyin:"rè", type:"Tính từ", meaning:"nóng (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"暖和", pinyin:"nuǎnhuo", type:"Tính từ", meaning:"ấm áp (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"凉快", pinyin:"liángkuai", type:"Tính từ", meaning:"mát mẻ (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"天气", pinyin:"tiānqì", type:"Danh từ", meaning:"thời tiết (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"树", pinyin:"shù", type:"Danh từ", meaning:"cây (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"叶子", pinyin:"yèzi", type:"Danh từ", meaning:"lá cây (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"变", pinyin:"biàn", type:"Động từ", meaning:"thay đổi (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"最", pinyin:"zuì", type:"Phó từ", meaning:"nhất (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"爬", pinyin:"pá", type:"Động từ", meaning:"leo núi (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"期末", pinyin:"qīmò", type:"Danh từ", meaning:"cuối kỳ (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"票", pinyin:"piào", type:"Danh từ", meaning:"vé (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"进去", pinyin:"jìnqù", type:"Động từ", meaning:"đi vào (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"电影", pinyin:"diànyǐng", type:"Danh từ", meaning:"phim ảnh (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"马上", pinyin:"mǎshàng", type:"Phó từ", meaning:"lập tức (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"开演", pinyin:"kāiyǎn", type:"Động từ", meaning:"bắt đầu chiếu (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"洗手间", pinyin:"xǐshǒujiān", type:"Danh từ", meaning:"nhà vệ sinh (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"随便", pinyin:"suíbiàn", type:"Tính từ", meaning:"tùy ý (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"有意思", pinyin:"yǒu yìsi", type:"Tính từ", meaning:"thú vị (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"好像", pinyin:"hǎoxiàng", type:"Phó từ", meaning:"hình như (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"带", pinyin:"dài", type:"Động từ", meaning:"mang theo (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"下雨", pinyin:"xià yǔ", type:"Động từ", meaning:"trời mưa (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"糟糕", pinyin:"zāogāo", type:"Tính từ", meaning:"tồi tệ (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"伞", pinyin:"sǎn", type:"Danh từ", meaning:"cái ô (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"便利店", pinyin:"biànlìdiàn", type:"Danh từ", meaning:"cửa hàng tiện lợi (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"把", pinyin:"bǎ", type:"Lượng từ", meaning:"chiếc (cái ô) (Bài 24)", lesson:"Bài 24"},
+    {hanzi:"香山", pinyin:"Xiāngshān", type:"Danh từ", meaning:"Hương Sơn (Bài 24)", lesson:"Bài 24"},
+
+    // --- BÀI 25 ---
+    {hanzi:"提", pinyin:"tí", type:"Động từ", meaning:"nhắc đến (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"部分", pinyin:"bùfen", type:"Danh từ", meaning:"bộ phận (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"阅读", pinyin:"yuèdú", type:"Động/Danh từ", meaning:"đọc hiểu (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"生词", pinyin:"shēngcí", type:"Danh từ", meaning:"từ mới (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"懂", pinyin:"dǒng", type:"Động từ", meaning:"hiểu (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"听力", pinyin:"tīnglì", type:"Danh từ", meaning:"nghe hiểu (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"录音", pinyin:"lùyīn", type:"Động/Danh từ", meaning:"ghi âm (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"清楚", pinyin:"qīngchu", type:"Tính từ", meaning:"rõ ràng (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"老家", pinyin:"lǎojiā", type:"Danh từ", meaning:"quê nhà (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"替", pinyin:"tì", type:"Giới từ", meaning:"làm hộ (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"向", pinyin:"xiàng", type:"Giới từ", meaning:"hướng về (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"父母", pinyin:"fùmǔ", type:"Danh từ", meaning:"bố mẹ (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"问好", pinyin:"wènhǎo", type:"Động từ", meaning:"hỏi thăm (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"听见", pinyin:"tīngjiàn", type:"Động từ", meaning:"nghe thấy (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"见", pinyin:"jiàn", type:"Động từ", meaning:"thấy (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"客户", pinyin:"kèhù", type:"Danh từ", meaning:"khách hàng (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"事", pinyin:"shì", type:"Danh từ", meaning:"sự việc (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"资料", pinyin:"zīliào", type:"Danh từ", meaning:"tài liệu (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"找到", pinyin:"zhǎodào", type:"Động từ", meaning:"tìm thấy (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"邮箱", pinyin:"yóuxiāng", type:"Danh từ", meaning:"hòm thư (Bài 25)", lesson:"Bài 25"},
+    {hanzi:"顺便", pinyin:"shùnbiàn", type:"Phó từ", meaning:"nhân tiện (Bài 25)", lesson:"Bài 25"},
+
+    // --- BÀI 26 ---
+    {hanzi:"国庆节", pinyin:"Guóqìng jié", type:"Danh từ", meaning:"Lễ Quốc khánh (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"放假", pinyin:"fàngjià", type:"Động từ", meaning:"nghỉ lễ (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"长", pinyin:"cháng", type:"Tính từ", meaning:"dài (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"短", pinyin:"duǎn", type:"Tính từ", meaning:"ngắn (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"节日", pinyin:"jiérì", type:"Danh từ", meaning:"ngày lễ (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"春节", pinyin:"Chūnjié", type:"Danh từ", meaning:"Tết Âm lịch (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"旅行", pinyin:"lǚxíng", type:"Động từ", meaning:"du lịch (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"飞机", pinyin:"fēijī", type:"Danh từ", meaning:"máy bay (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"节", pinyin:"jié", type:"Lượng từ", meaning:"tiết học (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"服", pinyin:"fú", type:"Động từ", meaning:"uống thuốc (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"差不多", pinyin:"chàbuduō", type:"Phó từ", meaning:"xấp xỉ (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"谈", pinyin:"tán", type:"Động từ", meaning:"bàn bạc (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"虽然", pinyin:"suīrán", type:"Liên từ", meaning:"mặc dù (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"专业", pinyin:"zhuānyè", type:"Danh từ", meaning:"chuyên ngành (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"派", pinyin:"pài", type:"Động từ", meaning:"cử đi (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"司机", pinyin:"sījī", type:"Danh từ", meaning:"tài xế (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"生气", pinyin:"shēngqì", type:"Động/Tính từ", meaning:"tức giận (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"半天", pinyin:"bàntiān", type:"Danh từ", meaning:"nửa ngày (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"顿", pinyin:"dùn", type:"Lượng từ", meaning:"bữa ăn (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"通过", pinyin:"tōngguò", type:"Động/Giới từ", meaning:"thông qua (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"提高", pinyin:"tígāo", type:"Động từ", meaning:"nâng cao (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"水平", pinyin:"shuǐpíng", type:"Danh từ", meaning:"trình độ (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"小时", pinyin:"xiǎoshí", type:"Danh từ", meaning:"giờ đồng hồ (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"芽庄", pinyin:"Yázhuāng", type:"Danh từ", meaning:"Nha Trang (Bài 26)", lesson:"Bài 26"},
+    {hanzi:"大叻", pinyin:"Dàlè", type:"Danh từ", meaning:"Đà Lạt (Bài 26)", lesson:"Bài 26"},
+
+    // --- BÀI 27 ---
+    {hanzi:"愿意", pinyin:"yuànyì", type:"Động từ năng nguyện", meaning:"sẵn sàng, muốn (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"机会", pinyin:"jīhuì", type:"Danh từ", meaning:"cơ hội (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"白天", pinyin:"báitiān", type:"Danh từ", meaning:"ban ngày (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"更", pinyin:"gèng", type:"Phó từ", meaning:"càng, hơn (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"美丽", pinyin:"měilì", type:"Tính từ", meaning:"xinh đẹp (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"风景", pinyin:"fēngjǐng", type:"Danh từ", meaning:"phong cảnh (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"哇", pinyin:"wā", type:"Thán từ", meaning:"oa (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"运动", pinyin:"yùndòng", type:"Động/Danh từ", meaning:"thể thao (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"业余时间", pinyin:"yèyú shíjiān", type:"Danh từ", meaning:"thời gian rảnh (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"篮球", pinyin:"lánqiú", type:"Danh từ", meaning:"bóng rổ (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"篮球场", pinyin:"lánqiú chǎng", type:"Danh từ", meaning:"sân bóng rổ (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"迷", pinyin:"mí", type:"Danh/Động từ", meaning:"người hâm mộ (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"整天", pinyin:"zhěngtiān", type:"Danh từ", meaning:"cả ngày (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"试", pinyin:"shì", type:"Động từ", meaning:"thử (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"事业", pinyin:"shìyè", type:"Danh từ", meaning:"sự nghiệp (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"选择", pinyin:"xuǎnzé", type:"Động/Danh từ", meaning:"lựa chọn (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"适合", pinyin:"shìhé", type:"Động/Tính từ", meaning:"phù hợp (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"如果", pinyin:"rúguǒ", type:"Liên từ", meaning:"nếu như (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"建", pinyin:"jiàn", type:"Động từ", meaning:"xây dựng (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"建筑", pinyin:"jiànzhù", type:"Danh/Động từ", meaning:"kiến trúc (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"高考", pinyin:"gāokǎo", type:"Danh từ", meaning:"kỳ thi đại học (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"公分", pinyin:"gōngfēn", type:"Lượng từ", meaning:"centimét (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"这样", pinyin:"zhèyàng", type:"Đại từ", meaning:"như thế này (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"那样", pinyin:"nàyàng", type:"Đại từ", meaning:"như thế kia (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"西贡", pinyin:"Xīgòng", type:"Danh từ", meaning:"Sài Gòn (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"人口", pinyin:"rénkǒu", type:"Danh từ", meaning:"dân số (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"经济", pinyin:"jīngjì", type:"Danh từ", meaning:"kinh tế (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"发展", pinyin:"fāzhǎn", type:"Động/Danh từ", meaning:"phát triển (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"发达", pinyin:"fādá", type:"Tính từ", meaning:"phát triển mạnh (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"首都", pinyin:"shǒudū", type:"Danh từ", meaning:"thủ đô (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"年轻", pinyin:"niánqīng", type:"Tính từ", meaning:"trẻ tuổi (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"轻", pinyin:"qīng", type:"Tính từ", meaning:"nhẹ (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"上网", pinyin:"shàngwǎng", type:"Động từ", meaning:"lên mạng (Bài 27)", lesson:"Bài 27"},
+    {hanzi:"世界", pinyin:"shìjiè", type:"Danh từ", meaning:"thế giới (Bài 27)", lesson:"Bài 27"},
+
+    // --- TỪ VỰNG MỞ RỘNG KHÁC ---
+    {hanzi:"谁", pinyin:"shéi", type:"Đại từ", meaning:"ai", lesson:"Khác"},
+    {hanzi:"手", pinyin:"shǒu", type:"Danh từ", meaning:"tay", lesson:"Khác"},
+    {hanzi:"健康", pinyin:"jiànkāng", type:"Tính/Danh từ", meaning:"sức khỏe", lesson:"Khác"},
+    {hanzi:"幸福", pinyin:"xìngfú", type:"Tính/Danh từ", meaning:"hạnh phúc", lesson:"Khác"},
+    {hanzi:"就", pinyin:"jiù", type:"Phó từ", meaning:"thì, liền", lesson:"Khác"}
 ];
 
-let shuffled=[...vocabulary].sort(()=>Math.random()-0.5);
-let index=0;
-let answerShown=false;
+let selectedLessons = new Set(); // Chứa các bài học đang chọn
+let shuffled = [];
+let index = 0;
+let answerShown = false;
+
+// TỰ ĐỘNG PHÂN TÍCH DANH SÁCH BÀI HỌC VÀ RENDER NÚT
+function renderLessonButtons() {
+    let container = document.getElementById("lessonsListContainer");
+    let allLessonsSet = new Set();
+    
+    vocabulary.forEach(w => {
+        if(w.lesson) allLessonsSet.add(w.lesson);
+    });
+
+    // Tạo mảng bài học và sắp xếp có trật tự
+    let lessonsArray = Array.from(allLessonsSet).sort((a,b) => {
+        let numA = parseInt(a.replace(/\D/g, '')) || 999;
+        let numB = parseInt(b.replace(/\D/g, '')) || 999;
+        return numA - numB;
+    });
+
+    lessonsArray.forEach(lessonName => {
+        let btn = document.createElement("button");
+        btn.className = "lesson-btn";
+        btn.innerText = lessonName;
+        btn.onclick = () => toggleLesson(lessonName, btn);
+        container.appendChild(btn);
+    });
+}
+
+// CHỌN / BỎ CHỌN 1 BÀI HỌC
+function toggleLesson(lessonName, btnElement) {
+    let btnAll = document.getElementById("btnAllLessons");
+    
+    if (selectedLessons.has(lessonName)) {
+        selectedLessons.delete(lessonName);
+        btnElement.classList.remove("active");
+    } else {
+        selectedLessons.add(lessonName);
+        btnElement.classList.add("active");
+        btnAll.classList.remove("active");
+    }
+
+    // Nếu không còn bài nào được chọn thì mặc định trở lại "Tất cả"
+    if (selectedLessons.size === 0) {
+        selectAllLessons();
+    } else {
+        applyFilters();
+    }
+}
+
+// BẤM NÚT "TẤT CẢ"
+function selectAllLessons() {
+    selectedLessons.clear();
+    
+    // Tắt đèn toàn bộ nút bài học
+    let allLessonBtns = document.querySelectorAll("#lessonsListContainer .lesson-btn");
+    allLessonBtns.forEach(btn => btn.classList.remove("active"));
+    
+    // Bật đèn nút Tất cả
+    document.getElementById("btnAllLessons").classList.add("active");
+    
+    applyFilters();
+}
+
+// ÁP DỤNG LỌC TỪ VỰNG DỰA TRÊN SELECTED LESSONS
+function applyFilters() {
+    let filteredList = [];
+    if (selectedLessons.size === 0) {
+        filteredList = [...vocabulary]; // Học hết
+    } else {
+        filteredList = vocabulary.filter(w => selectedLessons.has(w.lesson));
+    }
+
+    // Đảo ngẫu nhiên lại từ vựng
+    shuffled = filteredList.sort(() => Math.random() - 0.5);
+    index = 0;
+    
+    if(shuffled.length > 0) {
+        showWord();
+    } else {
+        document.getElementById("hanziBox").innerText = "🈳";
+        document.getElementById("infoBox").innerText = "Không có từ vựng nào!";
+        document.getElementById("progressText").innerText = "0% (0/0)";
+        document.getElementById("progressBar").style.width = "0%";
+    }
+}
 
 function showWord(){
-    let w=shuffled[index];
-    document.getElementById("hanziBox").innerText=w.hanzi;
-    document.getElementById("infoBox").innerText="Nhấn 'Hiện đáp án'";
-    answerShown=false;
+    if(!shuffled[index]) return;
+    let w = shuffled[index];
+    document.getElementById("hanziBox").innerText = w.hanzi;
+    
+    let info = document.getElementById("infoBox");
+    info.innerText = "Nhấn 'Hiện đáp án'";
+    info.classList.remove("revealed");
+    
+    answerShown = false;
 
-    let percent=Math.round(((index+1)/shuffled.length)*100);
-    let bar=document.getElementById("progressBar");
-    bar.style.width=percent+"%";
-    bar.innerText=percent+"% (" + (index+1) + "/" + shuffled.length + ")";
+    let percent = Math.round(((index + 1) / shuffled.length) * 100);
+    let bar = document.getElementById("progressBar");
+    bar.style.width = percent + "%";
+    
+    document.getElementById("progressText").innerText = percent + "% (" + (index + 1) + "/" + shuffled.length + ")";
 }
 
 function showAnswer(){
-    if(answerShown) return;
-    let w=shuffled[index];
-    document.getElementById("infoBox").innerHTML="<b style='color:#d35400'>"+w.pinyin+"</b><br>"+w.meaning;
-    answerShown=true;
+    if(answerShown || shuffled.length === 0) return;
+    let w = shuffled[index];
+    
+    let info = document.getElementById("infoBox");
+    info.innerHTML = "<b>" + w.pinyin + "</b>" + 
+                     "<span class='type-badge'>" + w.type + "</span><br>" + 
+                     w.meaning;
+    info.classList.add("revealed");
+    
+    answerShown = true;
     speakWord(); 
 }
 
 function nextWord(){
-    if(index<shuffled.length-1){ 
+    if(shuffled.length === 0) return;
+    if(index < shuffled.length - 1){ 
         index++; 
         showWord(); 
     } else {
-        alert("Bạn đã hoàn thành hết từ vựng!");
+        alert("🎉 Tuyệt vời! Bạn đã hoàn thành hết từ vựng được chọn!");
     }
 }
 
 function prevWord(){
-    if(index>0){ 
+    if(index > 0){ 
         index--; 
         showWord(); 
     }
 }
 
 function speakWord(){
+    if(shuffled.length === 0) return;
     speechSynthesis.cancel();
-    let w=shuffled[index];
-    let u=new SpeechSynthesisUtterance(w.hanzi);
-    u.lang="zh-CN";
-    u.rate = 0.8; // Đọc chậm một chút cho dễ nghe
+    let w = shuffled[index];
+    let u = new SpeechSynthesisUtterance(w.hanzi);
+    u.lang = "zh-CN";
+    u.rate = 0.85; 
     speechSynthesis.speak(u);
 }
 
@@ -254,12 +1227,14 @@ document.addEventListener('keydown', function(event) {
         prevWord();
     }
     else if(event.code === "Space") {
-        event.preventDefault(); // Tránh cuộn trang
+        event.preventDefault(); 
         showAnswer();
     }
 });
 
-showWord();
+// KHỞI CHẠY ỨNG DỤNG
+renderLessonButtons();
+selectAllLessons();
 </script>
 
 </body>
