@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Flashcard Chinese - Phím tắt & Bộ lọc</title>
+<title>Flashcard Chinese - Phím tắt & Kiểm tra nhanh</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@700;900&family=Nunito:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
@@ -37,6 +37,7 @@
         gap: 15px;
     }
 
+    /* --- FLASHCARD WINDOW --- */
     .window {
         width: 900px;
         background: #ffffff;
@@ -46,6 +47,123 @@
         padding: 30px;
         position: relative;
         transition: all 0.3s ease;
+    }
+
+    /* --- QUIZ WINDOW --- */
+    .quiz-window {
+        width: 900px;
+        height: 520px;
+        background: #ffffff;
+        border-radius: 24px;
+        border: 2px solid #e8e1d7;
+        box-shadow: 0 20px 40px rgba(140, 125, 110, 0.12);
+        padding: 30px 20px 30px 30px;
+        display: none; /* Ẩn mặc định */
+        flex-direction: column;
+    }
+
+    .quiz-content-scroll {
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Tùy chỉnh thanh cuộn cho Quiz */
+    .quiz-content-scroll::-webkit-scrollbar { width: 8px; }
+    .quiz-content-scroll::-webkit-scrollbar-track { background: #f5f1ea; border-radius: 10px; }
+    .quiz-content-scroll::-webkit-scrollbar-thumb { background: #dcd4c7; border-radius: 10px; }
+
+    .question-card {
+        background: #fbf7f0;
+        border: 2px solid #eae2d5;
+        border-radius: 16px;
+        padding: 20px;
+    }
+
+    .question-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #8c7d6e;
+        margin-bottom: 15px;
+    }
+
+    .question-title b {
+        color: #d4a373;
+        font-size: 20px;
+    }
+
+    .options-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .option-label {
+        background: #fff;
+        border: 2px solid #ded6c9;
+        border-radius: 12px;
+        padding: 12px 15px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: all 0.2s ease;
+    }
+
+    .option-label:hover:not(.disabled) {
+        border-color: #f2c94c;
+        background: #fffcf8;
+        transform: translateY(-2px);
+    }
+
+    .option-label input {
+        display: none; /* Ẩn radio mặc định */
+    }
+
+    .option-label.selected {
+        border-color: #f2994a;
+        background: #fff2e6;
+    }
+
+    .option-label.correct {
+        border-color: #27ae60 !important;
+        background: #eafaf1 !important;
+        color: #27ae60;
+    }
+
+    .option-label.incorrect {
+        border-color: #e74c3c !important;
+        background: #fdedec !important;
+        color: #e74c3c;
+    }
+
+    .option-label.disabled {
+        cursor: default;
+        pointer-events: none;
+    }
+
+    .option-text {
+        font-size: 24px; /* Tăng nhẹ cỡ chữ Hán cho rõ */
+        font-family: 'Noto Sans SC', sans-serif;
+        font-weight: 700;
+        color: #4a4036;
+        letter-spacing: 1px;
+    }
+
+    .quiz-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding-right: 15px;
+    }
+
+    .quiz-header h2 {
+        margin: 0;
+        color: #4a4036;
+        font-size: 24px;
     }
 
     /* --- PROGRESS BAR --- */
@@ -261,6 +379,19 @@
         transform: translateY(1px);
         box-shadow: 0 4px 10px rgba(224, 122, 95, 0.2);
     }
+    
+    .btn-submit-quiz {
+        background: linear-gradient(135deg, #27ae60, #2ecc71);
+        box-shadow: 0 8px 20px rgba(46, 204, 113, 0.25);
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .btn-submit-quiz:hover {
+        background: linear-gradient(135deg, #2ecc71, #27ae60);
+        box-shadow: 0 12px 25px rgba(46, 204, 113, 0.35);
+    }
 
     .shortcuts-info {
         text-align: center;
@@ -286,8 +417,8 @@
 
     /* --- SIDEBAR LESSONS FILTER --- */
     .lessons-sidebar {
-        width: 170px;
-        height: 494px; 
+        width: 180px;
+        height: 520px; 
         background: #ffffff;
         border-radius: 24px;
         border: 2px solid #e8e1d7;
@@ -298,14 +429,40 @@
         gap: 10px;
     }
 
+    .btn-toggle-quiz {
+        background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 12px;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 800;
+        font-size: 15px;
+        cursor: pointer;
+        box-shadow: 0 6px 15px rgba(155, 89, 182, 0.3);
+        transition: all 0.2s ease;
+        margin-bottom: 5px;
+    }
+
+    .btn-toggle-quiz:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(155, 89, 182, 0.4);
+    }
+
+    .btn-toggle-quiz.active-quiz-mode {
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        box-shadow: 0 6px 15px rgba(231, 76, 60, 0.3);
+    }
+
     .sidebar-title {
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 800;
         color: #a6998a;
         text-align: center;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        margin-bottom: 5px;
+        margin-bottom: 0px;
+        margin-top: 5px;
     }
 
     .lessons-list {
@@ -317,17 +474,9 @@
         flex: 1;
     }
 
-    .lessons-list::-webkit-scrollbar {
-        width: 6px;
-    }
-    .lessons-list::-webkit-scrollbar-track {
-        background: #f5f1ea;
-        border-radius: 10px;
-    }
-    .lessons-list::-webkit-scrollbar-thumb {
-        background: #dcd4c7;
-        border-radius: 10px;
-    }
+    .lessons-list::-webkit-scrollbar { width: 6px; }
+    .lessons-list::-webkit-scrollbar-track { background: #f5f1ea; border-radius: 10px; }
+    .lessons-list::-webkit-scrollbar-thumb { background: #dcd4c7; border-radius: 10px; }
 
     .lesson-btn {
         width: 100%;
@@ -364,7 +513,7 @@
 
 <div class="main-container">
     <div class="app-wrapper">
-        <div class="window">
+        <div class="window" id="flashcardWindow">
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"></div>
             </div>
@@ -390,12 +539,22 @@
             </div>
         </div>
 
-        <div class="shortcuts-info">
+        <div class="quiz-window" id="quizWindow">
+            <div class="quiz-header">
+                <h2 id="quizTitle">Kiểm tra nhanh (20 câu)</h2>
+                <div id="quizScore" style="font-size: 20px; font-weight: 800; color: #e74c3c; display: none;"></div>
+            </div>
+            <div class="quiz-content-scroll" id="quizContent">
+                </div>
+        </div>
+
+        <div class="shortcuts-info" id="shortcutsInfo">
             Mẹo: Dùng phím <kbd>←</kbd> <kbd>→</kbd> để chuyển từ, phím <kbd>Space</kbd> để xem đáp án.
         </div>
     </div>
 
     <div class="lessons-sidebar">
+        <button class="btn-toggle-quiz" id="btnToggleMode" onclick="toggleMode()">📝 Kiểm tra nhanh</button>
         <div class="sidebar-title">Chọn bài học</div>
         <div class="lessons-list" id="lessonsListContainer">
             <button class="lesson-btn active" id="btnAllLessons" onclick="selectAllLessons()">Tất cả</button>
@@ -1087,18 +1246,57 @@ let vocabulary = [
     {hanzi:"地铁", pinyin:"dìtiě", type:"Danh từ", meaning:"tàu điện ngầm (Bài 28)", lesson:"Bài 28"},
     {hanzi:"高铁", pinyin:"gāotiě", type:"Danh từ", meaning:"tàu cao tốc (Bài 28)", lesson:"Bài 28"},
 
-    // --- TỪ VỰNG MỞ RỘNG KHÁC ---
-    {hanzi:"谁", pinyin:"shéi", type:"Đại từ", meaning:"ai", lesson:"Khác"},
-    {hanzi:"手", pinyin:"shǒu", type:"Danh từ", meaning:"tay", lesson:"Khác"},
-    {hanzi:"健康", pinyin:"jiànkāng", type:"Tính/Danh từ", meaning:"sức khỏe", lesson:"Khác"},
-    {hanzi:"幸福", pinyin:"xìngfú", type:"Tính/Danh từ", meaning:"hạnh phúc", lesson:"Khác"},
-    {hanzi:"就", pinyin:"jiù", type:"Phó từ", meaning:"thì, liền", lesson:"Khác"}
+    // --- BÀI 29 ---
+    {hanzi:"收", pinyin:"shōu", type:"Động từ", meaning:"nhận, thu (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"阿姨", pinyin:"āyí", type:"Danh từ", meaning:"dì, cô (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"开心", pinyin:"kāixīn", type:"Tính từ", meaning:"vui vẻ (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"快乐", pinyin:"kuàilè", type:"Tính từ", meaning:"vui vẻ, hạnh phúc (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"盒", pinyin:"hé", type:"Danh/Lượng từ", meaning:"hộp (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"打开", pinyin:"dǎkāi", type:"Động từ", meaning:"mở ra (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"儿子", pinyin:"érzi", type:"Danh từ", meaning:"con trai (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"丈夫", pinyin:"zhàngfu", type:"Danh từ", meaning:"chồng (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"过", pinyin:"guò", type:"Động từ", meaning:"qua, đón (lễ, sinh nhật) (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"生日", pinyin:"shēngrì", type:"Danh từ", meaning:"sinh nhật (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"晚会", pinyin:"wǎnhuì", type:"Danh từ", meaning:"tiệc tối (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"亲手", pinyin:"qīnshǒu", type:"Phó từ", meaning:"tự tay (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"有的", pinyin:"yǒude", type:"Đại từ", meaning:"có cái, có người (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"拿", pinyin:"ná", type:"Động từ", meaning:"cầm, lấy (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"鲜花", pinyin:"xiānhuā", type:"Danh từ", meaning:"hoa tươi (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"玩具", pinyin:"wánjù", type:"Danh từ", meaning:"đồ chơi (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"胖", pinyin:"pàng", type:"Tính từ", meaning:"béo, mập (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"猫", pinyin:"māo", type:"Danh từ", meaning:"mèo (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"收拾", pinyin:"shōushi", type:"Động từ", meaning:"thu dọn, dọn dẹp (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"懂事", pinyin:"dǒngshì", type:"Tính từ", meaning:"hiểu chuyện (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"为", pinyin:"wèi", type:"Giới từ", meaning:"vì, cho (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"蛋糕", pinyin:"dàngāo", type:"Danh từ", meaning:"bánh kem, bánh ngọt (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"叮当", pinyin:"dīngdāng", type:"Từ tượng thanh", meaning:"đinh đoong (tiếng chuông) (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"门铃", pinyin:"ménlíng", type:"Danh từ", meaning:"chuông cửa (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"响", pinyin:"xiǎng", type:"Động từ", meaning:"kêu, vang (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"地", pinyin:"dì", type:"Danh từ", meaning:"đất, mặt đất (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"大声", pinyin:"dàshēng", type:"Tính/Phó từ", meaning:"lớn tiếng, to tiếng (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"吹", pinyin:"chuī", type:"Động từ", meaning:"thổi (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"蜡烛", pinyin:"làzhú", type:"Danh từ", meaning:"nến, đèn cầy (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"失望", pinyin:"shīwàng", type:"Tính từ", meaning:"thất vọng (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"温柔", pinyin:"wēnróu", type:"Tính từ", meaning:"dịu dàng (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"讲", pinyin:"jiǎng", type:"Động từ", meaning:"nói, kể, giảng (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"分享", pinyin:"fēnxiǎng", type:"Động từ", meaning:"chia sẻ (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"分", pinyin:"fēn", type:"Động/Lượng từ", meaning:"chia, phần, phút (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"难过", pinyin:"nánguò", type:"Tính từ", meaning:"buồn bã, khó chịu (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"愉快", pinyin:"yúkuài", type:"Tính từ", meaning:"vui vẻ, thoải mái (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"要是", pinyin:"yàoshi", type:"Liên từ", meaning:"nếu như (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"乖", pinyin:"guāi", type:"Tính từ", meaning:"ngoan (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"生病", pinyin:"shēngbìng", type:"Động từ", meaning:"ốm, bệnh (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"束", pinyin:"shù", type:"Lượng từ", meaning:"bó (lượng từ: bó hoa) (Bài 29)", lesson:"Bài 29"},
+    {hanzi:"朵", pinyin:"duǒ", type:"Lượng từ", meaning:"bông (lượng từ: bông hoa) (Bài 29)", lesson:"Bài 29"}
 ];
 
-let selectedLessons = new Set(); // Chứa các bài học đang chọn
+let selectedLessons = new Set();
 let shuffled = [];
 let index = 0;
 let answerShown = false;
+let isQuizMode = false;
+let currentQuizQuestions = [];
+let quizSubmitted = false;
 
 // TỰ ĐỘNG PHÂN TÍCH DANH SÁCH BÀI HỌC VÀ RENDER NÚT
 function renderLessonButtons() {
@@ -1106,10 +1304,9 @@ function renderLessonButtons() {
     let allLessonsSet = new Set();
     
     vocabulary.forEach(w => {
-        if(w.lesson) allLessonsSet.add(w.lesson);
+        if(w.lesson && w.lesson !== "Khác") allLessonsSet.add(w.lesson);
     });
 
-    // Tạo mảng bài học và sắp xếp có trật tự
     let lessonsArray = Array.from(allLessonsSet).sort((a,b) => {
         let numA = parseInt(a.replace(/\D/g, '')) || 999;
         let numB = parseInt(b.replace(/\D/g, '')) || 999;
@@ -1138,7 +1335,6 @@ function toggleLesson(lessonName, btnElement) {
         btnAll.classList.remove("active");
     }
 
-    // Nếu không còn bài nào được chọn thì mặc định trở lại "Tất cả"
     if (selectedLessons.size === 0) {
         selectAllLessons();
     } else {
@@ -1146,43 +1342,40 @@ function toggleLesson(lessonName, btnElement) {
     }
 }
 
-// BẤM NÚT "TẤT CẢ"
 function selectAllLessons() {
     selectedLessons.clear();
-    
-    // Tắt đèn toàn bộ nút bài học
     let allLessonBtns = document.querySelectorAll("#lessonsListContainer .lesson-btn");
     allLessonBtns.forEach(btn => btn.classList.remove("active"));
-    
-    // Bật đèn nút Tất cả
     document.getElementById("btnAllLessons").classList.add("active");
-    
     applyFilters();
 }
 
-// ÁP DỤNG LỌC TỪ VỰNG DỰA TRÊN SELECTED LESSONS
 function applyFilters() {
     let filteredList = [];
     if (selectedLessons.size === 0) {
-        filteredList = [...vocabulary]; // Học hết
+        filteredList = [...vocabulary]; 
     } else {
         filteredList = vocabulary.filter(w => selectedLessons.has(w.lesson));
     }
 
-    // Đảo ngẫu nhiên lại từ vựng
     shuffled = filteredList.sort(() => Math.random() - 0.5);
     index = 0;
     
-    if(shuffled.length > 0) {
-        showWord();
+    if(!isQuizMode) {
+        if(shuffled.length > 0) {
+            showWord();
+        } else {
+            document.getElementById("hanziBox").innerText = "🈳";
+            document.getElementById("infoBox").innerText = "Không có từ vựng nào!";
+            document.getElementById("progressText").innerText = "0% (0/0)";
+            document.getElementById("progressBar").style.width = "0%";
+        }
     } else {
-        document.getElementById("hanziBox").innerText = "🈳";
-        document.getElementById("infoBox").innerText = "Không có từ vựng nào!";
-        document.getElementById("progressText").innerText = "0% (0/0)";
-        document.getElementById("progressBar").style.width = "0%";
+        generateQuiz(); 
     }
 }
 
+// --- LOGIC FLASHCARD ---
 function showWord(){
     if(!shuffled[index]) return;
     let w = shuffled[index];
@@ -1195,14 +1388,12 @@ function showWord(){
     answerShown = false;
 
     let percent = Math.round(((index + 1) / shuffled.length) * 100);
-    let bar = document.getElementById("progressBar");
-    bar.style.width = percent + "%";
-    
+    document.getElementById("progressBar").style.width = percent + "%";
     document.getElementById("progressText").innerText = percent + "% (" + (index + 1) + "/" + shuffled.length + ")";
 }
 
 function showAnswer(){
-    if(answerShown || shuffled.length === 0) return;
+    if(answerShown || shuffled.length === 0 || isQuizMode) return;
     let w = shuffled[index];
     
     let info = document.getElementById("infoBox");
@@ -1212,11 +1403,11 @@ function showAnswer(){
     info.classList.add("revealed");
     
     answerShown = true;
-    speakWord(); 
+    speakWord(w.hanzi); 
 }
 
 function nextWord(){
-    if(shuffled.length === 0) return;
+    if(shuffled.length === 0 || isQuizMode) return;
     if(index < shuffled.length - 1){ 
         index++; 
         showWord(); 
@@ -1226,24 +1417,165 @@ function nextWord(){
 }
 
 function prevWord(){
+    if(isQuizMode) return;
     if(index > 0){ 
         index--; 
         showWord(); 
     }
 }
 
-function speakWord(){
-    if(shuffled.length === 0) return;
+function speakWord(textToSpeak){
     speechSynthesis.cancel();
-    let w = shuffled[index];
-    let u = new SpeechSynthesisUtterance(w.hanzi);
+    let u = new SpeechSynthesisUtterance(textToSpeak);
     u.lang = "zh-CN";
     u.rate = 0.85; 
     speechSynthesis.speak(u);
 }
 
-// LẮNG NGHE BÀN PHÍM
+// --- LOGIC CHUYỂN ĐỔI CHẾ ĐỘ ---
+function toggleMode() {
+    isQuizMode = !isQuizMode;
+    let btnToggle = document.getElementById("btnToggleMode");
+    
+    if (isQuizMode) {
+        document.getElementById("flashcardWindow").style.display = "none";
+        document.getElementById("shortcutsInfo").style.display = "none";
+        document.getElementById("quizWindow").style.display = "flex";
+        btnToggle.classList.add("active-quiz-mode");
+        btnToggle.innerText = "🔙 Trở về Học Từ";
+        generateQuiz();
+    } else {
+        document.getElementById("flashcardWindow").style.display = "block";
+        document.getElementById("shortcutsInfo").style.display = "block";
+        document.getElementById("quizWindow").style.display = "none";
+        btnToggle.classList.remove("active-quiz-mode");
+        btnToggle.innerText = "📝 Kiểm tra nhanh";
+        applyFilters(); 
+    }
+}
+
+// Lấy mẫu ngẫu nhiên không trùng
+function getRandomItems(array, n, excludeItem = null) {
+    let pool = array.filter(item => item.hanzi !== (excludeItem ? excludeItem.hanzi : ""));
+    let rnd = [...pool].sort(() => 0.5 - Math.random());
+    return rnd.slice(0, n);
+}
+
+// --- LOGIC KIỂM TRA NHANH ---
+function generateQuiz() {
+    let pool = shuffled; 
+    if (pool.length < 4) {
+        document.getElementById("quizContent").innerHTML = `<div style="text-align:center; padding: 50px; color:#e74c3c; font-weight:bold; font-size: 18px;">Vui lòng chọn thêm bài học để có đủ từ vựng làm bài kiểm tra (Ít nhất 4 từ)!</div>`;
+        document.getElementById("quizTitle").innerText = "Kiểm tra nhanh";
+        document.getElementById("quizScore").style.display = "none";
+        return;
+    }
+
+    quizSubmitted = false;
+    document.getElementById("quizScore").style.display = "none";
+
+    let numQuestions = Math.min(20, pool.length);
+    document.getElementById("quizTitle").innerText = `Kiểm tra nhanh (${numQuestions} câu)`;
+    
+    let targetWords = getRandomItems(pool, numQuestions);
+    currentQuizQuestions = [];
+    let html = "";
+
+    let letters = ['A', 'B', 'C', 'D'];
+
+    targetWords.forEach((target, i) => {
+        let distractors = getRandomItems(vocabulary, 3, target); 
+        let options = [target, ...distractors].sort(() => 0.5 - Math.random());
+
+        currentQuizQuestions.push({
+            target: target,
+            options: options,
+            selectedIndex: -1
+        });
+
+        let cleanMeaning = target.meaning.replace(/\s*\(Bài \d+\)/, ''); 
+
+        // Đã sửa lại để CHỈ hiển thị chữ Hán trong đáp án kiểm tra
+        let optionsHTML = options.map((opt, j) => `
+            <label class="option-label" id="q${i}_opt${j}" onclick="selectQuizOption(${i}, ${j})">
+                <input type="radio" name="q${i}" value="${j}">
+                <div style="font-weight: 900; color: #a6998a; width: 25px;">${letters[j]}.</div>
+                <div class="option-text">${opt.hanzi}</div>
+            </label>
+        `).join('');
+
+        html += `
+            <div class="question-card" id="qcard_${i}">
+                <div class="question-title"><b>Câu ${i + 1}:</b> Từ nào có nghĩa là "<b>${cleanMeaning}</b>"?</div>
+                <div class="options-grid">
+                    ${optionsHTML}
+                </div>
+            </div>
+        `;
+    });
+
+    html += `<button class="main btn-submit-quiz" id="btnSubmitQuiz" onclick="submitQuiz()">Nộp bài chấm điểm</button>`;
+    
+    let contentDiv = document.getElementById("quizContent");
+    contentDiv.innerHTML = html;
+    contentDiv.scrollTop = 0; 
+}
+
+function selectQuizOption(qIndex, optIndex) {
+    if (quizSubmitted) return; 
+    
+    currentQuizQuestions[qIndex].selectedIndex = optIndex;
+    
+    for (let j = 0; j < 4; j++) {
+        document.getElementById(`q${qIndex}_opt${j}`).classList.remove("selected");
+    }
+    document.getElementById(`q${qIndex}_opt${optIndex}`).classList.add("selected");
+}
+
+function submitQuiz() {
+    if (quizSubmitted) return;
+
+    let uncompleted = currentQuizQuestions.filter(q => q.selectedIndex === -1);
+    if (uncompleted.length > 0) {
+        if(!confirm(`Bạn còn ${uncompleted.length} câu chưa làm. Bạn có chắc chắn muốn nộp bài?`)) return;
+    }
+
+    quizSubmitted = true;
+    let score = 0;
+
+    currentQuizQuestions.forEach((q, i) => {
+        let correctIndex = q.options.findIndex(opt => opt.hanzi === q.target.hanzi);
+        
+        for (let j = 0; j < 4; j++) {
+            let label = document.getElementById(`q${i}_opt${j}`);
+            label.classList.add("disabled");
+            
+            if (j === correctIndex) {
+                label.classList.add("correct");
+            } else if (j === q.selectedIndex) {
+                label.classList.add("incorrect");
+            }
+        }
+
+        if (q.selectedIndex === correctIndex) {
+            score++;
+        }
+    });
+
+    let btn = document.getElementById("btnSubmitQuiz");
+    btn.style.display = "none"; 
+    
+    let scoreDiv = document.getElementById("quizScore");
+    scoreDiv.innerText = `Đúng ${score} / ${currentQuizQuestions.length} câu`;
+    scoreDiv.style.color = score >= (currentQuizQuestions.length/2) ? "#27ae60" : "#e74c3c";
+    scoreDiv.style.display = "block";
+
+    document.getElementById("quizContent").scrollTop = 0;
+}
+
 document.addEventListener('keydown', function(event) {
+    if(isQuizMode) return; 
+
     if(event.code === "ArrowRight") {
         nextWord();
     }
@@ -1256,7 +1588,6 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-// KHỞI CHẠY ỨNG DỤNG
 renderLessonButtons();
 selectAllLessons();
 </script>
