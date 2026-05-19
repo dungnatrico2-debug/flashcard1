@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Flashcard Chinese - Phím tắt & Kiểm tra nhanh</title>
+<title>Flashcard Chinese - Pro Version</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@700;900&family=Nunito:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
@@ -49,6 +49,43 @@
         transition: all 0.3s ease;
     }
 
+    /* --- AUTO PLAY TOGGLE --- */
+    .auto-play-container {
+        display: flex;
+        align-items: center;
+        background: #fffcf8;
+        padding: 8px 20px;
+        border-radius: 20px;
+        border: 1px solid #e8e1d7;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.2s ease;
+    }
+
+    .auto-play-container:hover {
+        background: #fff8f0;
+        border-color: #f2c94c;
+    }
+
+    .auto-play-container input {
+        width: 18px;
+        height: 18px;
+        margin-right: 10px;
+        cursor: pointer;
+        accent-color: #f2994a;
+    }
+
+    .auto-play-container span {
+        font-weight: 800;
+        font-size: 14px;
+        color: #8c7d6e;
+    }
+
+    .auto-play-container.active span {
+        color: #e07a5f;
+    }
+
     /* --- QUIZ WINDOW --- */
     .quiz-window {
         width: 900px;
@@ -58,7 +95,7 @@
         border: 2px solid #e8e1d7;
         box-shadow: 0 20px 40px rgba(140, 125, 110, 0.12);
         padding: 30px 20px 30px 30px;
-        display: none; /* Ẩn mặc định */
+        display: none;
         flex-direction: column;
     }
 
@@ -71,7 +108,6 @@
         gap: 20px;
     }
 
-    /* Tùy chỉnh thanh cuộn cho Quiz */
     .quiz-content-scroll::-webkit-scrollbar { width: 8px; }
     .quiz-content-scroll::-webkit-scrollbar-track { background: #f5f1ea; border-radius: 10px; }
     .quiz-content-scroll::-webkit-scrollbar-thumb { background: #dcd4c7; border-radius: 10px; }
@@ -118,34 +154,14 @@
         transform: translateY(-2px);
     }
 
-    .option-label input {
-        display: none; /* Ẩn radio mặc định */
-    }
-
-    .option-label.selected {
-        border-color: #f2994a;
-        background: #fff2e6;
-    }
-
-    .option-label.correct {
-        border-color: #27ae60 !important;
-        background: #eafaf1 !important;
-        color: #27ae60;
-    }
-
-    .option-label.incorrect {
-        border-color: #e74c3c !important;
-        background: #fdedec !important;
-        color: #e74c3c;
-    }
-
-    .option-label.disabled {
-        cursor: default;
-        pointer-events: none;
-    }
+    .option-label input { display: none; }
+    .option-label.selected { border-color: #f2994a; background: #fff2e6; }
+    .option-label.correct { border-color: #27ae60 !important; background: #eafaf1 !important; color: #27ae60; }
+    .option-label.incorrect { border-color: #e74c3c !important; background: #fdedec !important; color: #e74c3c; }
+    .option-label.disabled { cursor: default; pointer-events: none; }
 
     .option-text {
-        font-size: 24px; /* Tăng nhẹ cỡ chữ Hán cho rõ */
+        font-size: 24px; 
         font-family: 'Noto Sans SC', sans-serif;
         font-weight: 700;
         color: #4a4036;
@@ -223,6 +239,29 @@
         text-shadow: 3px 3px 0px #ffffff, 4px 4px 6px rgba(0,0,0,0.08);
         line-height: 1.2;
         letter-spacing: 2px;
+    }
+
+    /* --- STAR BUTTON --- */
+    .star-btn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 32px;
+        color: #dcd3c5;
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.2s ease;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .star-btn:hover {
+        transform: scale(1.1);
+        color: #f2c94c;
+    }
+
+    .star-btn.starred {
+        color: #f2c94c;
+        text-shadow: 0 0 15px rgba(242, 201, 76, 0.6);
     }
 
     .speaker {
@@ -418,7 +457,7 @@
     /* --- SIDEBAR LESSONS FILTER --- */
     .lessons-sidebar {
         width: 180px;
-        height: 520px; 
+        height: 574px; 
         background: #ffffff;
         border-radius: 24px;
         border: 2px solid #e8e1d7;
@@ -506,6 +545,18 @@
         font-weight: 800;
         box-shadow: 0 4px 12px rgba(242, 153, 74, 0.3);
     }
+
+    .lesson-btn-difficult {
+        background: #fffcf8;
+        border-color: #f2c94c;
+        color: #e07a5f;
+    }
+
+    .lesson-btn-difficult.active {
+        background: linear-gradient(135deg, #e07a5f, #d4a373);
+        border-color: #e07a5f;
+        box-shadow: 0 4px 12px rgba(224, 122, 95, 0.3);
+    }
 </style>
 </head>
 
@@ -526,6 +577,7 @@
 
             <div class="content">
                 <div class="left">
+                    <div class="star-btn" id="starBtn" onclick="toggleDifficult()" title="Lưu/Bỏ lưu từ khó học">☆</div>
                     <div class="hanzi" id="hanziBox">开始</div>
                     <div class="speaker" onclick="speakWord()" title="Nghe phát âm">🔊</div>
                 </div>
@@ -538,6 +590,11 @@
                 </div>
             </div>
         </div>
+
+        <label class="auto-play-container" id="autoPlayLabel">
+            <input type="checkbox" id="autoPlayToggle" onchange="toggleAutoPlay()">
+            <span id="autoPlayText">Chế độ tự động tắt</span>
+        </label>
 
         <div class="quiz-window" id="quizWindow">
             <div class="quiz-header">
@@ -558,6 +615,7 @@
         <div class="sidebar-title">Chọn bài học</div>
         <div class="lessons-list" id="lessonsListContainer">
             <button class="lesson-btn active" id="btnAllLessons" onclick="selectAllLessons()">Tất cả</button>
+            <button class="lesson-btn lesson-btn-difficult" id="btnDifficultWords" onclick="showDifficultWords()">⭐ Từ khó học</button>
             </div>
     </div>
 </div>
@@ -1298,6 +1356,12 @@ let isQuizMode = false;
 let currentQuizQuestions = [];
 let quizSubmitted = false;
 
+// Dữ liệu từ khó lấy từ LocalStorage để không mất khi F5
+let difficultWords = JSON.parse(localStorage.getItem('flashcard_difficultWords')) || [];
+
+let isAutoPlay = false;
+let autoTimer;
+
 // TỰ ĐỘNG PHÂN TÍCH DANH SÁCH BÀI HỌC VÀ RENDER NÚT
 function renderLessonButtons() {
     let container = document.getElementById("lessonsListContainer");
@@ -1322,9 +1386,18 @@ function renderLessonButtons() {
     });
 }
 
+function clearAllActiveSidebarBtns() {
+    document.getElementById("btnAllLessons").classList.remove("active");
+    document.getElementById("btnDifficultWords").classList.remove("active");
+    document.querySelectorAll("#lessonsListContainer .lesson-btn:not(#btnAllLessons):not(#btnDifficultWords)").forEach(btn => {
+        btn.classList.remove("active");
+    });
+}
+
 // CHỌN / BỎ CHỌN 1 BÀI HỌC
 function toggleLesson(lessonName, btnElement) {
-    let btnAll = document.getElementById("btnAllLessons");
+    document.getElementById("btnAllLessons").classList.remove("active");
+    document.getElementById("btnDifficultWords").classList.remove("active");
     
     if (selectedLessons.has(lessonName)) {
         selectedLessons.delete(lessonName);
@@ -1332,27 +1405,104 @@ function toggleLesson(lessonName, btnElement) {
     } else {
         selectedLessons.add(lessonName);
         btnElement.classList.add("active");
-        btnAll.classList.remove("active");
     }
 
     if (selectedLessons.size === 0) {
         selectAllLessons();
     } else {
-        applyFilters();
+        applyFilters(false);
     }
 }
 
 function selectAllLessons() {
     selectedLessons.clear();
-    let allLessonBtns = document.querySelectorAll("#lessonsListContainer .lesson-btn");
-    allLessonBtns.forEach(btn => btn.classList.remove("active"));
+    clearAllActiveSidebarBtns();
     document.getElementById("btnAllLessons").classList.add("active");
-    applyFilters();
+    applyFilters(false);
 }
 
-function applyFilters() {
+function showDifficultWords() {
+    selectedLessons.clear();
+    clearAllActiveSidebarBtns();
+    document.getElementById("btnDifficultWords").classList.add("active");
+    applyFilters(true);
+}
+
+// LƯU TỪ KHÓ
+function toggleDifficult() {
+    if(shuffled.length === 0 || isQuizMode) return;
+    let w = shuffled[index];
+    let idx = difficultWords.indexOf(w.hanzi);
+    
+    if(idx > -1) {
+        difficultWords.splice(idx, 1); // Xóa khỏi danh sách
+    } else {
+        difficultWords.push(w.hanzi); // Thêm vào danh sách
+    }
+    
+    // Lưu vào LocalStorage
+    localStorage.setItem('flashcard_difficultWords', JSON.stringify(difficultWords));
+    updateStarUI();
+}
+
+function updateStarUI() {
+    let starBtn = document.getElementById("starBtn");
+    if(shuffled.length === 0) {
+        starBtn.style.display = "none";
+        return;
+    }
+    starBtn.style.display = "block";
+    let w = shuffled[index];
+    
+    if(difficultWords.includes(w.hanzi)) {
+        starBtn.innerHTML = "★";
+        starBtn.classList.add("starred");
+    } else {
+        starBtn.innerHTML = "☆";
+        starBtn.classList.remove("starred");
+    }
+}
+
+// AUTO PLAY LOGIC
+function toggleAutoPlay() {
+    let toggle = document.getElementById("autoPlayToggle");
+    isAutoPlay = toggle.checked;
+    let container = document.getElementById("autoPlayLabel");
+    let text = document.getElementById("autoPlayText");
+    
+    if (isAutoPlay) {
+        container.classList.add("active");
+        text.innerText = "Chế độ tự động bật";
+        triggerAutoPlayLogic();
+    } else {
+        container.classList.remove("active");
+        text.innerText = "Chế độ tự động tắt";
+        clearTimeout(autoTimer);
+    }
+}
+
+function triggerAutoPlayLogic() {
+    clearTimeout(autoTimer);
+    if (!isAutoPlay || isQuizMode || shuffled.length === 0) return;
+
+    if (!answerShown) {
+        autoTimer = setTimeout(() => {
+            showAnswer();
+        }, 3000); // 3 giây để suy nghĩ
+    } else {
+        autoTimer = setTimeout(() => {
+            nextWord();
+        }, 2000); // 2 giây xem đáp án
+    }
+}
+
+
+function applyFilters(isDifficultFilter) {
     let filteredList = [];
-    if (selectedLessons.size === 0) {
+    
+    if (isDifficultFilter) {
+        filteredList = vocabulary.filter(w => difficultWords.includes(w.hanzi));
+    } else if (selectedLessons.size === 0) {
         filteredList = [...vocabulary]; 
     } else {
         filteredList = vocabulary.filter(w => selectedLessons.has(w.lesson));
@@ -1366,9 +1516,11 @@ function applyFilters() {
             showWord();
         } else {
             document.getElementById("hanziBox").innerText = "🈳";
-            document.getElementById("infoBox").innerText = "Không có từ vựng nào!";
+            document.getElementById("infoBox").innerText = isDifficultFilter ? "Bạn chưa lưu từ khó nào!" : "Không có từ vựng nào!";
             document.getElementById("progressText").innerText = "0% (0/0)";
             document.getElementById("progressBar").style.width = "0%";
+            updateStarUI();
+            clearTimeout(autoTimer);
         }
     } else {
         generateQuiz(); 
@@ -1390,6 +1542,9 @@ function showWord(){
     let percent = Math.round(((index + 1) / shuffled.length) * 100);
     document.getElementById("progressBar").style.width = percent + "%";
     document.getElementById("progressText").innerText = percent + "% (" + (index + 1) + "/" + shuffled.length + ")";
+    
+    updateStarUI();
+    triggerAutoPlayLogic();
 }
 
 function showAnswer(){
@@ -1404,6 +1559,7 @@ function showAnswer(){
     
     answerShown = true;
     speakWord(w.hanzi); 
+    triggerAutoPlayLogic();
 }
 
 function nextWord(){
@@ -1412,7 +1568,15 @@ function nextWord(){
         index++; 
         showWord(); 
     } else {
-        alert("🎉 Tuyệt vời! Bạn đã hoàn thành hết từ vựng được chọn!");
+        // Hết từ, tự động quay lại vòng lặp mới từ đầu nếu auto play đang bật
+        if(isAutoPlay) {
+             shuffled = shuffled.sort(() => Math.random() - 0.5);
+             index = 0;
+             showWord();
+        } else {
+             alert("🎉 Tuyệt vời! Bạn đã hoàn thành hết từ vựng được chọn!");
+             clearTimeout(autoTimer);
+        }
     }
 }
 
@@ -1438,19 +1602,27 @@ function toggleMode() {
     let btnToggle = document.getElementById("btnToggleMode");
     
     if (isQuizMode) {
+        // Tắt tự động khi vào kiểm tra
+        document.getElementById("autoPlayToggle").checked = false;
+        toggleAutoPlay();
+        
         document.getElementById("flashcardWindow").style.display = "none";
+        document.getElementById("autoPlayLabel").style.display = "none";
         document.getElementById("shortcutsInfo").style.display = "none";
         document.getElementById("quizWindow").style.display = "flex";
         btnToggle.classList.add("active-quiz-mode");
         btnToggle.innerText = "🔙 Trở về Học Từ";
+        
         generateQuiz();
     } else {
         document.getElementById("flashcardWindow").style.display = "block";
+        document.getElementById("autoPlayLabel").style.display = "flex";
         document.getElementById("shortcutsInfo").style.display = "block";
         document.getElementById("quizWindow").style.display = "none";
         btnToggle.classList.remove("active-quiz-mode");
         btnToggle.innerText = "📝 Kiểm tra nhanh";
-        applyFilters(); 
+        
+        applyFilters(document.getElementById("btnDifficultWords").classList.contains("active")); 
     }
 }
 
@@ -1495,7 +1667,6 @@ function generateQuiz() {
 
         let cleanMeaning = target.meaning.replace(/\s*\(Bài \d+\)/, ''); 
 
-        // Đã sửa lại để CHỈ hiển thị chữ Hán trong đáp án kiểm tra
         let optionsHTML = options.map((opt, j) => `
             <label class="option-label" id="q${i}_opt${j}" onclick="selectQuizOption(${i}, ${j})">
                 <input type="radio" name="q${i}" value="${j}">
@@ -1588,6 +1759,7 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
+// KHỞI CHẠY ỨNG DỤNG
 renderLessonButtons();
 selectAllLessons();
 </script>
