@@ -564,6 +564,7 @@
 
 <div class="main-container">
     <div class="app-wrapper">
+        <!-- CHẾ ĐỘ FLASHCARD -->
         <div class="window" id="flashcardWindow">
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"></div>
@@ -596,13 +597,15 @@
             <span id="autoPlayText">Chế độ tự động tắt</span>
         </label>
 
+        <!-- CHẾ ĐỘ KIỂM TRA NHANH -->
         <div class="quiz-window" id="quizWindow">
             <div class="quiz-header">
                 <h2 id="quizTitle">Kiểm tra nhanh (20 câu)</h2>
                 <div id="quizScore" style="font-size: 20px; font-weight: 800; color: #e74c3c; display: none;"></div>
             </div>
             <div class="quiz-content-scroll" id="quizContent">
-                </div>
+                <!-- Câu hỏi render ở đây -->
+            </div>
         </div>
 
         <div class="shortcuts-info" id="shortcutsInfo">
@@ -610,13 +613,15 @@
         </div>
     </div>
 
+    <!-- CỘT DANH SÁCH BÀI HỌC -->
     <div class="lessons-sidebar">
         <button class="btn-toggle-quiz" id="btnToggleMode" onclick="toggleMode()">📝 Kiểm tra nhanh</button>
         <div class="sidebar-title">Chọn bài học</div>
         <div class="lessons-list" id="lessonsListContainer">
             <button class="lesson-btn active" id="btnAllLessons" onclick="selectAllLessons()">Tất cả</button>
             <button class="lesson-btn lesson-btn-difficult" id="btnDifficultWords" onclick="showDifficultWords()">⭐ Từ khó học</button>
-            </div>
+            <!-- Các nút bài học sẽ được render tự động qua JS -->
+        </div>
     </div>
 </div>
 
@@ -1461,6 +1466,33 @@ let vocabulary = [
     {hanzi:"大手大脚", pinyin:"dà shǒu dà jiǎo", type:"Thành ngữ", meaning:"tiêu xài hoang phí, vung tay quá trán (Bài 33)", lesson:"Bài 33"},
     {hanzi:"喝西北风", pinyin:"hē xī běi fēng", type:"Cụm từ", meaning:"hít khí trời để sống, chết đói (Bài 33)", lesson:"Bài 33"},
 
+    // --- BÀI 34 ---
+    {hanzi:"修", pinyin:"xiū", type:"Động từ", meaning:"sửa, sửa chữa (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"坏", pinyin:"huài", type:"Tính từ", meaning:"hỏng, tồi, xấu (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"开夜车", pinyin:"kāi yèchē", type:"Động từ", meaning:"thức đêm (làm việc, học tập) (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"赶", pinyin:"gǎn", type:"Động từ", meaning:"vội, đuổi theo, bắt kịp (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"屏幕", pinyin:"píngmù", type:"Danh từ", meaning:"màn hình (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"忽然", pinyin:"hūrán", type:"Phó từ", meaning:"đột nhiên, bỗng nhiên (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"师傅", pinyin:"shīfu", type:"Danh từ", meaning:"thợ, sư phụ, bác tài (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"硬件", pinyin:"yìngjiàn", type:"Danh từ", meaning:"phần cứng (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"得", pinyin:"děi", type:"Động từ", meaning:"phải, cần phải (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"保修", pinyin:"bǎoxiū", type:"Động từ", meaning:"bảo hành (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"保修期", pinyin:"bǎoxiūqī", type:"Danh từ", meaning:"thời hạn bảo hành (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"内", pinyin:"nèi", type:"Phương vị từ", meaning:"trong, bên trong (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"借", pinyin:"jiè", type:"Động từ", meaning:"mượn, vay (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"眼镜", pinyin:"yǎnjìng", type:"Danh từ", meaning:"kính mắt (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"小心", pinyin:"xiǎoxīn", type:"Tính từ", meaning:"cẩn thận (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"摔", pinyin:"shuāi", type:"Động từ", meaning:"ngã, rơi, ném vỡ (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"摔跤", pinyin:"shuāijiāo", type:"Động từ", meaning:"vấp ngã, ngã (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"掉", pinyin:"diào", type:"Động từ", meaning:"rơi, rớt (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"破", pinyin:"pò", type:"Tính từ", meaning:"vỡ, rách (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"受", pinyin:"shòu", type:"Động từ", meaning:"nhận, chịu, bị (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"受伤", pinyin:"shòushāng", type:"Động từ", meaning:"bị thương (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"肿", pinyin:"zhǒng", type:"Tính từ", meaning:"sưng, sưng tấy (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"冰块儿", pinyin:"bīngkuàir", type:"Danh từ", meaning:"cục đá (đá lạnh) (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"敷", pinyin:"fū", type:"Động từ", meaning:"đắp, chườm (Bài 34)", lesson:"Bài 34"},
+    {hanzi:"副", pinyin:"fù", type:"Lượng từ", meaning:"bộ, cặp (lượng từ: chiếc kính, đôi găng tay...) (Bài 34)", lesson:"Bài 34"},
+
     // --- MỞ RỘNG ---
     {hanzi:"谁", pinyin:"shéi", type:"Đại từ", meaning:"ai (Mở rộng)", lesson:"Mở rộng"},
     {hanzi:"手", pinyin:"shǒu", type:"Danh từ", meaning:"tay (Mở rộng)", lesson:"Mở rộng"},
@@ -1494,7 +1526,7 @@ function renderLessonButtons() {
     let allLessonsSet = new Set();
     
     vocabulary.forEach(w => {
-        if(w.lesson) allLessonsSet.add(w.lesson);
+        if(w.lesson && w.lesson !== "Khác") allLessonsSet.add(w.lesson);
     });
 
     let lessonsArray = Array.from(allLessonsSet).sort((a,b) => {
