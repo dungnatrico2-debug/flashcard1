@@ -564,7 +564,6 @@
 
 <div class="main-container">
     <div class="app-wrapper">
-        <!-- CHẾ ĐỘ FLASHCARD -->
         <div class="window" id="flashcardWindow">
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"></div>
@@ -597,15 +596,13 @@
             <span id="autoPlayText">Chế độ tự động tắt</span>
         </label>
 
-        <!-- CHẾ ĐỘ KIỂM TRA NHANH -->
         <div class="quiz-window" id="quizWindow">
             <div class="quiz-header">
                 <h2 id="quizTitle">Kiểm tra nhanh (20 câu)</h2>
                 <div id="quizScore" style="font-size: 20px; font-weight: 800; color: #e74c3c; display: none;"></div>
             </div>
             <div class="quiz-content-scroll" id="quizContent">
-                <!-- Câu hỏi render ở đây -->
-            </div>
+                </div>
         </div>
 
         <div class="shortcuts-info" id="shortcutsInfo">
@@ -613,15 +610,13 @@
         </div>
     </div>
 
-    <!-- CỘT DANH SÁCH BÀI HỌC -->
     <div class="lessons-sidebar">
         <button class="btn-toggle-quiz" id="btnToggleMode" onclick="toggleMode()">📝 Kiểm tra nhanh</button>
         <div class="sidebar-title">Chọn bài học</div>
         <div class="lessons-list" id="lessonsListContainer">
             <button class="lesson-btn active" id="btnAllLessons" onclick="selectAllLessons()">Tất cả</button>
             <button class="lesson-btn lesson-btn-difficult" id="btnDifficultWords" onclick="showDifficultWords()">⭐ Từ khó học</button>
-            <!-- Các nút bài học sẽ được render tự động qua JS -->
-        </div>
+            </div>
     </div>
 </div>
 
@@ -1492,6 +1487,46 @@ let vocabulary = [
     {hanzi:"冰块儿", pinyin:"bīngkuàir", type:"Danh từ", meaning:"cục đá (đá lạnh) (Bài 34)", lesson:"Bài 34"},
     {hanzi:"敷", pinyin:"fū", type:"Động từ", meaning:"đắp, chườm (Bài 34)", lesson:"Bài 34"},
     {hanzi:"副", pinyin:"fù", type:"Lượng từ", meaning:"bộ, cặp (lượng từ: chiếc kính, đôi găng tay...) (Bài 34)", lesson:"Bài 34"},
+    
+    // --- BÀI 35 ---
+    {hanzi:"毛衣", pinyin:"máoyī", type:"Danh từ", meaning:"áo len (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"经过", pinyin:"jīngguò", type:"Động từ", meaning:"trải qua, đi qua (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"醒", pinyin:"xǐng", type:"Động từ", meaning:"tỉnh, thức giấc (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"急忙", pinyin:"jímáng", type:"Phó từ", meaning:"vội vàng, cuống cuồng (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"停车场", pinyin:"tíngchēchǎng", type:"Danh từ", meaning:"bãi đỗ xe (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"突然", pinyin:"tūrán", type:"Tính/Phó từ", meaning:"đột nhiên, bất thình lình (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"发现", pinyin:"fāxiàn", type:"Động từ", meaning:"phát hiện (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"只好", pinyin:"zhǐhǎo", type:"Phó từ", meaning:"đành phải (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"打车", pinyin:"dǎchē", type:"Động từ", meaning:"gọi xe, bắt taxi (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"人山人海", pinyin:"rénshān rénhǎi", type:"Thành ngữ", meaning:"biển người, đông nghịt (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"吃惊", pinyin:"chījīng", type:"Động từ", meaning:"kinh ngạc, giật mình (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"改天", pinyin:"gǎitiān", type:"Danh từ", meaning:"hôm khác, ngày khác (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"解释", pinyin:"jiěshì", type:"Động từ", meaning:"giải thích (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"活动", pinyin:"huódòng", type:"Danh/Động từ", meaning:"hoạt động (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"于是", pinyin:"yúshì", type:"Liên từ", meaning:"thế là, ngay sau đó (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"小吃", pinyin:"xiǎochī", type:"Danh từ", meaning:"đồ ăn vặt (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"所有", pinyin:"suǒyǒu", type:"Đại từ", meaning:"tất cả (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"打折", pinyin:"dǎzhé", type:"Động từ", meaning:"giảm giá (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"跳", pinyin:"tiào", type:"Động từ", meaning:"nhảy (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"眼睛", pinyin:"yǎnjing", type:"Danh từ", meaning:"mắt (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"花", pinyin:"huā", type:"Danh/Động từ", meaning:"hoa, tiêu (tiền), tốn (thời gian) (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"另", pinyin:"lìng", type:"Đại/Phó từ", meaning:"khác, ngoài ra (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"合适", pinyin:"héshì", type:"Tính từ", meaning:"phù hợp, thích hợp (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"深", pinyin:"shēn", type:"Tính từ", meaning:"đậm (màu sắc), sâu (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"浅", pinyin:"qiǎn", type:"Tính từ", meaning:"nhạt (màu sắc), nông (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"亲人", pinyin:"qīnrén", type:"Danh từ", meaning:"người thân (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"肚子", pinyin:"dùzi", type:"Danh từ", meaning:"bụng (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"饿", pinyin:"è", type:"Tính từ", meaning:"đói (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"结账", pinyin:"jiézhàng", type:"Động từ", meaning:"thanh toán (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"忘记", pinyin:"wàngjì", type:"Động từ", meaning:"quên (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"扫", pinyin:"sǎo", type:"Động từ", meaning:"quét (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"二维码", pinyin:"èr wéi mǎ", type:"Danh từ", meaning:"mã QR (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"付款", pinyin:"fùkuǎn", type:"Động từ", meaning:"thanh toán, trả tiền (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"兴奋", pinyin:"xīngfèn", type:"Tính từ", meaning:"hưng phấn, phấn khích (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"掏", pinyin:"tāo", type:"Động từ", meaning:"móc, moi, lôi ra (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"北京路步行街", pinyin:"Běijīng lù bùxíngjiē", type:"Danh từ", meaning:"Phố đi bộ đường Bắc Kinh (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"双十一节", pinyin:"Shuāngshíyī jié", type:"Danh từ", meaning:"Lễ Độc thân (Ngày 11/11) (Bài 35)", lesson:"Bài 35"},
+    {hanzi:"一日逛", pinyin:"yí rì guàng", type:"Cụm từ", meaning:"dạo chơi một ngày, đi dạo một ngày (Bài 35)", lesson:"Bài 35"},
 
     // --- MỞ RỘNG ---
     {hanzi:"谁", pinyin:"shéi", type:"Đại từ", meaning:"ai (Mở rộng)", lesson:"Mở rộng"},
