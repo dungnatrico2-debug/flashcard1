@@ -258,7 +258,7 @@
         transition: font-size 0.3s ease;
     }
 
-    /* --- STAR BUTTON --- */
+    /* --- STAR & EDIT BUTTON --- */
     .star-btn {
         position: absolute;
         top: 20px;
@@ -279,6 +279,17 @@
     .star-btn.starred {
         color: #f2c94c;
         text-shadow: 0 0 15px rgba(242, 201, 76, 0.6);
+    }
+
+    .edit-btn {
+        font-size: 18px;
+        cursor: pointer;
+        margin-left: 8px;
+        opacity: 0.6;
+        transition: opacity 0.2s;
+    }
+    .edit-btn:hover {
+        opacity: 1;
     }
 
     .speaker {
@@ -367,7 +378,35 @@
         margin-bottom: 6px;
     }
 
-    /* --- NEW ACTION BUTTONS (IN RIGHT PANEL) --- */
+    /* --- GIAO DIỆN VÍ DỤ --- */
+    .example-box {
+        margin-top: 15px;
+        padding: 12px 15px;
+        background: #fffdf9;
+        border-left: 4px solid #f2c94c;
+        border-radius: 8px;
+        text-align: left;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    }
+    .ex-hz {
+        font-family: 'Noto Sans SC', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: #e07a5f;
+        margin-bottom: 4px;
+    }
+    .ex-py {
+        font-size: 14px;
+        color: #a6998a;
+        margin-bottom: 4px;
+    }
+    .ex-vi {
+        font-size: 15px;
+        font-style: italic;
+        color: #7a6e60;
+    }
+
+    /* --- ACTION BUTTONS (IN RIGHT PANEL) --- */
     .action-buttons {
         display: flex;
         gap: 12px;
@@ -638,21 +677,21 @@
 <script>
 let vocabulary = [
     // --- BÀI 3 ---
-    {hanzi:"学习", pinyin:"xuéxí", type:"Động/Danh từ", meaning:"học tập (Bài 3)", lesson:"Bài 3"},
-    {hanzi:"学", pinyin:"xué", type:"Động từ", meaning:"học (Bài 3)", lesson:"Bài 3"},
-    {hanzi:"汉语", pinyin:"Hànyǔ", type:"Danh từ", meaning:"Hán ngữ, tiếng Hán (Bài 3)", lesson:"Bài 3"},
-    {hanzi:"英语", pinyin:"Yīngyǔ", type:"Danh từ", meaning:"Anh ngữ, tiếng Anh (Bài 3)", lesson:"Bài 3"},
-    {hanzi:"太", pinyin:"tài", type:"Phó từ", meaning:"quá, lắm (Bài 3)", lesson:"Bài 3"},
-    {hanzi:"难", pinyin:"nán", type:"Tính từ", meaning:"khó (Bài 3)", lesson:"Bài 3"},
-    {hanzi:"谢谢", pinyin:"xièxie", type:"Động từ", meaning:"cảm ơn (Bài 3)", lesson:"Bài 3"},
-    {hanzi:"不客气", pinyin:"bú kèqi", type:"Cụm từ", meaning:"đừng khách sáo (Bài 3)", lesson:"Bài 3"},
-    {hanzi:"爸爸", pinyin:"bàba", type:"Danh từ", meaning:"bố, ba (Bài 3)", lesson:"Bài 3"},
-    {hanzi:"妈妈", pinyin:"māma", type:"Danh từ", meaning:"mẹ (Bài 3)", lesson:"Bài 3"},
-    {hanzi:"哥哥", pinyin:"gēge", type:"Danh từ", meaning:"anh trai (Bài 3)", lesson:"Bài 3"},
-    {hanzi:"弟弟", pinyin:"dìdi", type:"Danh từ", meaning:"em trai (Bài 3)", lesson:"Bài 3"},
-    {hanzi:"妹妹", pinyin:"mèimei", type:"Danh từ", meaning:"em gái (Bài 3)", lesson:"Bài 3"},
-    {hanzi:"姐姐", pinyin:"jiějie", type:"Danh từ", meaning:"chị gái (Bài 3)", lesson:"Bài 3"},
-    {hanzi:"小", pinyin:"xiǎo", type:"Tính từ", meaning:"nhỏ, bé (Bài 3)", lesson:"Bài 3"},
+    {hanzi:"学习", pinyin:"xuéxí", type:"Động/Danh từ", meaning:"học tập (Bài 3)", lesson:"Bài 3", example:"我学习汉语。|Wǒ xuéxí Hànyǔ.|Tôi học tiếng Hán."},
+    {hanzi:"学", pinyin:"xué", type:"Động từ", meaning:"học (Bài 3)", lesson:"Bài 3", example:"他学英语。|Tā xué Yīngyǔ.|Anh ấy học tiếng Anh."},
+    {hanzi:"汉语", pinyin:"Hànyǔ", type:"Danh từ", meaning:"Hán ngữ, tiếng Hán (Bài 3)", lesson:"Bài 3", example:"汉语不难。|Hànyǔ bù nán.|Tiếng Hán không khó."},
+    {hanzi:"英语", pinyin:"Yīngyǔ", type:"Danh từ", meaning:"Anh ngữ, tiếng Anh (Bài 3)", lesson:"Bài 3", example:"我不学英语。|Wǒ bù xué Yīngyǔ.|Tôi không học tiếng Anh."},
+    {hanzi:"太", pinyin:"tài", type:"Phó từ", meaning:"quá, lắm (Bài 3)", lesson:"Bài 3", example:"太好了！|Tài hǎo le!|Quá tốt rồi!"},
+    {hanzi:"难", pinyin:"nán", type:"Tính từ", meaning:"khó (Bài 3)", lesson:"Bài 3", example:"汉字很难。|Hànzì hěn nán.|Chữ Hán rất khó."},
+    {hanzi:"谢谢", pinyin:"xièxie", type:"Động từ", meaning:"cảm ơn (Bài 3)", lesson:"Bài 3", example:"谢谢你。|Xièxiè nǐ.|Cảm ơn bạn."},
+    {hanzi:"不客气", pinyin:"bú kèqi", type:"Cụm từ", meaning:"đừng khách sáo (Bài 3)", lesson:"Bài 3", example:"不客气！|Bú kèqi!|Đừng khách sáo!"},
+    {hanzi:"爸爸", pinyin:"bàba", type:"Danh từ", meaning:"bố, ba (Bài 3)", lesson:"Bài 3", example:"我爱爸爸。|Wǒ ài bàba.|Tôi yêu bố."},
+    {hanzi:"妈妈", pinyin:"māma", type:"Danh từ", meaning:"mẹ (Bài 3)", lesson:"Bài 3", example:"妈妈很忙。|Māma hěn máng.|Mẹ rất bận."},
+    {hanzi:"哥哥", pinyin:"gēge", type:"Danh từ", meaning:"anh trai (Bài 3)", lesson:"Bài 3", example:"哥哥比我大。|Gēge bǐ wǒ dà.|Anh trai lớn hơn tôi."},
+    {hanzi:"弟弟", pinyin:"dìdi", type:"Danh từ", meaning:"em trai (Bài 3)", lesson:"Bài 3", example:"这是我弟弟。|Zhè shì wǒ dìdi.|Đây là em trai tôi."},
+    {hanzi:"妹妹", pinyin:"mèimei", type:"Danh từ", meaning:"em gái (Bài 3)", lesson:"Bài 3", example:"妹妹很可爱。|Mèimei hěn kě'ài.|Em gái rất đáng yêu."},
+    {hanzi:"姐姐", pinyin:"jiějie", type:"Danh từ", meaning:"chị gái (Bài 3)", lesson:"Bài 3", example:"姐姐是医生。|Jiějie shì yīshēng.|Chị gái là bác sĩ."},
+    {hanzi:"小", pinyin:"xiǎo", type:"Tính từ", meaning:"nhỏ, bé (Bài 3)", lesson:"Bài 3", example:"这个太小了。|Zhège tài xiǎo le.|Cái này nhỏ quá."},
 
     // --- BÀI 4 ---
     {hanzi:"是", pinyin:"shì", type:"Động từ", meaning:"là (Bài 4)", lesson:"Bài 4"},
@@ -1707,17 +1746,59 @@ let vocabulary = [
     {hanzi:"追求", pinyin:"zhuīqiú", type:"Động từ", meaning:"theo đuổi (Bài 39)", lesson:"Bài 39"},
     {hanzi:"其实", pinyin:"qíshí", type:"Phó từ", meaning:"thực ra, kỳ thực (Bài 39)", lesson:"Bài 39"},
 
+    // --- BÀI 40 ---
+    {hanzi:"任何", pinyin:"rènhé", type:"Đại từ", meaning:"bất kỳ, bất cứ (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"靠", pinyin:"kào", type:"Động từ", meaning:"dựa vào, nhờ vào (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"成功", pinyin:"chénggōng", type:"Động/Tính từ", meaning:"thành công (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"帮助", pinyin:"bāngzhù", type:"Động/Danh từ", meaning:"giúp đỡ (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"苏杭", pinyin:"Sū Háng", type:"Danh từ riêng", meaning:"Tô Hàng (Tô Châu & Hàng Châu) (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"外地", pinyin:"wàidì", type:"Danh từ", meaning:"nơi khác, tỉnh ngoài (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"梦想", pinyin:"mèngxiǎng", type:"Danh/Động từ", meaning:"ước mơ (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"改善", pinyin:"gǎishàn", type:"Động từ", meaning:"cải thiện (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"家乡", pinyin:"jiāxiāng", type:"Danh từ", meaning:"quê hương (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"挑战", pinyin:"tiǎozhàn", type:"Động/Danh từ", meaning:"thách thức, thử thách (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"发生", pinyin:"fāshēng", type:"Động từ", meaning:"xảy ra, phát sinh (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"无聊", pinyin:"wúliáo", type:"Tính từ", meaning:"nhàm chán, vô vị (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"空间", pinyin:"kōngjiān", type:"Danh từ", meaning:"không gian (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"考虑", pinyin:"kǎolǜ", type:"Động từ", meaning:"suy nghĩ, cân nhắc (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"前途", pinyin:"qiántú", type:"Danh từ", meaning:"tiền đồ, tương lai (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"漂泊", pinyin:"piāobó", type:"Động từ", meaning:"phiêu bạt, lênh đênh (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"草", pinyin:"cǎo", type:"Danh từ", meaning:"cỏ (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"云", pinyin:"yún", type:"Danh từ", meaning:"mây (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"最近", pinyin:"zuìjìn", type:"Danh/Phó từ", meaning:"gần đây, dạo này (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"事情", pinyin:"shìqing", type:"Danh từ", meaning:"sự việc, chuyện (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"弄", pinyin:"nòng", type:"Động từ", meaning:"làm, kiếm, xoay sở (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"心烦", pinyin:"xīnfán", type:"Tính từ", meaning:"phiền lòng, bực bội (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"克服", pinyin:"kèfú", type:"Động từ", meaning:"khắc phục, vượt qua (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"简直", pinyin:"jiǎnzhí", type:"Phó từ", meaning:"quả thực là, cứ như thể (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"终于", pinyin:"zhōngyú", type:"Phó từ", meaning:"cuối cùng (thì) (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"能力", pinyin:"nénglì", type:"Danh từ", meaning:"năng lực, khả năng (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"奖励", pinyin:"jiǎnglì", type:"Động/Danh từ", meaning:"phần thưởng, khen thưởng (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"人间", pinyin:"rénjiān", type:"Danh từ", meaning:"nhân gian, trần thế (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"恭喜", pinyin:"gōngxǐ", type:"Động từ", meaning:"chúc mừng (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"诉苦", pinyin:"sù kǔ", type:"Động từ", meaning:"than vãn, kể khổ (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"主动", pinyin:"zhǔdòng", type:"Tính/Phó từ", meaning:"chủ động (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"极了", pinyin:"jíle", type:"Hậu tố", meaning:"cực kỳ, lắm (đứng sau tính/động từ) (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"批评", pinyin:"pīpíng", type:"Động/Danh từ", meaning:"phê bình, chỉ trích (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"后来", pinyin:"hòulái", type:"Danh từ", meaning:"sau này, về sau (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"压力", pinyin:"yālì", type:"Danh từ", meaning:"áp lực (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"被", pinyin:"bèi", type:"Giới từ", meaning:"bị, được (câu bị động) (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"被评为", pinyin:"bèi píngwéi", type:"Cụm động từ", meaning:"được bình chọn là, được đánh giá là (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"被称为", pinyin:"bèi chēngwéi", type:"Cụm động từ", meaning:"được gọi là (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"优秀", pinyin:"yōuxiù", type:"Tính từ", meaning:"xuất sắc, ưu tú (Bài 40)", lesson:"Bài 40"},
+    {hanzi:"员工", pinyin:"yuángōng", type:"Danh từ", meaning:"nhân viên (Bài 40)", lesson:"Bài 40"},
+
     // --- MỞ RỘNG ---
-    {hanzi:"谁", pinyin:"shéi", type:"Đại từ", meaning:"ai (Mở rộng)", lesson:"Mở rộng"},
-    {hanzi:"手", pinyin:"shǒu", type:"Danh từ", meaning:"tay (Mở rộng)", lesson:"Mở rộng"},
-    {hanzi:"健康", pinyin:"jiànkāng", type:"Tính/Danh từ", meaning:"sức khỏe (Mở rộng)", lesson:"Mở rộng"},
-    {hanzi:"幸福", pinyin:"xìngfú", type:"Tính/Danh từ", meaning:"hạnh phúc (Mở rộng)", lesson:"Mở rộng"},
-    {hanzi:"就", pinyin:"jiù", type:"Phó từ", meaning:"thì, liền (Mở rộng)", lesson:"Mở rộng"},
-    {hanzi:"画儿", pinyin:"huàr", type:"Danh từ", meaning:"bức tranh (Mở rộng)", lesson:"Mở rộng"},
-    {hanzi:"画", pinyin:"huà", type:"Động từ", meaning:"vẽ (Mở rộng)", lesson:"Mở rộng"},
-    {hanzi:"努力", pinyin:"nǔlì", type:"Tính/Động từ", meaning:"chăm chỉ, nỗ lực (Mở rộng)", lesson:"Mở rộng"},
-    {hanzi:"成功", pinyin:"chénggōng", type:"Danh/Động từ", meaning:"thành công (Mở rộng)", lesson:"Mở rộng"},
-    {hanzi:"麻烦", pinyin:"máfan", type:"Động/Tính từ", meaning:"làm phiền, phiền phức (Mở rộng)", lesson:"Mở rộng"}
+    {hanzi:"谁", pinyin:"shéi", type:"Đại từ", meaning:"ai (Mở rộng)", lesson:"Mở rộng", example:"他是谁？|Tā shì shéi?|Anh ấy là ai?"},
+    {hanzi:"手", pinyin:"shǒu", type:"Danh từ", meaning:"tay (Mở rộng)", lesson:"Mở rộng", example:"洗手。|Xǐshǒu.|Rửa tay."},
+    {hanzi:"健康", pinyin:"jiànkāng", type:"Tính/Danh từ", meaning:"sức khỏe (Mở rộng)", lesson:"Mở rộng", example:"祝你健康！|Zhù nǐ jiànkāng!|Chúc bạn sức khỏe!"},
+    {hanzi:"幸福", pinyin:"xìngfú", type:"Tính/Danh từ", meaning:"hạnh phúc (Mở rộng)", lesson:"Mở rộng", example:"我很幸福。|Wǒ hěn xìngfú.|Tôi rất hạnh phúc."},
+    {hanzi:"就", pinyin:"jiù", type:"Phó từ", meaning:"thì, liền (Mở rộng)", lesson:"Mở rộng", example:"我就去。|Wǒ jiù qù.|Tôi đi liền."},
+    {hanzi:"画儿", pinyin:"huàr", type:"Danh từ", meaning:"bức tranh (Mở rộng)", lesson:"Mở rộng", example:"一幅画儿。|Yì fú huàr.|Một bức tranh."},
+    {hanzi:"画", pinyin:"huà", type:"Động từ", meaning:"vẽ (Mở rộng)", lesson:"Mở rộng", example:"我在画画。|Wǒ zài huà huà.|Tôi đang vẽ tranh."},
+    {hanzi:"努力", pinyin:"nǔlì", type:"Tính/Động từ", meaning:"chăm chỉ, nỗ lực (Mở rộng)", lesson:"Mở rộng", example:"努力学习。|Nǔlì xuéxí.|Chăm chỉ học tập."},
+    {hanzi:"成功", pinyin:"chénggōng", type:"Danh/Động từ", meaning:"thành công (Mở rộng)", lesson:"Mở rộng", example:"祝你成功！|Zhù nǐ chénggōng!|Chúc bạn thành công!"},
+    {hanzi:"麻烦", pinyin:"máfan", type:"Động/Tính từ", meaning:"làm phiền, phiền phức (Mở rộng)", lesson:"Mở rộng", example:"太麻烦了。|Tài máfan le.|Phiền phức quá."}
 ];
 
 let selectedLessons = new Set();
@@ -1728,8 +1809,9 @@ let isQuizMode = false;
 let currentQuizQuestions = [];
 let quizSubmitted = false;
 
-// Dữ liệu từ khó lấy từ LocalStorage để không mất khi F5
+// Dữ liệu lấy từ LocalStorage
 let difficultWords = JSON.parse(localStorage.getItem('flashcard_difficultWords')) || [];
+let customMeanings = JSON.parse(localStorage.getItem('flashcard_customMeanings')) || {};
 
 let isAutoPlay = false;
 let autoTimer;
@@ -1839,6 +1921,34 @@ function updateStarUI() {
     }
 }
 
+// CHỈNH SỬA NGHĨA TIẾNG VIỆT
+function editMeaning(hanzi) {
+    clearTimeout(autoTimer); // Tạm dừng auto-play khi đang edit
+    let word = vocabulary.find(w => w.hanzi === hanzi);
+    if(!word) return;
+    
+    let currentMeaning = customMeanings[hanzi] || word.meaning;
+    // Bỏ đi "(Bài x)" để edit cho sạch
+    let cleanMeaning = currentMeaning.replace(/\s*\(Bài \d+\)/, '').replace(/\s*\(Mở rộng\)/, '');
+    
+    let newMeaning = prompt("Sửa nghĩa tiếng Việt:", cleanMeaning);
+    if (newMeaning !== null && newMeaning.trim() !== "") {
+        // Tự động gắn lại bài học để khỏi bị mất
+        let lessonSuffix = word.lesson ? ` (${word.lesson})` : "";
+        customMeanings[hanzi] = newMeaning.trim() + lessonSuffix;
+        localStorage.setItem('flashcard_customMeanings', JSON.stringify(customMeanings));
+        
+        // Re-render
+        if (answerShown) {
+            showAnswer();
+        } else {
+            showWord();
+        }
+    } else {
+        triggerAutoPlayLogic(); // Phục hồi auto-play nếu cancel
+    }
+}
+
 // AUTO PLAY LOGIC
 function toggleAutoPlay() {
     let toggle = document.getElementById("autoPlayToggle");
@@ -1916,6 +2026,7 @@ function toggleLanguage() {
     if(isQuizMode) {
         generateQuiz();
     } else {
+        answerShown = false;
         showWord(); 
     }
 }
@@ -1926,10 +2037,11 @@ function showWord(){
     let w = shuffled[index];
     let hBox = document.getElementById("hanziBox");
     
-    let cleanMeaning = w.meaning.replace(/\s*\(Bài \d+\)/, '').replace(/\s*\(Mở rộng\)/, '');
+    let currentMeaning = customMeanings[w.hanzi] || w.meaning;
+    let cleanMeaning = currentMeaning.replace(/\s*\(Bài \d+\)/, '').replace(/\s*\(Mở rộng\)/, '');
     
     if (isVietToTrung) {
-        hBox.innerText = cleanMeaning;
+        hBox.innerHTML = cleanMeaning + ` <span class="edit-btn" onclick="event.stopPropagation(); editMeaning('${w.hanzi}')" title="Sửa nghĩa">✏️</span>`;
         hBox.style.fontSize = "40px";
         hBox.style.fontFamily = "'Nunito', sans-serif";
         hBox.style.fontWeight = "800";
@@ -1959,14 +2071,30 @@ function showAnswer(){
     
     let info = document.getElementById("infoBox");
     
+    let exHTML = "";
+    if (w.example) {
+        let parts = w.example.split("|");
+        if (parts.length === 3) {
+            exHTML = `<div class='example-box'>
+                        <div class='ex-hz'>💡 ${parts[0].trim()}</div>
+                        <div class='ex-py'>${parts[1].trim()}</div>
+                        <div class='ex-vi'>${parts[2].trim()}</div>
+                      </div>`;
+        } else {
+            exHTML = `<div class='example-box'>💡 ${w.example}</div>`;
+        }
+    }
+
+    let currentMeaning = customMeanings[w.hanzi] || w.meaning;
+
     if (isVietToTrung) {
-        info.innerHTML = "<b style='font-family: \"Noto Sans SC\", sans-serif; font-size: 50px; color: #e07a5f;'>" + w.hanzi + "</b>" + 
+        info.innerHTML = "<b style='font-family: \"Noto Sans SC\", sans-serif; font-size: 50px; color: #e07a5f; margin-bottom: 5px;'>" + w.hanzi + "</b>" + 
                          "<span style='font-size: 24px; color: #d4a373; font-weight: bold; display: block; margin-bottom: 5px;'>" + w.pinyin + "</span>" +
-                         "<span class='type-badge'>" + w.type + "</span>";
+                         "<span class='type-badge'>" + w.type + "</span>" + exHTML;
     } else {
         info.innerHTML = "<b>" + w.pinyin + "</b>" + 
                          "<span class='type-badge'>" + w.type + "</span><br>" + 
-                         w.meaning;
+                         currentMeaning + ` <span class="edit-btn" onclick="event.stopPropagation(); editMeaning('${w.hanzi}')" title="Sửa nghĩa">✏️</span>` + exHTML;
     }
     
     info.classList.add("revealed");
@@ -1982,6 +2110,7 @@ function nextWord(){
         index++; 
         showWord(); 
     } else {
+        // Hết từ, tự động quay lại vòng lặp mới từ đầu nếu auto play đang bật
         if(isAutoPlay) {
              shuffled = shuffled.sort(() => Math.random() - 0.5);
              index = 0;
@@ -2085,13 +2214,15 @@ function generateQuiz() {
         });
 
         let qTitle, optionsHTML;
-        let cleanMeaningTarget = target.meaning.replace(/\s*\(Bài \d+\)/, '').replace(/\s*\(Mở rộng\)/, '');
+        let targetCurrentMeaning = customMeanings[target.hanzi] || target.meaning;
+        let cleanMeaningTarget = targetCurrentMeaning.replace(/\s*\(Bài \d+\)/, '').replace(/\s*\(Mở rộng\)/, '');
 
         if (!isVietToTrung) {
             // Trung -> Việt
             qTitle = `<b>Câu ${i + 1}:</b> Nghĩa của từ <b style="font-size:24px; color:#e07a5f; font-family: 'Noto Sans SC', sans-serif;">${target.hanzi}</b> là gì?`;
             optionsHTML = options.map((opt, j) => {
-                let cleanOptMeaning = opt.meaning.replace(/\s*\(Bài \d+\)/, '').replace(/\s*\(Mở rộng\)/, '');
+                let optCurrentMeaning = customMeanings[opt.hanzi] || opt.meaning;
+                let cleanOptMeaning = optCurrentMeaning.replace(/\s*\(Bài \d+\)/, '').replace(/\s*\(Mở rộng\)/, '');
                 return `
                     <label class="option-label" id="q${i}_opt${j}" onclick="selectQuizOption(${i}, ${j})">
                         <input type="radio" name="q${i}" value="${j}">
@@ -2183,6 +2314,9 @@ function submitQuiz() {
 
 document.addEventListener('keydown', function(event) {
     if(isQuizMode) return; 
+
+    // Không kích hoạt phím tắt khi người dùng đang ở trong prompt (đang sửa từ)
+    if(document.querySelector('.edit-mode')) return;
 
     if(event.code === "ArrowRight") {
         nextWord();
