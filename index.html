@@ -616,6 +616,7 @@
 
 <div class="main-container">
     <div class="app-wrapper">
+        <!-- CHẾ ĐỘ FLASHCARD -->
         <div class="window" id="flashcardWindow">
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"></div>
@@ -633,6 +634,7 @@
                     <div class="info-container">
                         <div id="infoBox">Nhấn "Hiện đáp án"</div>
                     </div>
+                    <!-- CONTROL BUTTONS MOVED HERE -->
                     <div class="action-buttons">
                         <button class="nav prev" onclick="prevWord()" title="Từ trước">❮</button>
                         <button class="main" id="btnShow" onclick="showAnswer()">Hiện đáp án (Space)</button>
@@ -650,13 +652,15 @@
             <button class="lang-toggle-btn" id="btnToggleLang" onclick="toggleLanguage()">🔄 Trung ➔ Việt</button>
         </div>
 
+        <!-- CHẾ ĐỘ KIỂM TRA NHANH -->
         <div class="quiz-window" id="quizWindow">
             <div class="quiz-header">
                 <h2 id="quizTitle">Kiểm tra nhanh (20 câu)</h2>
                 <div id="quizScore" style="font-size: 20px; font-weight: 800; color: #e74c3c; display: none;"></div>
             </div>
             <div class="quiz-content-scroll" id="quizContent">
-                </div>
+                <!-- Câu hỏi render ở đây -->
+            </div>
         </div>
 
         <div class="shortcuts-info" id="shortcutsInfo">
@@ -664,13 +668,15 @@
         </div>
     </div>
 
+    <!-- CỘT DANH SÁCH BÀI HỌC -->
     <div class="lessons-sidebar">
         <button class="btn-toggle-quiz" id="btnToggleMode" onclick="toggleMode()">📝 Kiểm tra nhanh</button>
         <div class="sidebar-title">Chọn bài học</div>
         <div class="lessons-list" id="lessonsListContainer">
             <button class="lesson-btn active" id="btnAllLessons" onclick="selectAllLessons()">Tất cả</button>
             <button class="lesson-btn lesson-btn-difficult" id="btnDifficultWords" onclick="showDifficultWords()">⭐ Từ khó học</button>
-            </div>
+            <!-- Các nút bài học sẽ được render tự động qua JS -->
+        </div>
     </div>
 </div>
 
@@ -1788,6 +1794,48 @@ let vocabulary = [
     {hanzi:"优秀", pinyin:"yōuxiù", type:"Tính từ", meaning:"xuất sắc, ưu tú (Bài 40)", lesson:"Bài 40"},
     {hanzi:"员工", pinyin:"yuángōng", type:"Danh từ", meaning:"nhân viên (Bài 40)", lesson:"Bài 40"},
 
+    // --- BÀI 41 ---
+    {hanzi:"恐怕", pinyin:"kǒngpà", type:"Phó từ", meaning:"e rằng, sợ rằng (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"竞争", pinyin:"jìngzhēng", type:"Động/Danh từ", meaning:"cạnh tranh (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"竞争力", pinyin:"jìngzhēnglì", type:"Danh từ", meaning:"sức cạnh tranh, năng lực cạnh tranh (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"要求", pinyin:"yāoqiú", type:"Động/Danh từ", meaning:"yêu cầu (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"优先", pinyin:"yōuxiān", type:"Động/Tính từ", meaning:"ưu tiên (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"错过", pinyin:"cuòguò", type:"Động từ", meaning:"bỏ lỡ (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"望子成龙", pinyin:"wàngzǐ chénglóng", type:"Thành ngữ", meaning:"mong con thành tài (vọng tử thành long) (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"努力", pinyin:"nǔlì", type:"Tính/Động từ", meaning:"nỗ lực, cố gắng (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"成为", pinyin:"chéngwéi", type:"Động từ", meaning:"trở thành (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"骄傲", pinyin:"jiāo'ào", type:"Tính từ", meaning:"tự hào, kiêu ngạo (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"文凭", pinyin:"wénpíng", type:"Danh từ", meaning:"bằng cấp (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"招聘", pinyin:"zhāopìn", type:"Động từ", meaning:"tuyển dụng (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"启事", pinyin:"qǐshì", type:"Danh từ", meaning:"thông báo, cáo thị (tìm người, tìm đồ...) (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"以上", pinyin:"yǐshàng", type:"Danh/Phương vị từ", meaning:"trở lên, phía trên (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"学历", pinyin:"xuélì", type:"Danh từ", meaning:"học lực, trình độ học vấn (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"者", pinyin:"zhě", type:"Đại/Hậu tố", meaning:"người (hậu tố: ứng tuyển giả, học giả...) (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"唯一", pinyin:"wéiyī", type:"Tính từ", meaning:"duy nhất (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"刻", pinyin:"kè", type:"Lượng/Động từ", meaning:"khắc, chạm khắc / khắc (15 phút) (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"数量", pinyin:"shùliàng", type:"Danh từ", meaning:"số lượng (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"甚至", pinyin:"shènzhì", type:"Liên/Phó từ", meaning:"thậm chí (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"社会", pinyin:"shèhuì", type:"Danh từ", meaning:"xã hội (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"重视", pinyin:"zhòngshì", type:"Động từ", meaning:"coi trọng (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"重要", pinyin:"zhòngyào", type:"Tính từ", meaning:"quan trọng (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"改变", pinyin:"gǎibiàn", type:"Động/Danh từ", meaning:"thay đổi (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"命运", pinyin:"mìngyùn", type:"Danh từ", meaning:"vận mệnh, số phận (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"因此", pinyin:"yīncǐ", type:"Liên từ", meaning:"bởi vậy, do đó (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"目标", pinyin:"mùbiāo", type:"Danh từ", meaning:"mục tiêu (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"奋斗", pinyin:"fèndòu", type:"Động từ", meaning:"phấn đấu (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"缠", pinyin:"chán", type:"Động từ", meaning:"quấn, vướng víu (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"缠足", pinyin:"chánzú", type:"Động/Danh từ", meaning:"bó chân (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"理解", pinyin:"lǐjiě", type:"Động/Danh từ", meaning:"hiểu, thấu hiểu (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"古代", pinyin:"gǔdài", type:"Danh từ", meaning:"cổ đại, thời xưa (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"审美", pinyin:"shěnměi", type:"Danh/Động từ", meaning:"thẩm mỹ (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"可怕", pinyin:"kěpà", type:"Tính từ", meaning:"đáng sợ (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"演员", pinyin:"yǎnyuán", type:"Danh từ", meaning:"diễn viên (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"字幕", pinyin:"zìmù", type:"Danh từ", meaning:"phụ đề (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"来得及", pinyin:"láidejí", type:"Động từ", meaning:"kịp, còn kịp (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"排", pinyin:"pái", type:"Động/Lượng từ", meaning:"xếp, sắp xếp, hàng (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"排队", pinyin:"páiduì", type:"Động từ", meaning:"xếp hàng (Bài 41)", lesson:"Bài 41"},
+    {hanzi:"订", pinyin:"dìng", type:"Động từ", meaning:"đặt (chỗ, vé, hàng) (Bài 41)", lesson:"Bài 41"},
+
     // --- MỞ RỘNG ---
     {hanzi:"谁", pinyin:"shéi", type:"Đại từ", meaning:"ai (Mở rộng)", lesson:"Mở rộng", example:"他是谁？|Tā shì shéi?|Anh ấy là ai?"},
     {hanzi:"手", pinyin:"shǒu", type:"Danh từ", meaning:"tay (Mở rộng)", lesson:"Mở rộng", example:"洗手。|Xǐshǒu.|Rửa tay."},
@@ -2110,7 +2158,6 @@ function nextWord(){
         index++; 
         showWord(); 
     } else {
-        // Hết từ, tự động quay lại vòng lặp mới từ đầu nếu auto play đang bật
         if(isAutoPlay) {
              shuffled = shuffled.sort(() => Math.random() - 0.5);
              index = 0;
