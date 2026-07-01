@@ -616,7 +616,6 @@
 
 <div class="main-container">
     <div class="app-wrapper">
-        <!-- CHẾ ĐỘ FLASHCARD -->
         <div class="window" id="flashcardWindow">
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"></div>
@@ -634,7 +633,6 @@
                     <div class="info-container">
                         <div id="infoBox">Nhấn "Hiện đáp án"</div>
                     </div>
-                    <!-- CONTROL BUTTONS MOVED HERE -->
                     <div class="action-buttons">
                         <button class="nav prev" onclick="prevWord()" title="Từ trước">❮</button>
                         <button class="main" id="btnShow" onclick="showAnswer()">Hiện đáp án (Space)</button>
@@ -652,15 +650,13 @@
             <button class="lang-toggle-btn" id="btnToggleLang" onclick="toggleLanguage()">🔄 Trung ➔ Việt</button>
         </div>
 
-        <!-- CHẾ ĐỘ KIỂM TRA NHANH -->
         <div class="quiz-window" id="quizWindow">
             <div class="quiz-header">
                 <h2 id="quizTitle">Kiểm tra nhanh (20 câu)</h2>
                 <div id="quizScore" style="font-size: 20px; font-weight: 800; color: #e74c3c; display: none;"></div>
             </div>
             <div class="quiz-content-scroll" id="quizContent">
-                <!-- Câu hỏi render ở đây -->
-            </div>
+                </div>
         </div>
 
         <div class="shortcuts-info" id="shortcutsInfo">
@@ -668,15 +664,13 @@
         </div>
     </div>
 
-    <!-- CỘT DANH SÁCH BÀI HỌC -->
     <div class="lessons-sidebar">
         <button class="btn-toggle-quiz" id="btnToggleMode" onclick="toggleMode()">📝 Kiểm tra nhanh</button>
         <div class="sidebar-title">Chọn bài học</div>
         <div class="lessons-list" id="lessonsListContainer">
             <button class="lesson-btn active" id="btnAllLessons" onclick="selectAllLessons()">Tất cả</button>
             <button class="lesson-btn lesson-btn-difficult" id="btnDifficultWords" onclick="showDifficultWords()">⭐ Từ khó học</button>
-            <!-- Các nút bài học sẽ được render tự động qua JS -->
-        </div>
+            </div>
     </div>
 </div>
 
@@ -1885,6 +1879,51 @@ let vocabulary = [
     {hanzi:"散步", pinyin:"sànbù", type:"Động từ", meaning:"tản bộ, đi dạo (Bài 42)", lesson:"Bài 42"},
     {hanzi:"好处", pinyin:"hǎochu", type:"Danh từ", meaning:"điểm tốt, lợi ích (Bài 42)", lesson:"Bài 42"},
 
+    // --- BÀI 43 ---
+    {hanzi:"遇到", pinyin:"yùdào", type:"Động từ", meaning:"gặp, bắt gặp (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"白马王子", pinyin:"bái mǎ wángzǐ", type:"Danh từ", meaning:"Bạch mã hoàng tử (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"收入", pinyin:"shōurù", type:"Danh từ", meaning:"thu nhập (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"礼貌", pinyin:"lǐmào", type:"Tính/Danh từ", meaning:"lễ phép, lịch sự (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"当时", pinyin:"dāngshí", type:"Danh từ", meaning:"lúc đó, khi đó (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"相信", pinyin:"xiāngxìn", type:"Động từ", meaning:"tin tưởng, tin (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"早晚", pinyin:"zǎowǎn", type:"Phó từ", meaning:"sớm muộn (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"方面", pinyin:"fāngmiàn", type:"Danh từ", meaning:"phương diện, mặt (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"餐厅", pinyin:"cāntīng", type:"Danh từ", meaning:"nhà hàng, phòng ăn (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"结果", pinyin:"jiéguǒ", type:"Danh/Liên từ", meaning:"kết quả (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"无话可说", pinyin:"wúhuà kěshuō", type:"Cụm từ", meaning:"không còn gì để nói (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"过分", pinyin:"guòfèn", type:"Tính từ", meaning:"quá đáng (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"连续", pinyin:"liánxù", type:"Phó/Tính từ", meaning:"liên tục, liên tiếp (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"遗憾", pinyin:"yíhàn", type:"Tính/Danh từ", meaning:"đáng tiếc, hối tiếc (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"羡慕", pinyin:"xiànmù", type:"Động từ", meaning:"ngưỡng mộ, ghen tị (tích cực) (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"相亲", pinyin:"xiāngqīn", type:"Động từ", meaning:"xem mắt (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"推迟", pinyin:"tuīchí", type:"Động từ", meaning:"hoãn lại, lùi lại (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"性格", pinyin:"xìnggé", type:"Danh từ", meaning:"tính cách (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"帅", pinyin:"shuài", type:"Tính từ", meaning:"đẹp trai (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"盯", pinyin:"dīng", type:"Động từ", meaning:"nhìn chằm chằm (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"影响", pinyin:"yǐngxiǎng", type:"Động/Danh từ", meaning:"ảnh hưởng (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"成绩", pinyin:"chéngjì", type:"Danh từ", meaning:"thành tích (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"处理", pinyin:"chǔlǐ", type:"Động từ", meaning:"xử lý, giải quyết (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"动力", pinyin:"dònglì", type:"Danh từ", meaning:"động lực (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"说服", pinyin:"shuōfú", type:"Động từ", meaning:"thuyết phục (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"互相", pinyin:"hùxiāng", type:"Phó từ", meaning:"lẫn nhau, qua lại (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"辅导", pinyin:"fǔdǎo", type:"Động/Danh từ", meaning:"phụ đạo, hướng dẫn (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"一见钟情", pinyin:"yí jiàn zhōng qíng", type:"Thành ngữ", meaning:"vừa gặp đã yêu, tiếng sét ái tình (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"日久生情", pinyin:"rìjiǔ shēngqíng", type:"Thành ngữ", meaning:"lửa gần rơm lâu ngày cũng bén, lâu ngày sinh tình (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"同意", pinyin:"tóngyì", type:"Động từ", meaning:"đồng ý (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"反对", pinyin:"fǎnduì", type:"Động từ", meaning:"phản đối (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"对方", pinyin:"duìfāng", type:"Danh từ", meaning:"đối phương, bên kia (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"时代", pinyin:"shídài", type:"Danh từ", meaning:"thời đại (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"算", pinyin:"suàn", type:"Động từ", meaning:"tính, tính toán, coi như (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"谈恋爱", pinyin:"tán liàn'ài", type:"Động từ", meaning:"yêu đương, hẹn hò (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"分组", pinyin:"fēnzǔ", type:"Động từ", meaning:"chia nhóm (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"数学", pinyin:"shùxué", type:"Danh từ", meaning:"toán học (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"初恋", pinyin:"chūliàn", type:"Danh từ", meaning:"tình đầu, mối tình đầu (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"早恋", pinyin:"zǎoliàn", type:"Động/Danh từ", meaning:"yêu sớm (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"段", pinyin:"duàn", type:"Lượng từ", meaning:"đoạn (lượng từ: khoảng thời gian, đoạn đường) (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"感情", pinyin:"gǎnqíng", type:"Danh từ", meaning:"tình cảm (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"爱情", pinyin:"àiqíng", type:"Danh từ", meaning:"tình yêu (Bài 43)", lesson:"Bài 43"},
+    {hanzi:"对象", pinyin:"duìxiàng", type:"Danh từ", meaning:"đối tượng, người yêu (Bài 43)", lesson:"Bài 43"},
+
     // --- MỞ RỘNG ---
     {hanzi:"谁", pinyin:"shéi", type:"Đại từ", meaning:"ai (Mở rộng)", lesson:"Mở rộng", example:"他是谁？|Tā shì shéi?|Anh ấy là ai?"},
     {hanzi:"手", pinyin:"shǒu", type:"Danh từ", meaning:"tay (Mở rộng)", lesson:"Mở rộng", example:"洗手。|Xǐshǒu.|Rửa tay."},
@@ -2138,7 +2177,7 @@ function showWord(){
     let cleanMeaning = currentMeaning.replace(/\s*\(Bài \d+\)/, '').replace(/\s*\(Mở rộng\)/, '');
     
     if (isVietToTrung) {
-        hBox.innerHTML = cleanMeaning + ` <span class="edit-btn" onclick="event.stopPropagation(); editMeaning('${w.hanzi}')" title="Sửa nghĩa">✏️</span>`;
+        hBox.innerHTML = cleanMeaning + ` <span class="edit-btn" onclick="event.stopPropagation(); editMeaning('${w.hanzi}')" title="Sửa nghĩa"✏️</span>`;
         hBox.style.fontSize = "40px";
         hBox.style.fontFamily = "'Nunito', sans-serif";
         hBox.style.fontWeight = "800";
