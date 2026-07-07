@@ -100,102 +100,6 @@
         color: #e07a5f;
     }
 
-    /* --- QUIZ WINDOW --- */
-    .quiz-window {
-        width: 100%;
-        height: 520px;
-        background: #ffffff;
-        border-radius: 24px;
-        border: 2px solid #e8e1d7;
-        box-shadow: 0 20px 40px rgba(140, 125, 110, 0.12);
-        padding: 30px 20px 30px 30px;
-        display: none;
-        flex-direction: column;
-    }
-
-    .quiz-content-scroll {
-        flex: 1;
-        overflow-y: auto;
-        padding-right: 15px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .quiz-content-scroll::-webkit-scrollbar { width: 8px; }
-    .quiz-content-scroll::-webkit-scrollbar-track { background: #f5f1ea; border-radius: 10px; }
-    .quiz-content-scroll::-webkit-scrollbar-thumb { background: #dcd4c7; border-radius: 10px; }
-
-    .question-card {
-        background: #fbf7f0;
-        border: 2px solid #eae2d5;
-        border-radius: 16px;
-        padding: 20px;
-    }
-
-    .question-title {
-        font-size: 18px;
-        font-weight: 700;
-        color: #8c7d6e;
-        margin-bottom: 15px;
-    }
-
-    .question-title b {
-        color: #d4a373;
-        font-size: 20px;
-    }
-
-    .options-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-    }
-
-    .option-label {
-        background: #fff;
-        border: 2px solid #ded6c9;
-        border-radius: 12px;
-        padding: 12px 15px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        transition: all 0.2s ease;
-    }
-
-    .option-label:hover:not(.disabled) {
-        border-color: #f2c94c;
-        background: #fffcf8;
-        transform: translateY(-2px);
-    }
-
-    .option-label input { display: none; }
-    .option-label.selected { border-color: #f2994a; background: #fff2e6; }
-    .option-label.correct { border-color: #27ae60 !important; background: #eafaf1 !important; color: #27ae60; }
-    .option-label.incorrect { border-color: #e74c3c !important; background: #fdedec !important; color: #e74c3c; }
-    .option-label.disabled { cursor: default; pointer-events: none; }
-
-    .option-text {
-        font-size: 24px; 
-        font-family: 'Noto Sans SC', sans-serif;
-        font-weight: 700;
-        color: #4a4036;
-        letter-spacing: 1px;
-    }
-
-    .quiz-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-        padding-right: 15px;
-    }
-
-    .quiz-header h2 {
-        margin: 0;
-        color: #4a4036;
-        font-size: 24px;
-    }
-
     /* --- PROGRESS BAR --- */
     .progress-container {
         width: 100%;
@@ -470,19 +374,6 @@
         transform: translateY(1px);
         box-shadow: 0 4px 10px rgba(224, 122, 95, 0.2);
     }
-    
-    .btn-submit-quiz {
-        background: linear-gradient(135deg, #27ae60, #2ecc71);
-        box-shadow: 0 8px 20px rgba(46, 204, 113, 0.25);
-        width: 100%;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-
-    .btn-submit-quiz:hover {
-        background: linear-gradient(135deg, #2ecc71, #27ae60);
-        box-shadow: 0 12px 25px rgba(46, 204, 113, 0.35);
-    }
 
     .shortcuts-info {
         text-align: center;
@@ -518,31 +409,6 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-    }
-
-    .btn-toggle-quiz {
-        background: linear-gradient(135deg, #9b59b6, #8e44ad);
-        color: white;
-        border: none;
-        padding: 12px;
-        border-radius: 12px;
-        font-family: 'Nunito', sans-serif;
-        font-weight: 800;
-        font-size: 15px;
-        cursor: pointer;
-        box-shadow: 0 6px 15px rgba(155, 89, 182, 0.3);
-        transition: all 0.2s ease;
-        margin-bottom: 5px;
-    }
-
-    .btn-toggle-quiz:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(155, 89, 182, 0.4);
-    }
-
-    .btn-toggle-quiz.active-quiz-mode {
-        background: linear-gradient(135deg, #e74c3c, #c0392b);
-        box-shadow: 0 6px 15px rgba(231, 76, 60, 0.3);
     }
 
     .sidebar-title {
@@ -650,27 +516,17 @@
             <button class="lang-toggle-btn" id="btnToggleLang" onclick="toggleLanguage()">🔄 Trung ➔ Việt</button>
         </div>
 
-        <div class="quiz-window" id="quizWindow">
-            <div class="quiz-header">
-                <h2 id="quizTitle">Kiểm tra nhanh (20 câu)</h2>
-                <div id="quizScore" style="font-size: 20px; font-weight: 800; color: #e74c3c; display: none;"></div>
-            </div>
-            <div class="quiz-content-scroll" id="quizContent">
-                </div>
-        </div>
-
         <div class="shortcuts-info" id="shortcutsInfo">
             Mẹo: Dùng phím <kbd>←</kbd> <kbd>→</kbd> để chuyển từ, phím <kbd>Space</kbd> để xem đáp án.
         </div>
     </div>
 
     <div class="lessons-sidebar">
-        <button class="btn-toggle-quiz" id="btnToggleMode" onclick="toggleMode()">📝 Kiểm tra nhanh</button>
         <div class="sidebar-title">Chọn bài học</div>
         <div class="lessons-list" id="lessonsListContainer">
             <button class="lesson-btn active" id="btnAllLessons" onclick="selectAllLessons()">Tất cả</button>
             <button class="lesson-btn lesson-btn-difficult" id="btnDifficultWords" onclick="showDifficultWords()">⭐ Từ khó học</button>
-            </div>
+        </div>
     </div>
 </div>
 
@@ -1268,8 +1124,7 @@ let vocabulary = [
     {hanzi:"找到", pinyin:"zhǎodào", type:"Động từ", meaning:"tìm thấy (Bài 25)", lesson:"Bài 25"},
     {hanzi:"邮箱", pinyin:"yóuxiāng", type:"Danh từ", meaning:"hòm thư (Bài 25)", lesson:"Bài 25"},
     {hanzi:"顺便", pinyin:"shùnbiàn", type:"Phó từ", meaning:"nhân tiện (Bài 25)", lesson:"Bài 25"},
-
-    // --- BÀI 26 ---
+// --- BÀI 26 ---
     {hanzi:"国庆节", pinyin:"Guóqìng jié", type:"Danh từ", meaning:"Lễ Quốc khánh (Bài 26)", lesson:"Bài 26"},
     {hanzi:"放假", pinyin:"fàngjià", type:"Động từ", meaning:"nghỉ lễ (Bài 26)", lesson:"Bài 26"},
     {hanzi:"长", pinyin:"cháng", type:"Tính từ", meaning:"dài (Bài 26)", lesson:"Bài 26"},
@@ -1924,40 +1779,88 @@ let vocabulary = [
     {hanzi:"爱情", pinyin:"àiqíng", type:"Danh từ", meaning:"tình yêu (Bài 43)", lesson:"Bài 43"},
     {hanzi:"对象", pinyin:"duìxiàng", type:"Danh từ", meaning:"đối tượng, người yêu (Bài 43)", lesson:"Bài 43"},
 
-    // --- BÀI 44 ---
-    {hanzi:"机遇", pinyin:"jīyù", type:"Danh từ", meaning:"cơ hội, vận may (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"如何", pinyin:"rúhé", type:"Đại từ", meaning:"làm sao, như thế nào (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"不管", pinyin:"bùguǎn", type:"Liên từ", meaning:"cho dù, bất kể (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"加班", pinyin:"jiābān", type:"Động từ", meaning:"tăng ca, làm thêm giờ (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"实在", pinyin:"shízài", type:"Tính/Phó từ", meaning:"thật sự, quả thực, chân thật (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"教儿育女", pinyin:"jiào'ér yù nǚ", type:"Cụm từ", meaning:"dạy dỗ con cái, nuôi dạy con cái (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"教育", pinyin:"jiàoyù", type:"Danh/Động từ", meaning:"giáo dục (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"孝顺", pinyin:"xiàoshùn", type:"Tính/Động từ", meaning:"hiếu thuận (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"拥有", pinyin:"yōngyǒu", type:"Động từ", meaning:"sở hữu, có được (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"表示", pinyin:"biǎoshì", type:"Động từ", meaning:"biểu thị, bày tỏ (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"聪明", pinyin:"cōngming", type:"Tính từ", meaning:"thông minh (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"实现", pinyin:"shíxiàn", type:"Động từ", meaning:"thực hiện (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"平衡", pinyin:"pínghéng", type:"Tính/Danh từ", meaning:"cân bằng (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"埋头", pinyin:"máitóu", type:"Động từ", meaning:"cúi đầu, vùi đầu (vào công việc) (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"再说", pinyin:"zàishuō", type:"Liên/Động từ", meaning:"hơn nữa, vả lại / để sau hãy nói (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"几乎", pinyin:"jīhū", type:"Phó từ", meaning:"hầu như, gần như (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"陪伴", pinyin:"péibàn", type:"Động từ", meaning:"bầu bạn, ở bên cạnh (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"辛苦", pinyin:"xīnkǔ", type:"Tính từ", meaning:"vất vả, cực nhọc (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"对于", pinyin:"duìyú", type:"Giới từ", meaning:"đối với (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"曾", pinyin:"céng", type:"Phó từ", meaning:"từng, đã từng (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"曾经", pinyin:"céngjīng", type:"Phó từ", meaning:"đã từng (làm gì đó trong quá khứ) (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"经验", pinyin:"jīngyàn", type:"Danh từ", meaning:"kinh nghiệm (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"吃苦耐劳", pinyin:"chīkǔ nàiláo", type:"Thành ngữ", meaning:"chịu thương chịu khó (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"风格", pinyin:"fēnggé", type:"Danh từ", meaning:"phong cách (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"数字", pinyin:"shùzì", type:"Danh từ", meaning:"chữ số, con số (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"代表", pinyin:"dàibiǎo", type:"Động/Danh từ", meaning:"đại diện, thay mặt (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"偶尔", pinyin:"ǒu'ěr", type:"Phó từ", meaning:"thỉnh thoảng, thỉnh thoảng mới (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"理想", pinyin:"lǐxiǎng", type:"Danh/Tính từ", meaning:"lý tưởng (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"随着", pinyin:"suízhe", type:"Giới từ", meaning:"cùng với, theo đà (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"就业", pinyin:"jiùyè", type:"Động/Danh từ", meaning:"tìm việc làm, có việc làm (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"激烈", pinyin:"jīliè", type:"Tính từ", meaning:"kịch liệt, gay gắt (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"企业", pinyin:"qǐyè", type:"Danh từ", meaning:"doanh nghiệp (Bài 44)", lesson:"Bài 44"},
-    {hanzi:"应届毕业生", pinyin:"yīngjiè bìyèshēng", type:"Danh từ", meaning:"sinh viên mới tốt nghiệp (Bài 44)", lesson:"Bài 44"},
+    // --- BÀI 45 ---
+    {hanzi:"爱美之心，人皆有之", pinyin:"ài měi zhī xīn, rén jiē yǒu zhī", type:"Từ vựng", meaning:"lòng yêu cái đẹp, ai cũng có (ai cũng thích cái đẹp) (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"百度热搜", pinyin:"Bǎidù rèsōu", type:"Từ vựng", meaning:"hot search Baidu, từ khóa tìm kiếm hot trên Baidu (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"无效", pinyin:"wúxiào", type:"Từ vựng", meaning:"vô hiệu, không có tác dụng (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"得到", pinyin:"dédào", type:"Từ vựng", meaning:"đạt được, nhận được (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"不仅... 而且...", pinyin:"bùjǐn... érqiě...", type:"Từ vựng", meaning:"không những... mà còn... (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"苗条", pinyin:"miáotiao", type:"Từ vựng", meaning:"thon thả, mảnh mai (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"精神", pinyin:"jīngshen", type:"Từ vựng", meaning:"tinh thần (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"难道", pinyin:"nándào", type:"Từ vựng", meaning:"lẽ nào, chẳng lẽ (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"果汁", pinyin:"guǒzhī", type:"Từ vựng", meaning:"nước ép trái cây (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"保持", pinyin:"bǎochí", type:"Từ vựng", meaning:"duy trì, giữ gìn (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"热身", pinyin:"rèshēn", type:"Từ vựng", meaning:"khởi động (trước khi tập thể dục) (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"活力", pinyin:"huólì", type:"Từ vựng", meaning:"sức sống, sức sống mãnh liệt (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"效果", pinyin:"xiàoguǒ", type:"Từ vựng", meaning:"hiệu quả (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"有效", pinyin:"yǒuxiào", type:"Từ vựng", meaning:"có hiệu quả (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"事项", pinyin:"shìxiàng", type:"Từ vựng", meaning:"hạng mục, vấn đề (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"油腻", pinyin:"yóunì", type:"Từ vựng", meaning:"dầu mỡ, ngấy (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"餐", pinyin:"cān", type:"Từ vựng", meaning:"bữa ăn (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"快餐", pinyin:"kuàicān", type:"Từ vựng", meaning:"thức ăn nhanh, đồ ăn nhanh (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"夜宵", pinyin:"yèxiāo", type:"Từ vựng", meaning:"bữa ăn đêm, ăn khuya (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"绝对", pinyin:"juéduì", type:"Từ vựng", meaning:"tuyệt đối (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"方案", pinyin:"fāng'àn", type:"Từ vựng", meaning:"phương án (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"体重", pinyin:"tǐzhòng", type:"Từ vựng", meaning:"thể trọng, cân nặng (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"副作用", pinyin:"fù zuòyòng", type:"Từ vựng", meaning:"tác dụng phụ (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"计划", pinyin:"jìhuà", type:"Từ vựng", meaning:"kế hoạch (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"过程", pinyin:"guòchéng", type:"Từ vựng", meaning:"quá trình (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"身材", pinyin:"shēncái", type:"Từ vựng", meaning:"vóc dáng, thân hình (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"瑜伽", pinyin:"yújiā", type:"Từ vựng", meaning:"yoga (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"快速", pinyin:"kuàisù", type:"Từ vựng", meaning:"nhanh chóng, tốc độ nhanh (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"速度", pinyin:"sùdù", type:"Từ vựng", meaning:"tốc độ (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"拳击", pinyin:"quánjī", type:"Từ vựng", meaning:"quyền anh, boxing (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"健身", pinyin:"jiànshēn", type:"Từ vựng", meaning:"tập gym, thể hình (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"方法", pinyin:"fāngfǎ", type:"Từ vựng", meaning:"phương pháp (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"糖", pinyin:"táng", type:"Từ vựng", meaning:"đường, kẹo (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"长胖", pinyin:"zhǎngpàng", type:"Từ vựng", meaning:"tăng cân, mập lên (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"主要", pinyin:"zhǔyào", type:"Từ vựng", meaning:"chủ yếu (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"抽", pinyin:"chōu", type:"Từ vựng", meaning:"hút (thuốc), rút ra (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"轻松", pinyin:"qīngsōng", type:"Từ vựng", meaning:"nhẹ nhõm, thư giãn (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"瘦", pinyin:"shòu", type:"Từ vựng", meaning:"gầy, ốm (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"减肥", pinyin:"jiǎnféi", type:"Từ vựng", meaning:"giảm cân (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"科学", pinyin:"kēxué", type:"Từ vựng", meaning:"khoa học (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"蔬菜", pinyin:"shūcài", type:"Từ vựng", meaning:"rau củ (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"甜食", pinyin:"tiánshí", type:"Từ vựng", meaning:"đồ ngọt (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"零食", pinyin:"língshí", type:"Từ vựng", meaning:"đồ ăn vặt (Bài 45)", lesson:"Bài 45"},
+    {hanzi:"禁食", pinyin:"jìnshí", type:"Từ vựng", meaning:"cấm ăn, nhịn ăn (Bài 45)", lesson:"Bài 45"},
+
+    // --- BÀI 46 ---
+    {hanzi:"看待", pinyin:"kàndài", type:"Từ vựng", meaning:"nhìn nhận, xem xét (vấn đề) (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"难免", pinyin:"nánmiǎn", type:"Từ vựng", meaning:"khó tránh khỏi (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"汉语通", pinyin:"Hànyǔtōng", type:"Từ vựng", meaning:"chuyên gia tiếng Hán, người thông thạo tiếng Hán (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"注意", pinyin:"zhùyì", type:"Từ vựng", meaning:"chú ý (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"北京师范大学", pinyin:"Běijīng shīfàn dàxué", type:"Từ vựng", meaning:"Đại học Sư phạm Bắc Kinh (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"抖音", pinyin:"dǒuyīn", type:"Từ vựng", meaning:"TikTok (phiên bản Trung Quốc) (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"刷", pinyin:"shuā", type:"Từ vựng", meaning:"lướt (điện thoại, web), chải, quét (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"视频", pinyin:"shìpín", type:"Từ vựng", meaning:"video, clip (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"普通", pinyin:"pǔtōng", type:"Từ vựng", meaning:"phổ thông, bình thường (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"普通话", pinyin:"pǔtōnghuà", type:"Từ vựng", meaning:"tiếng Phổ thông (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"方言", pinyin:"fāngyán", type:"Từ vựng", meaning:"tiếng địa phương, phương ngôn (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"掌握", pinyin:"zhǎngwò", type:"Từ vựng", meaning:"nắm vững, làm chủ (kiến thức, kỹ năng) (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"有趣", pinyin:"yǒuqù", type:"Từ vựng", meaning:"thú vị, hay ho (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"流行", pinyin:"liúxíng", type:"Từ vựng", meaning:"thịnh hành, lưu hành (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"流行语", pinyin:"liúxíngyǔ", type:"Từ vựng", meaning:"từ lóng mạng, từ thịnh hành (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"戴", pinyin:"dài", type:"Từ vựng", meaning:"đội (mũ), đeo (kính, đồng hồ) (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"帽子", pinyin:"màozi", type:"Từ vựng", meaning:"cái mũ, nón (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"谐音词", pinyin:"xiéyīncí", type:"Từ vựng", meaning:"từ đồng âm, từ chơi chữ đồng âm (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"老外", pinyin:"lǎowài", type:"Từ vựng", meaning:"người nước ngoài, tây (cách gọi thân mật) (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"自信", pinyin:"zìxìn", type:"Từ vựng", meaning:"tự tin (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"口语", pinyin:"kǒuyǔ", type:"Từ vựng", meaning:"khẩu ngữ, văn nói (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"难点", pinyin:"nándiǎn", type:"Từ vựng", meaning:"điểm khó (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"由来", pinyin:"yóulái", type:"Từ vựng", meaning:"nguồn gốc, lai lịch (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"夸张", pinyin:"kuāzhāng", type:"Từ vựng", meaning:"khoa trương, phóng đại (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"回答", pinyin:"huídá", type:"Từ vựng", meaning:"trả lời (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"鼻子", pinyin:"bízi", type:"Từ vựng", meaning:"cái mũi (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"嘴巴", pinyin:"zuǐba", type:"Từ vựng", meaning:"cái miệng (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"尴尬", pinyin:"gāngà", type:"Từ vựng", meaning:"xấu hổ, ngượng ngùng, bối rối (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"同义词", pinyin:"tóngyìcí", type:"Từ vựng", meaning:"từ đồng nghĩa (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"采访", pinyin:"cǎifǎng", type:"Từ vựng", meaning:"phỏng vấn (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"进行", pinyin:"jìnxíng", type:"Từ vựng", meaning:"tiến hành (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"困难", pinyin:"kùnnan", type:"Từ vựng", meaning:"khó khăn (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"语境", pinyin:"yǔjìng", type:"Từ vựng", meaning:"ngữ cảnh (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"连...也/都...", pinyin:"lián ...yě/dōu...", type:"Từ vựng", meaning:"ngay cả... cũng/đều... (cấu trúc ngữ pháp) (Bài 46)", lesson:"Bài 46"},
+    {hanzi:"夸", pinyin:"kuā", type:"Từ vựng", meaning:"khen, khen ngợi (Bài 46)", lesson:"Bài 46"},
 
     // --- MỞ RỘNG ---
     {hanzi:"谁", pinyin:"shéi", type:"Đại từ", meaning:"ai (Mở rộng)", lesson:"Mở rộng", example:"他是谁？|Tā shì shéi?|Anh ấy là ai?"},
@@ -1976,9 +1879,6 @@ let selectedLessons = new Set();
 let shuffled = [];
 let index = 0;
 let answerShown = false;
-let isQuizMode = false;
-let currentQuizQuestions = [];
-let quizSubmitted = false;
 
 // Dữ liệu lấy từ LocalStorage
 let difficultWords = JSON.parse(localStorage.getItem('flashcard_difficultWords')) || [];
@@ -2059,7 +1959,7 @@ function showDifficultWords() {
 
 // LƯU TỪ KHÓ
 function toggleDifficult() {
-    if(shuffled.length === 0 || isQuizMode) return;
+    if(shuffled.length === 0) return;
     let w = shuffled[index];
     let idx = difficultWords.indexOf(w.hanzi);
     
@@ -2140,7 +2040,7 @@ function toggleAutoPlay() {
 
 function triggerAutoPlayLogic() {
     clearTimeout(autoTimer);
-    if (!isAutoPlay || isQuizMode || shuffled.length === 0) return;
+    if (!isAutoPlay || shuffled.length === 0) return;
 
     if (!answerShown) {
         autoTimer = setTimeout(() => {
@@ -2168,19 +2068,15 @@ function applyFilters(isDifficultFilter) {
     shuffled = filteredList.sort(() => Math.random() - 0.5);
     index = 0;
     
-    if(!isQuizMode) {
-        if(shuffled.length > 0) {
-            showWord();
-        } else {
-            document.getElementById("hanziBox").innerText = "🈳";
-            document.getElementById("infoBox").innerText = isDifficultFilter ? "Bạn chưa lưu từ khó nào!" : "Không có từ vựng nào!";
-            document.getElementById("progressText").innerText = "0% (0/0)";
-            document.getElementById("progressBar").style.width = "0%";
-            updateStarUI();
-            clearTimeout(autoTimer);
-        }
+    if(shuffled.length > 0) {
+        showWord();
     } else {
-        generateQuiz(); 
+        document.getElementById("hanziBox").innerText = "🈳";
+        document.getElementById("infoBox").innerText = isDifficultFilter ? "Bạn chưa lưu từ khó nào!" : "Không có từ vựng nào!";
+        document.getElementById("progressText").innerText = "0% (0/0)";
+        document.getElementById("progressBar").style.width = "0%";
+        updateStarUI();
+        clearTimeout(autoTimer);
     }
 }
 
@@ -2194,12 +2090,8 @@ function toggleLanguage() {
         btn.innerHTML = "🔄 Trung ➔ Việt";
     }
     
-    if(isQuizMode) {
-        generateQuiz();
-    } else {
-        answerShown = false;
-        showWord(); 
-    }
+    answerShown = false;
+    showWord(); 
 }
 
 // --- LOGIC FLASHCARD ---
@@ -2237,7 +2129,7 @@ function showWord(){
 }
 
 function showAnswer(){
-    if(answerShown || shuffled.length === 0 || isQuizMode) return;
+    if(answerShown || shuffled.length === 0) return;
     let w = shuffled[index];
     
     let info = document.getElementById("infoBox");
@@ -2261,10 +2153,10 @@ function showAnswer(){
     if (isVietToTrung) {
         info.innerHTML = "<b style='font-family: \"Noto Sans SC\", sans-serif; font-size: 50px; color: #e07a5f; margin-bottom: 5px;'>" + w.hanzi + "</b>" + 
                          "<span style='font-size: 24px; color: #d4a373; font-weight: bold; display: block; margin-bottom: 5px;'>" + w.pinyin + "</span>" +
-                         "<span class='type-badge'>" + w.type + "</span>" + exHTML;
+                         "<span class='type-badge'>" + (w.type || "Từ vựng") + "</span>" + exHTML;
     } else {
         info.innerHTML = "<b>" + w.pinyin + "</b>" + 
-                         "<span class='type-badge'>" + w.type + "</span><br>" + 
+                         "<span class='type-badge'>" + (w.type || "Từ vựng") + "</span><br>" + 
                          currentMeaning + ` <span class="edit-btn" onclick="event.stopPropagation(); editMeaning('${w.hanzi}')" title="Sửa nghĩa">✏️</span>` + exHTML;
     }
     
@@ -2276,7 +2168,7 @@ function showAnswer(){
 }
 
 function nextWord(){
-    if(shuffled.length === 0 || isQuizMode) return;
+    if(shuffled.length === 0) return;
     if(index < shuffled.length - 1){ 
         index++; 
         showWord(); 
@@ -2293,7 +2185,6 @@ function nextWord(){
 }
 
 function prevWord(){
-    if(isQuizMode) return;
     if(index > 0){ 
         index--; 
         showWord(); 
@@ -2301,7 +2192,7 @@ function prevWord(){
 }
 
 function speakWordAction() {
-    if(shuffled.length === 0 || isQuizMode) return;
+    if(shuffled.length === 0) return;
     let w = shuffled[index];
     speakWord(w.hanzi);
 }
@@ -2314,177 +2205,7 @@ function speakWord(textToSpeak){
     speechSynthesis.speak(u);
 }
 
-// --- LOGIC CHUYỂN ĐỔI CHẾ ĐỘ ---
-function toggleMode() {
-    isQuizMode = !isQuizMode;
-    let btnToggle = document.getElementById("btnToggleMode");
-    
-    if (isQuizMode) {
-        // Tắt tự động khi vào kiểm tra
-        document.getElementById("autoPlayToggle").checked = false;
-        toggleAutoPlay();
-        
-        document.getElementById("flashcardWindow").style.display = "none";
-        document.getElementById("autoPlayLabel").style.display = "none";
-        document.getElementById("shortcutsInfo").style.display = "none";
-        document.getElementById("quizWindow").style.display = "flex";
-        btnToggle.classList.add("active-quiz-mode");
-        btnToggle.innerText = "🔙 Trở về Học Từ";
-        
-        generateQuiz();
-    } else {
-        document.getElementById("flashcardWindow").style.display = "block";
-        document.getElementById("autoPlayLabel").style.display = "flex";
-        document.getElementById("shortcutsInfo").style.display = "block";
-        document.getElementById("quizWindow").style.display = "none";
-        btnToggle.classList.remove("active-quiz-mode");
-        btnToggle.innerText = "📝 Kiểm tra nhanh";
-        
-        applyFilters(document.getElementById("btnDifficultWords").classList.contains("active")); 
-    }
-}
-
-// Lấy mẫu ngẫu nhiên không trùng
-function getRandomItems(array, n, excludeItem = null) {
-    let pool = array.filter(item => item.hanzi !== (excludeItem ? excludeItem.hanzi : ""));
-    let rnd = [...pool].sort(() => 0.5 - Math.random());
-    return rnd.slice(0, n);
-}
-
-// --- LOGIC KIỂM TRA NHANH ---
-function generateQuiz() {
-    let pool = shuffled; 
-    if (pool.length < 4) {
-        document.getElementById("quizContent").innerHTML = `<div style="text-align:center; padding: 50px; color:#e74c3c; font-weight:bold; font-size: 18px;">Vui lòng chọn thêm bài học để có đủ từ vựng làm bài kiểm tra (Ít nhất 4 từ)!</div>`;
-        document.getElementById("quizTitle").innerText = "Kiểm tra nhanh";
-        document.getElementById("quizScore").style.display = "none";
-        return;
-    }
-
-    quizSubmitted = false;
-    document.getElementById("quizScore").style.display = "none";
-
-    let numQuestions = Math.min(20, pool.length);
-    document.getElementById("quizTitle").innerText = `Kiểm tra nhanh (${numQuestions} câu)`;
-    
-    let targetWords = getRandomItems(pool, numQuestions);
-    currentQuizQuestions = [];
-    let html = "";
-
-    let letters = ['A', 'B', 'C', 'D'];
-
-    targetWords.forEach((target, i) => {
-        let distractors = getRandomItems(vocabulary, 3, target); 
-        let options = [target, ...distractors].sort(() => 0.5 - Math.random());
-
-        currentQuizQuestions.push({
-            target: target,
-            options: options,
-            selectedIndex: -1
-        });
-
-        let qTitle, optionsHTML;
-        let targetCurrentMeaning = customMeanings[target.hanzi] || target.meaning;
-        let cleanMeaningTarget = targetCurrentMeaning.replace(/\s*\(Bài \d+\)/, '').replace(/\s*\(Mở rộng\)/, '');
-
-        if (!isVietToTrung) {
-            // Trung -> Việt
-            qTitle = `<b>Câu ${i + 1}:</b> Nghĩa của từ <b style="font-size:24px; color:#e07a5f; font-family: 'Noto Sans SC', sans-serif;">${target.hanzi}</b> là gì?`;
-            optionsHTML = options.map((opt, j) => {
-                let optCurrentMeaning = customMeanings[opt.hanzi] || opt.meaning;
-                let cleanOptMeaning = optCurrentMeaning.replace(/\s*\(Bài \d+\)/, '').replace(/\s*\(Mở rộng\)/, '');
-                return `
-                    <label class="option-label" id="q${i}_opt${j}" onclick="selectQuizOption(${i}, ${j})">
-                        <input type="radio" name="q${i}" value="${j}">
-                        <div style="font-weight: 900; color: #a6998a; width: 25px;">${letters[j]}.</div>
-                        <div class="option-text" style="font-size:18px; font-family:'Nunito', sans-serif;">${cleanOptMeaning}</div>
-                    </label>
-                `;
-            }).join('');
-        } else {
-            // Việt -> Trung
-            qTitle = `<b>Câu ${i + 1}:</b> Từ nào có nghĩa là "<b>${cleanMeaningTarget}</b>"?`;
-            optionsHTML = options.map((opt, j) => `
-                <label class="option-label" id="q${i}_opt${j}" onclick="selectQuizOption(${i}, ${j})">
-                    <input type="radio" name="q${i}" value="${j}">
-                    <div style="font-weight: 900; color: #a6998a; width: 25px;">${letters[j]}.</div>
-                    <div class="option-text">${opt.hanzi}</div>
-                </label>
-            `).join('');
-        }
-
-        html += `
-            <div class="question-card" id="qcard_${i}">
-                <div class="question-title">${qTitle}</div>
-                <div class="options-grid">
-                    ${optionsHTML}
-                </div>
-            </div>
-        `;
-    });
-
-    html += `<button class="main btn-submit-quiz" id="btnSubmitQuiz" onclick="submitQuiz()">Nộp bài chấm điểm</button>`;
-    
-    let contentDiv = document.getElementById("quizContent");
-    contentDiv.innerHTML = html;
-    contentDiv.scrollTop = 0; 
-}
-
-function selectQuizOption(qIndex, optIndex) {
-    if (quizSubmitted) return; 
-    
-    currentQuizQuestions[qIndex].selectedIndex = optIndex;
-    
-    for (let j = 0; j < 4; j++) {
-        document.getElementById(`q${qIndex}_opt${j}`).classList.remove("selected");
-    }
-    document.getElementById(`q${qIndex}_opt${optIndex}`).classList.add("selected");
-}
-
-function submitQuiz() {
-    if (quizSubmitted) return;
-
-    let uncompleted = currentQuizQuestions.filter(q => q.selectedIndex === -1);
-    if (uncompleted.length > 0) {
-        if(!confirm(`Bạn còn ${uncompleted.length} câu chưa làm. Bạn có chắc chắn muốn nộp bài?`)) return;
-    }
-
-    quizSubmitted = true;
-    let score = 0;
-
-    currentQuizQuestions.forEach((q, i) => {
-        let correctIndex = q.options.findIndex(opt => opt.hanzi === q.target.hanzi);
-        
-        for (let j = 0; j < 4; j++) {
-            let label = document.getElementById(`q${i}_opt${j}`);
-            label.classList.add("disabled");
-            
-            if (j === correctIndex) {
-                label.classList.add("correct");
-            } else if (j === q.selectedIndex) {
-                label.classList.add("incorrect");
-            }
-        }
-
-        if (q.selectedIndex === correctIndex) {
-            score++;
-        }
-    });
-
-    let btn = document.getElementById("btnSubmitQuiz");
-    btn.style.display = "none"; 
-    
-    let scoreDiv = document.getElementById("quizScore");
-    scoreDiv.innerText = `Đúng ${score} / ${currentQuizQuestions.length} câu`;
-    scoreDiv.style.color = score >= (currentQuizQuestions.length/2) ? "#27ae60" : "#e74c3c";
-    scoreDiv.style.display = "block";
-
-    document.getElementById("quizContent").scrollTop = 0;
-}
-
 document.addEventListener('keydown', function(event) {
-    if(isQuizMode) return; 
-
     // Không kích hoạt phím tắt khi người dùng đang ở trong prompt (đang sửa từ)
     if(document.querySelector('.edit-mode')) return;
 
